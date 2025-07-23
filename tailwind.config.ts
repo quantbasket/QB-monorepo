@@ -61,6 +61,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Quant Basket custom colors
+				qb: {
+					navy: 'hsl(var(--qb-navy))',
+					green: 'hsl(var(--qb-green))',
+					'soft-gray': 'hsl(var(--qb-soft-gray))',
+					'dark-gray': 'hsl(var(--qb-dark-gray))',
+					blue: 'hsl(var(--qb-blue))',
+					white: 'hsl(var(--qb-white))'
 				}
 			},
 			borderRadius: {

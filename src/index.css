@@ -2,41 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Quant Basket Design System - Modern Glassmorphism Theme
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 228 45% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 228 45% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 228 45% 18%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Dark Navy for headers and primary elements */
+    --primary: 228 65% 11%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Accent Green for CTA buttons */
+    --secondary: 168 100% 35%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Soft Gray for backgrounds */
+    --muted: 225 14% 97%;
+    --muted-foreground: 228 16% 42%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Highlight Blue for accents */
+    --accent: 215 91% 62%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 225 14% 91%;
+    --input: 225 14% 91%;
+    --ring: 228 65% 11%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom Quant Basket Colors */
+    --qb-navy: 228 65% 11%;
+    --qb-green: 168 100% 35%;
+    --qb-soft-gray: 225 14% 97%;
+    --qb-dark-gray: 228 16% 42%;
+    --qb-blue: 215 91% 62%;
+    --qb-white: 0 0% 100%;
+
+    /* Glassmorphism gradients */
+    --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(10, 13, 45, 0.1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +117,24 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-[0_8px_32px_0_rgba(10,13,45,0.1)] rounded-xl;
+  }
+  
+  .glass-button {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300;
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--qb-navy)) 0%, hsl(var(--qb-blue)) 50%, hsl(var(--qb-green)) 100%);
+  }
+  
+  .section-gradient {
+    background: linear-gradient(180deg, hsl(var(--qb-white)) 0%, hsl(var(--qb-soft-gray)) 100%);
   }
 }
