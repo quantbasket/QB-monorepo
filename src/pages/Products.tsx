@@ -10,13 +10,13 @@ const Products = () => {
     {
       title: "Community Tokens",
       icon: Users,
-      description: "Participate in decentralized autonomous organizations (DAOs) and community governance through tokenized ownership.",
+      description: "Create and trade community currencies that reward meaningful actions aligned with community goals and values.",
       features: [
-        "Democratic governance rights",
-        "Revenue sharing mechanisms",
-        "Transparent voting systems",
-        "Community-driven development",
-        "Staking rewards"
+        "Reward-based token distribution",
+        "Community goal alignment",
+        "Democratic governance voting",
+        "Impact-driven economics",
+        "Collective wealth building"
       ],
       badge: "Popular",
       color: "qb-green"
@@ -24,13 +24,13 @@ const Products = () => {
     {
       title: "Impact Coins",
       icon: Globe,
-      description: "Invest in sustainable and socially responsible projects that create measurable positive impact.",
+      description: "Tokenized ETFs backed by real shares and commodities, bringing traditional assets to the blockchain.",
       features: [
-        "ESG-compliant investments",
-        "Impact measurement tracking",
-        "Sustainable development goals",
-        "Carbon credit integration",
-        "Social impact reporting"
+        "Real asset backing",
+        "Fractional ownership",
+        "Blockchain transparency",
+        "Lower entry barriers",
+        "Global accessibility"
       ],
       badge: "Sustainable",
       color: "qb-blue"
@@ -38,13 +38,13 @@ const Products = () => {
     {
       title: "Quant Strategies",
       icon: BarChart3,
-      description: "Access sophisticated algorithmic trading strategies developed by our team of financial engineers.",
+      description: "Mathematical trading strategies including Black-Scholes model implementations and algorithmic systems.",
       features: [
-        "Machine learning algorithms",
-        "Risk-adjusted returns",
-        "Real-time optimization",
-        "Backtested performance",
-        "Institutional-grade analytics"
+        "Black-Scholes backed tokens",
+        "Algorithmic execution",
+        "Mathematical precision",
+        "Risk-optimized models",
+        "Quantitative engineering"
       ],
       badge: "Advanced",
       color: "qb-green"
@@ -52,13 +52,13 @@ const Products = () => {
     {
       title: "Tokenized Portfolios",
       icon: TrendingUp,
-      description: "Diversified investment portfolios represented as tradeable tokens with transparent performance metrics.",
+      description: "Community-created portfolios combining multiple assets and strategies into tradeable token baskets.",
       features: [
-        "Multi-asset diversification",
-        "Professional management",
-        "Liquidity on demand",
-        "Performance transparency",
-        "Lower minimum investments"
+        "Community-designed baskets",
+        "Multi-strategy integration",
+        "Transparent composition",
+        "Tokenized liquidity",
+        "Collective intelligence"
       ],
       badge: "Professional",
       color: "qb-blue"

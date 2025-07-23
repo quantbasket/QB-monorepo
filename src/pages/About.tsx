@@ -50,11 +50,10 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Story</h2>
             <p className="text-lg text-qb-dark-gray leading-relaxed">
-              Founded in 2024, Quant Basket emerged from a vision to democratize access to sophisticated 
-              financial strategies that were previously exclusive to institutional investors. Our team of 
-              financial engineers, blockchain experts, and quantitative researchers came together to create 
-              a platform that combines the power of traditional quantitative finance with the innovation 
-              of decentralized technology.
+              Founded in 2024, Quant Basket emerged from a vision to build the world's largest crypto community 
+              driven by financial engineering. We create community coins that reward meaningful actions, tokenized 
+              ETFs backed by real assets, and mathematical trading strategies. Our platform empowers communities 
+              to create their own currencies while accessing institutional-grade quantitative finance tools.
             </p>
           </div>
           
@@ -62,12 +61,12 @@ const About = () => {
             <Card className="glass-card text-center">
               <CardHeader>
                 <Users className="w-12 h-12 text-qb-green mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Community First</CardTitle>
+                <CardTitle className="text-qb-navy">Community Currency</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We believe in the power of community-driven finance, where every participant 
-                  has a voice in shaping the future of their investments.
+                  We empower communities to create their own currencies, rewarding members for 
+                  actions aligned with community goals and fostering collective growth.
                 </p>
               </CardContent>
             </Card>
@@ -79,8 +78,8 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  Our commitment to excellence drives us to deliver institutional-grade 
-                  strategies with transparency and accessibility.
+                  We deliver mathematical precision in all our strategies, from Black-Scholes 
+                  models to algorithmic trading, ensuring rigorous financial engineering.
                 </p>
               </CardContent>
             </Card>
@@ -92,8 +91,8 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We continuously push the boundaries of what's possible in quantitative 
-                  finance and blockchain technology.
+                  We pioneer tokenized ETFs backed by real assets and create innovative 
+                  crypto solutions that bridge traditional finance with DeFi.
                 </p>
               </CardContent>
             </Card>
@@ -101,36 +100,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
-      <section className="section-gradient py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-qb-navy mb-6">Leadership Team</h2>
-            <p className="text-lg text-qb-dark-gray">
-              Meet the financial engineers and blockchain experts driving innovation at Quant Basket
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="glass-card">
-                <CardHeader>
-                  <div className="w-20 h-20 bg-gradient-to-br from-qb-green to-qb-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-white font-bold text-2xl">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <CardTitle className="text-qb-navy text-center">{member.name}</CardTitle>
-                  <p className="text-qb-green font-semibold text-center">{member.role}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-qb-dark-gray text-center">{member.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Legacy & Mission */}
       <section className="py-20">
@@ -138,16 +107,15 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Legacy & Mission</h2>
             <p className="text-lg text-qb-dark-gray leading-relaxed mb-8">
-              At Quant Basket, we're building a legacy of financial innovation that bridges traditional 
-              quantitative finance with the transformative power of blockchain technology. Our mission 
-              is to create a more inclusive financial ecosystem where sophisticated investment strategies 
-              are accessible to everyone, not just institutional investors.
+              At Quant Basket, we're building the largest crypto community powered by financial engineering. 
+              Our mission is to enable communities worldwide to create their own currencies, access tokenized 
+              traditional assets, and benefit from mathematically-backed trading strategies. We believe in 
+              rewarding meaningful community participation and democratizing sophisticated financial tools.
             </p>
             <p className="text-lg text-qb-dark-gray leading-relaxed">
-              We envision a future where community governance, transparent algorithms, and sustainable 
-              impact investing create lasting value for all stakeholders. Every token, every strategy, 
-              and every innovation we develop is designed to contribute to this larger vision of 
-              democratized finance.
+              We envision a future where every community can create its own economy through tokenization, where 
+              traditional assets are accessible via blockchain, and where advanced quantitative strategies 
+              empower individual investors to achieve institutional-level returns.
             </p>
           </div>
         </div>
@@ -160,9 +128,9 @@ const About = () => {
             <h2 className="text-3xl font-bold text-qb-navy mb-6">A HoneyJa Company</h2>
             <p className="text-lg text-qb-dark-gray mb-6">
               Quant Basket is proudly part of the HoneyJa ecosystem, a technology conglomerate 
-              dedicated to creating innovative solutions across various industries. HoneyJa's 
-              commitment to excellence and innovation provides the foundation for our cutting-edge 
-              financial technologies.
+              specializing in financial engineering and innovative blockchain solutions. HoneyJa's 
+              expertise in quantitative finance and commitment to community-driven innovation 
+              provides the foundation for our revolutionary crypto platform.
             </p>
             <a 
               href="https://www.honeyja.com" 

@@ -15,9 +15,9 @@ const Pricing = () => {
       icon: Star,
       popular: false,
       features: [
-        "Access to basic community tokens",
-        "Limited quant strategies (3 strategies)",
-        "Basic portfolio analytics",
+        "Create basic community coins",
+        "Access to 3 tokenized ETFs",
+        "Basic trading interface",
         "Community forum access",
         "Educational resources",
         "Mobile app access",
@@ -38,15 +38,15 @@ const Pricing = () => {
       popular: true,
       features: [
         "All Free plan features",
-        "Advanced quant strategies (20+ strategies)",
-        "Real-time portfolio optimization",
-        "Impact coins marketplace access",
+        "Advanced community coin creation",
+        "Access to 20+ tokenized ETFs",
+        "Black-Scholes strategy access",
         "Advanced analytics dashboard",
         "API access",
         "Priority email support",
         "Webinar access",
-        "Custom portfolio creation",
-        "Risk management tools"
+        "Custom portfolio baskets",
+        "Algorithmic trading tools"
       ],
       limitations: [
         "Maximum investment: $50,000",
@@ -62,16 +62,16 @@ const Pricing = () => {
       popular: false,
       features: [
         "All Standard plan features",
-        "Unlimited investment capacity",
-        "Premium algorithmic strategies",
-        "White-label solutions",
+        "Unlimited community coin creation",
+        "Full tokenized ETF marketplace",
+        "Custom mathematical models",
         "Dedicated account manager",
-        "Custom strategy development",
+        "White-label community solutions",
         "Advanced backtesting tools",
         "Institutional reporting",
         "24/7 phone support",
         "Early access to new features",
-        "Direct access to research team",
+        "Direct financial engineer access",
         "Custom integrations"
       ],
       limitations: []

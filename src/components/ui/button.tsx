@@ -19,10 +19,10 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // QB-specific variants
-        qbPrimary: "bg-qb-green text-white hover:bg-qb-green/90 shadow-lg transition-all duration-300 hover:shadow-xl",
-        qbSecondary: "bg-qb-navy text-white hover:bg-qb-navy/90 shadow-lg transition-all duration-300",
-        qbGlass: "glass-button text-qb-navy hover:text-qb-green",
-        qbOutline: "border-2 border-qb-green text-qb-green hover:bg-qb-green hover:text-white transition-all duration-300",
+        qbPrimary: "bg-qb-green text-white hover:bg-qb-green/90 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95",
+        qbSecondary: "bg-qb-navy text-white hover:bg-qb-navy/90 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95",
+        qbGlass: "glass-button text-qb-navy hover:text-qb-green hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95",
+        qbOutline: "border-2 border-qb-green text-qb-green hover:bg-qb-green hover:text-white transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95",
       },
       size: {
         default: "h-10 px-4 py-2",

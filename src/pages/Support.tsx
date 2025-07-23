@@ -15,15 +15,15 @@ const Support = () => {
       faqs: [
         {
           question: "What is quantitative financial engineering?",
-          answer: "Quantitative financial engineering is the application of mathematical methods and computational techniques to solve financial problems. It involves using statistical models, mathematical optimization, and algorithmic trading to create sophisticated investment strategies that can outperform traditional approaches."
+          answer: "Quantitative financial engineering applies mathematical models to create crypto tokens and trading strategies. Our engineers build Black-Scholes backed coins, algorithmic trading systems, and tokenized ETFs backed by real assets, bringing institutional-grade mathematics to community-driven crypto platforms."
         },
         {
-          question: "How do your quant strategies differ from traditional investing?",
-          answer: "Our quant strategies use advanced mathematical models to analyze market data, identify patterns, and execute trades automatically. Unlike traditional investing that relies on human judgment, our algorithms can process vast amounts of data in real-time and make split-second decisions based on statistical probabilities and risk-adjusted returns."
+          question: "How do community coins reward meaningful actions?",
+          answer: "Community coins are distributed when members complete actions that align with community goals. Whether it's environmental initiatives, educational contributions, or community building, our smart contracts automatically reward participants with tokens that have real economic value within the community ecosystem."
         },
         {
-          question: "What types of mathematical models do you use?",
-          answer: "We employ various models including Monte Carlo simulations, stochastic calculus, machine learning algorithms, time series analysis, and optimization techniques. Our financial engineers continuously develop and refine these models to adapt to changing market conditions."
+          question: "How are tokenized ETFs backed by real assets?",
+          answer: "Our tokenized ETFs represent fractional ownership of real shares, commodities, and bonds held in secure custody. Each token is backed 1:1 by actual assets, verified through regular audits and blockchain transparency, enabling global access to traditional markets through crypto wallets."
         }
       ]
     },

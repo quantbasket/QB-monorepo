@@ -20,16 +20,16 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
               <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-                Revolutionary
-                <span className="text-qb-green block">Quantitative Finance</span>
+                Engineered Portfolios.
+                <span className="text-qb-green block">Decentralized Access.</span>
               </h1>
               <p className="text-xl mb-8 text-gray-200">
-                Democratizing advanced financial strategies through community-based tokenization, 
-                algorithmic trading, and impact investing.
+                Building a community-driven crypto platform where financial engineers create 
+                tokenized ETFs, community coins, and mathematical trading strategies.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/signup">
-                  <Button variant="qbPrimary" size="lg" className="text-lg px-8">
+                  <Button variant="qbSecondary" size="lg" className="text-lg px-8">
                     Start Your Journey
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
@@ -42,16 +42,12 @@ const Index = () => {
             
             {/* Prominent Basket Logo Display */}
             <div className="flex justify-center lg:justify-end">
-              <div className="glass-card p-8 max-w-sm">
+              <div className="glass-card p-12 max-w-md">
                 <img 
                   src="/lovable-uploads/932d8446-fd9e-4617-b567-895fc116a224.png" 
                   alt="Quant Basket Platform" 
-                  className="w-full h-auto"
+                  className="w-full h-auto transform scale-110"
                 />
-                <div className="mt-4 text-center">
-                  <h3 className="text-qb-navy font-semibold text-lg">Quant Basket Platform</h3>
-                  <p className="text-qb-dark-gray text-sm">Your gateway to tokenized finance</p>
-                </div>
               </div>
             </div>
           </div>
@@ -64,11 +60,11 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-qb-navy mb-6">
-                Community-Based Tokenization
+                Community Coins & Tokenization
               </h2>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Experience the power of decentralized finance through our innovative community tokenization platform. 
-                Connect with like-minded investors, participate in governance, and build wealth together.
+                Create and participate in community currencies that reward impactful actions. Earn tokens for contributing 
+                to community goals, participate in governance, and build wealth through collective success.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="glass-card">
@@ -111,11 +107,11 @@ const Index = () => {
             </div>
             <div>
               <h2 className="text-4xl font-bold text-qb-navy mb-6">
-                Portfolios Built on Quantitative Strategies
+                Tokenized ETFs & Quant Strategies
               </h2>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Our financial engineers design sophisticated algorithmic strategies that outperform traditional 
-                investment approaches. Access institutional-grade quantitative models previously available only to large funds.
+                Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers create 
+                mathematical models like Black-Scholes-backed coins and sophisticated algorithmic strategies.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
@@ -144,11 +140,11 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-qb-navy mb-6">
-                Impact Coins Marketplace
+                Community-Driven Crypto Ecosystem
               </h2>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Invest in a sustainable future through our curated marketplace of impact coins. 
-                Each token represents real-world projects driving positive environmental and social change.
+                Join our growing crypto community where members shape the platform's future. Trade community coins, 
+                create tokenized portfolios, and access quantitative strategies built by financial engineers.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="glass-card">
