@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { CheckCircle, Users, TrendingUp, Coins, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [isSignedUp, setIsSignedUp] = useState(false);
@@ -176,6 +177,15 @@ const Signup = () => {
                   </svg>
                   Continue with Google
                 </Button>
+
+                <div className="text-center">
+                  <p className="text-sm text-qb-dark-gray">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-qb-green hover:text-qb-green/80 font-medium">
+                      Sign in
+                    </Link>
+                  </p>
+                </div>
 
                 <p className="text-xs text-center text-qb-dark-gray">
                   By signing up, you agree to our Terms of Service and Privacy Policy

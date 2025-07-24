@@ -7,9 +7,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-qb-green rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">QB</span>
-              </div>
+              <img 
+                src="/lovable-uploads/977e6583-c44a-4ad1-9a2c-b7784357eafc.png" 
+                alt="QB Logo" 
+                className="w-10 h-10"
+              />
               <span className="text-white font-bold text-xl">Quant Basket</span>
             </div>
             <p className="text-gray-300 mb-4">

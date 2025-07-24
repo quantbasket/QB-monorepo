@@ -45,81 +45,97 @@ const About = () => {
       </section>
 
       {/* Our Story */}
-      <section className="py-20">
+      <section className="py-20 bg-gradient-to-br from-qb-soft-gray to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Story</h2>
             <p className="text-lg text-qb-dark-gray leading-relaxed">
-              Founded in 2024, Quant Basket emerged from a vision to build the world's largest crypto community 
-              driven by financial engineering. We create community coins that reward meaningful actions, tokenized 
-              ETFs backed by real assets, and mathematical trading strategies. Our platform empowers communities 
-              to create their own currencies while accessing institutional-grade quantitative finance tools.
+              Founded in 2024, Quant Basket emerged from a vision to democratize quantitative finance through 
+              community-driven tokenization. We enable communities to create their own currencies backed by 
+              mathematical models like Black-Scholes, while providing access to tokenized ETFs representing 
+              real commodities and shares. Our platform bridges traditional finance with blockchain innovation.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="glass-card text-center">
+            <Card className="glass-card text-center border-l-4 border-l-qb-green">
               <CardHeader>
                 <Users className="w-12 h-12 text-qb-green mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Community Currency</CardTitle>
+                <CardTitle className="text-qb-navy">Community Currencies</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We empower communities to create their own currencies, rewarding members for 
-                  actions aligned with community goals and fostering collective growth.
+                  Communities create their own tokens with reward mechanisms for meaningful actions, 
+                  fostering engagement and collective growth through quantitative tokenomics.
                 </p>
               </CardContent>
             </Card>
             
-            <Card className="glass-card text-center">
+            <Card className="glass-card text-center border-l-4 border-l-qb-blue">
               <CardHeader>
                 <Award className="w-12 h-12 text-qb-blue mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Excellence</CardTitle>
+                <CardTitle className="text-qb-navy">Mathematical Precision</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We deliver mathematical precision in all our strategies, from Black-Scholes 
-                  models to algorithmic trading, ensuring rigorous financial engineering.
+                  Every strategy is backed by proven mathematical models including Black-Scholes, 
+                  Monte Carlo simulations, and advanced quantitative frameworks designed by financial engineers.
                 </p>
               </CardContent>
             </Card>
             
-            <Card className="glass-card text-center">
+            <Card className="glass-card text-center border-l-4 border-l-qb-green">
               <CardHeader>
                 <TrendingUp className="w-12 h-12 text-qb-green mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Innovation</CardTitle>
+                <CardTitle className="text-qb-navy">Tokenized Assets</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We pioneer tokenized ETFs backed by real assets and create innovative 
-                  crypto solutions that bridge traditional finance with DeFi.
+                  Access tokenized ETFs backed by real commodities and shares, bringing traditional 
+                  asset exposure to the blockchain with full transparency and mathematical backing.
                 </p>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
+
+      {/* Divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-qb-dark-gray/20 to-transparent"></div>
 
 
       {/* Legacy & Mission */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Legacy & Mission</h2>
-            <p className="text-lg text-qb-dark-gray leading-relaxed mb-8">
-              At Quant Basket, we're building the largest crypto community powered by financial engineering. 
-              Our mission is to enable communities worldwide to create their own currencies, access tokenized 
-              traditional assets, and benefit from mathematically-backed trading strategies. We believe in 
-              rewarding meaningful community participation and democratizing sophisticated financial tools.
-            </p>
-            <p className="text-lg text-qb-dark-gray leading-relaxed">
-              We envision a future where every community can create its own economy through tokenization, where 
-              traditional assets are accessible via blockchain, and where advanced quantitative strategies 
-              empower individual investors to achieve institutional-level returns.
-            </p>
+            <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Mission & Vision</h2>
+            <div className="space-y-6">
+              <Card className="glass-card p-8 border-l-4 border-l-qb-green">
+                <h3 className="text-2xl font-semibold text-qb-navy mb-4">Our Mission</h3>
+                <p className="text-lg text-qb-dark-gray leading-relaxed">
+                  To democratize quantitative finance by empowering communities to create their own currencies 
+                  and access tokenized traditional assets. We bridge the gap between sophisticated financial 
+                  engineering and community-driven blockchain innovation, making institutional-grade strategies 
+                  accessible to everyone.
+                </p>
+              </Card>
+              
+              <Card className="glass-card p-8 border-l-4 border-l-qb-blue">
+                <h3 className="text-2xl font-semibold text-qb-navy mb-4">Our Vision</h3>
+                <p className="text-lg text-qb-dark-gray leading-relaxed">
+                  A world where every community can create its own mathematically-backed economy, where 
+                  traditional assets are seamlessly accessible through blockchain technology, and where 
+                  advanced quantitative strategies powered by models like Black-Scholes enable individuals 
+                  to achieve institutional-level financial returns.
+                </p>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-qb-dark-gray/20 to-transparent"></div>
 
       {/* Parent Company */}
       <section className="section-gradient py-20">
@@ -137,7 +153,7 @@ const About = () => {
               target="_blank" 
               rel="noopener noreferrer"
             >
-              <Button variant="qbOutline" className="inline-flex items-center">
+              <Button variant="qbSecondaryOutline" className="inline-flex items-center">
                 Learn More About HoneyJa
                 <ExternalLink className="ml-2 w-4 h-4" />
               </Button>

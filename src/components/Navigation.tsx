@@ -12,9 +12,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-qb-green rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">QB</span>
-              </div>
+              <img 
+                src="/lovable-uploads/977e6583-c44a-4ad1-9a2c-b7784357eafc.png" 
+                alt="QB Logo" 
+                className="w-10 h-10"
+              />
               <span className="text-white font-bold text-xl">Quant Basket</span>
             </Link>
           </div>
@@ -75,9 +77,14 @@ const Navigation = () => {
           </div>
 
           <div className="flex items-center space-x-4">
+            <Link to="/login">
+              <Button variant="ghost" size="sm" className="text-white hover:text-qb-green">
+                Sign In
+              </Button>
+            </Link>
             <Link to="/signup">
               <Button variant="qbPrimary" size="sm">
-                Signup for Free
+                Sign Up Free
               </Button>
             </Link>
           </div>
