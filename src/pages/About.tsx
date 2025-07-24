@@ -52,7 +52,7 @@ const About = () => {
             <p className="text-lg text-qb-dark-gray leading-relaxed">
               Founded in 2024, Quant Basket emerged from a vision to democratize quantitative finance through 
               community-driven tokenization. We enable communities to create their own currencies backed by 
-              mathematical models like Black-Scholes, while providing access to tokenized ETFs representing 
+              advanced mathematical models, while providing access to tokenized ETFs representing 
               real commodities and shares. Our platform bridges traditional finance with blockchain innovation.
             </p>
           </div>
@@ -125,8 +125,7 @@ const About = () => {
                 <p className="text-lg text-qb-dark-gray leading-relaxed">
                   A world where every community can create its own mathematically-backed economy, where 
                   traditional assets are seamlessly accessible through blockchain technology, and where 
-                  advanced quantitative strategies powered by models like Black-Scholes enable individuals 
-                  to achieve institutional-level financial returns.
+                  advanced quantitative strategies enable individuals to achieve institutional-level financial returns.
                 </p>
               </Card>
             </div>

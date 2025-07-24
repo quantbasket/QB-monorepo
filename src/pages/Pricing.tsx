@@ -24,7 +24,6 @@ const Pricing = () => {
         "Email support"
       ],
       limitations: [
-        "Maximum investment: $1,000",
         "Basic risk metrics only",
         "No premium strategies"
       ]
@@ -40,7 +39,7 @@ const Pricing = () => {
         "All Free plan features",
         "Advanced community coin creation",
         "Access to 20+ tokenized ETFs",
-        "Black-Scholes strategy access",
+        "Advanced mathematical strategies",
         "Advanced analytics dashboard",
         "API access",
         "Priority email support",
@@ -49,7 +48,6 @@ const Pricing = () => {
         "Algorithmic trading tools"
       ],
       limitations: [
-        "Maximum investment: $50,000",
         "Standard execution speed"
       ]
     },

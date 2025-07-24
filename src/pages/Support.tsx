@@ -15,7 +15,7 @@ const Support = () => {
       faqs: [
         {
           question: "What is quantitative financial engineering?",
-          answer: "Quantitative financial engineering applies mathematical models to create crypto tokens and trading strategies. Our engineers build Black-Scholes backed coins, algorithmic trading systems, and tokenized ETFs backed by real assets, bringing institutional-grade mathematics to community-driven crypto platforms."
+          answer: "Quantitative financial engineering applies mathematical models to create crypto tokens and trading strategies. Our engineers build mathematically backed coins, algorithmic trading systems, and tokenized ETFs backed by real assets, bringing institutional-grade mathematics to community-driven crypto platforms."
         },
         {
           question: "How do community coins reward meaningful actions?",

@@ -25,7 +25,7 @@ const Navigation = () => {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
                 to="/"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/")
                     ? "text-qb-green bg-qb-navy/50"
                     : "text-white hover:text-qb-green"
@@ -35,7 +35,7 @@ const Navigation = () => {
               </Link>
               <Link
                 to="/about"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/about")
                     ? "text-qb-green bg-qb-navy/50"
                     : "text-white hover:text-qb-green"
@@ -45,7 +45,7 @@ const Navigation = () => {
               </Link>
               <Link
                 to="/products"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/products")
                     ? "text-qb-green bg-qb-navy/50"
                     : "text-white hover:text-qb-green"
@@ -55,7 +55,7 @@ const Navigation = () => {
               </Link>
               <Link
                 to="/pricing"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/pricing")
                     ? "text-qb-green bg-qb-navy/50"
                     : "text-white hover:text-qb-green"
@@ -65,7 +65,7 @@ const Navigation = () => {
               </Link>
               <Link
                 to="/support"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/support")
                     ? "text-qb-green bg-qb-navy/50"
                     : "text-white hover:text-qb-green"

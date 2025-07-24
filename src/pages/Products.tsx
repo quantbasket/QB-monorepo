@@ -38,9 +38,9 @@ const Products = () => {
     {
       title: "Quant Strategies",
       icon: BarChart3,
-      description: "Mathematical trading strategies including Black-Scholes model implementations and algorithmic systems.",
+      description: "Mathematical trading strategies with advanced model implementations and algorithmic systems.",
       features: [
-        "Black-Scholes backed tokens",
+        "Mathematically backed tokens",
         "Algorithmic execution",
         "Mathematical precision",
         "Risk-optimized models",

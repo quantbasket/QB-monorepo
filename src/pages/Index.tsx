@@ -111,7 +111,7 @@ const Index = () => {
               </h2>
               <p className="text-lg text-qb-dark-gray mb-6">
                 Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers create 
-                mathematical models like Black-Scholes-backed coins and sophisticated algorithmic strategies.
+                sophisticated mathematical models and algorithmic strategies for optimal returns.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
