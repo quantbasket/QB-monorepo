@@ -34,7 +34,7 @@ const Index = () => {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:bg-white/20">
+                <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white">
                   Learn More
                 </Button>
               </div>

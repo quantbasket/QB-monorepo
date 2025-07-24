@@ -78,7 +78,7 @@ const Navigation = () => {
 
           <div className="flex items-center space-x-4">
             <Link to="/login">
-              <Button variant="ghost" size="sm" className="text-white hover:text-qb-green">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-white/85 hover:text-qb-navy">
                 Sign In
               </Button>
             </Link>
