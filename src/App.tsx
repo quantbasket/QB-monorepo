@@ -2,8 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
-import { AuthProvider, useAuth } from "@/hooks/useAuth"; // Import useAuth
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Products from "./pages/Products";
@@ -13,7 +13,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-import { useEffect } from "react"; // Import useEffect
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
@@ -24,22 +24,20 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
 
   useEffect(() => {
-    // Only act once authentication state is determined
-    if (!loading) {
-      if (!user) {
-        // If not authenticated, redirect to login page
-        // Use `replace: true` to prevent going back to the protected route via browser back button
-        navigate('/login', { state: { from: location.pathname }, replace: true });
-      }
+    // Only act once authentication state is determined and if user is not present
+    if (!loading && !user) {
+      // If not authenticated, redirect to login page
+      navigate('/login', { state: { from: location.pathname }, replace: true });
     }
   }, [user, loading, navigate, location.pathname]);
 
-  // While loading, you might want to show a spinner or a blank screen
+  // While loading, show a placeholder. This prevents rendering protected content before auth check.
   if (loading) {
-    return <div>Loading authentication...</div>; // Replace with a proper loading spinner if you have one
+    return <div>Loading authentication...</div>; 
   }
 
-  // Render children only if user is authenticated
+  // Render children only if user is authenticated.
+  // If `user` is null after loading, `null` is returned, letting the useEffect redirect.
   return user ? <>{children}</> : null;
 };
 
@@ -50,38 +48,41 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
   const location = useLocation();
 
   useEffect(() => {
-    if (!loading) { // Ensure authentication state is determined
+    // Ensure authentication state is determined and stable
+    if (!loading) { 
       const currentPath = location.pathname;
 
-      // Scenario 1: User is authenticated
+      // Scenario 1: User IS authenticated
       if (user) {
-        // If an authenticated user lands on the root, login, or signup page,
-        // redirect them to the dashboard.
+        // If an authenticated user lands on public auth pages (root, login, signup),
+        // redirect them directly to the dashboard.
         if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
           navigate('/dashboard', { replace: true });
         }
-        // If they landed directly on /dashboard, /about, etc., they will stay there.
-        // The ProtectedRoute handles staying on /dashboard if authenticated.
+        // IMPORTANT: If currentPath is already /dashboard (from OAuth redirect),
+        // this 'if' condition (currentPath === '/' || ...) will be false,
+        // so no further redirection will occur. The user will stay on /dashboard.
       } 
       // Scenario 2: User is NOT authenticated
       else {
-        // If a non-authenticated user tries to access the dashboard,
-        // redirect them to the login page. Add other protected routes here if applicable.
-        if (currentPath === '/dashboard') { // Add other protected paths if they should redirect to login
+        // If an unauthenticated user tries to access the dashboard (or other protected route),
+        // redirect them to the login page.
+        // This acts as a fallback if ProtectedRoute didn't catch it for some reason,
+        // or if a direct URL was typed for a protected route not wrapped by ProtectedRoute.
+        if (currentPath === '/dashboard') { // Add other top-level protected paths here if they are not Wrapped by ProtectedRoute
           navigate('/login', { replace: true });
         }
-        // Otherwise, they are allowed to be on /, /login, /signup, /about, products, pricing, support, etc.
+        // For public pages like /, /login, /signup, /about, products, pricing, support,
+        // and other unlisted paths, an unauthenticated user will remain on that page.
       }
     }
   }, [user, loading, navigate, location.pathname]);
 
 
   return (
-    <> {/* Fragment to hold the content */}
+    <>
       <Toaster />
       <Sonner />
-      {/* BrowserRouter is already in main.tsx or will wrap this, so remove it from here if nested */}
-      {/* If this AppContent is directly rendered inside BrowserRouter in main.tsx, then Routes are here */}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
@@ -98,7 +99,7 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
           </ProtectedRoute>
         } />
 
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        {/* This catch-all route should ideally be the very last route */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
@@ -106,7 +107,7 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
 };
 
 
-// The main App component structure
+// The main App component structure, wrapping everything with necessary providers
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider> {/* AuthProvider wraps the content that needs auth context */}
