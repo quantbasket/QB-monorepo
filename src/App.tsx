@@ -11,7 +11,7 @@ import Pricing from "./pages/Pricing";
 import Support from "./pages/Support";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/app/Dashboard";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
