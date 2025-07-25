@@ -44,7 +44,7 @@ const Index = () => {
             <div className="flex justify-center lg:justify-end">
               <div className="glass-card p-12 max-w-md">
                 <img 
-                  src="/lovable-uploads/932d8446-fd9e-4617-b567-895fc116a224.png" 
+                  src="/qb_sticker.png" 
                   alt="Quant Basket Platform" 
                   className="w-full h-auto transform scale-110"
                 />

@@ -13,7 +13,7 @@ const Navigation = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/977e6583-c44a-4ad1-9a2c-b7784357eafc.png" 
+                src="/qb_logo.png" 
                 alt="QB Logo" 
                 className="w-10 h-10"
               />
