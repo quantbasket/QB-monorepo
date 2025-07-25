@@ -35,6 +35,6 @@ export default defineConfig(({ mode }) => {
       // 'process.env.VITE_APP_SUPABASE_URL': JSON.stringify(process.env.VITE_APP_SUPABASE_URL),
       // 'process.env.VITE_APP_SUPABASE_ANON_KEY': JSON.stringify(process.env.VITE_APP_SUPABASE_ANON_KEY),
     },
-    // --- END OF EXACT CHANGE ---
+    // ---  END OF EXACT CHANGE  ---
   };
 });
