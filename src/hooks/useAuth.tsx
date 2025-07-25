@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } = { data: { subscription: null } } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
@@ -37,12 +37,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
   }, []);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
-    // Keep this as is for email verification redirect
-    const redirectUrl = `${window.location.origin}/dashboard`; 
+    const redirectUrl = `${window.location.origin}/dashboard`;
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -65,30 +68,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
-  // --- MODIFIED signInWithGoogle FUNCTION ---
   const signInWithGoogle = async () => {
-    // Determine the redirect URL dynamically based on the environment
     let redirectToUrl;
     
     // Check if running on localhost (development)
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      redirectToUrl = 'http://localhost:8080/dashboard'; // Use your specific local dashboard URL
+      redirectToUrl = 'http://localhost:8080/dashboard'; // Local development URL
     } 
-    // Check for Vercel preview deployments or production via Vercel
-    // process.env.NEXT_PUBLIC_VERCEL_URL is automatically set by Vercel for deployed environments
+    // Check for Vercel deployments (previews or production on Vercel's domain)
+    // process.env.NEXT_PUBLIC_VERCEL_URL already includes the protocol and domain.
     else if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-      // Construct the URL using the Vercel provided domain and add the /dashboard path
-      redirectToUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`;
+      // CORRECTED LINE: Use the VERCEL_URL directly without prepending https://
+      redirectToUrl = `${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`; 
     } 
-    // Fallback for production (your custom domain)
+    // Fallback for production (your custom domain if it's the final production domain)
     else {
-      redirectToUrl = 'https://quantbasket.com/dashboard'; // Your production dashboard URL
+      redirectToUrl = 'https://quantbasket.com/dashboard'; // Production domain
     }
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectToUrl // Use the dynamically determined URL
+        redirectTo: redirectToUrl
       }
     });
     return { error };
