@@ -1,3 +1,4 @@
+// useAuth.tsx
 import { useState, useEffect, createContext, useContext } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -22,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } = { data: { subscription: null } } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
@@ -37,12 +38,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
   }, []);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
-    // Keep this as is for email verification redirect
-    const redirectUrl = `${window.location.origin}/dashboard`; 
+    const redirectUrl = `${window.location.origin}/dashboard`;
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -65,30 +69,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
-  // --- MODIFIED signInWithGoogle FUNCTION ---
   const signInWithGoogle = async () => {
-    // Determine the redirect URL dynamically based on the environment
     let redirectToUrl;
     
-    // Check if running on localhost (development)
+    // --- DEBUGGING LOGS (KEEP THESE IN FOR NOW) ---
+    console.log("Environment Detection Started:");
+    console.log("  window.location.hostname:", window.location.hostname);
+    console.log("  process.env.VITE_VERCEL_URL (from build config):", process.env.VITE_VERCEL_URL);
+
+    // 1. Check if running on localhost (development)
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      redirectToUrl = 'http://localhost:8080/dashboard'; // Use your specific local dashboard URL
+      redirectToUrl = 'http://localhost:8080/dashboard'; 
+      console.log("  Resolved Environment: Localhost");
     } 
-    // Check for Vercel preview deployments or production via Vercel
-    // process.env.NEXT_PUBLIC_VERCEL_URL is automatically set by Vercel for deployed environments
-    else if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-      // Construct the URL using the Vercel provided domain and add the /dashboard path
-      redirectToUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`;
+    // 2. Check for Vercel deployments (previews or production on Vercel's domain)
+    // This variable should be correctly set by Vercel's build process via env var config.
+    else if (process.env.VITE_VERCEL_URL) {
+      // VITE_VERCEL_URL should already contain "https://domain.vercel.app"
+      // Ensure no trailing slash on the base URL if it's accidentally added.
+      let baseVercelUrl = process.env.VITE_VERCEL_URL;
+      if (baseVercelUrl.endsWith('/')) { // Remove trailing slash if it exists
+          baseVercelUrl = baseVercelUrl.slice(0, -1);
+      }
+      redirectToUrl = `${baseVercelUrl}/dashboard`; 
+      console.log("  Resolved Environment: Vercel Preview/Deployment");
     } 
-    // Fallback for production (your custom domain)
+    // 3. Fallback for custom production domain (e.g., if not deployed via Vercel or a very specific edge case)
     else {
-      redirectToUrl = 'https://quantbasket.com/dashboard'; // Your production dashboard URL
+      redirectToUrl = 'https://quantbasket.com/dashboard'; 
+      console.log("  Resolved Environment: Production Fallback");
     }
+
+    console.log("Final redirectToUrl sent to Supabase:", redirectToUrl);
+    // ---  END DEBUGGING LOGS  ---
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectToUrl // Use the dynamically determined URL
+        redirectTo: redirectToUrl 
       }
     });
     return { error };
