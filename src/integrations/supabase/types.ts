@@ -14,7 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      coins: {
+        Row: {
+          coin_type: Database["public"]["Enums"]["coin_type"]
+          created_at: string
+          description: string | null
+          id: string
+          market_cap: number | null
+          name: string
+          price: number | null
+          symbol: string
+        }
+        Insert: {
+          coin_type: Database["public"]["Enums"]["coin_type"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          market_cap?: number | null
+          name: string
+          price?: number | null
+          symbol: string
+        }
+        Update: {
+          coin_type?: Database["public"]["Enums"]["coin_type"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          market_cap?: number | null
+          name?: string
+          price?: number | null
+          symbol?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          location: string | null
+          phone_number: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          location?: string | null
+          phone_number?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          location?: string | null
+          phone_number?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_favorites: {
+        Row: {
+          coin_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          coin_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          coin_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_favorites_coin_id_fkey"
+            columns: ["coin_id"]
+            isOneToOne: false
+            referencedRelation: "coins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +117,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      coin_type: "coins" | "impact_coins" | "community_coins"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +244,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      coin_type: ["coins", "impact_coins", "community_coins"],
+    },
   },
 } as const
