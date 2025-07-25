@@ -65,28 +65,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signInWithGoogle = async () => {
-    // Determine the redirect URL dynamically based on the environment
-    let redirectToUrl;
-    
-    // Check if running on localhost (development)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      redirectToUrl = 'http://localhost:8080/dashboard'; // Use your specific local dashboard URL
-    } 
-    // Check for Vercel preview deployments or production via Vercel
-    // process.env.NEXT_PUBLIC_VERCEL_URL is automatically set by Vercel for deployed environments
-    else if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-      // Construct the URL using the Vercel provided domain
-      redirectToUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`;
-    } 
-    // Fallback for production (your custom domain if not deployed on Vercel or if VERCEL_URL is not available)
-    else {
-      redirectToUrl = 'https://quantbasket.com/dashboard'; // Your production dashboard URL
-    }
-
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectToUrl // Use the dynamically determined URL
+        redirectTo: window.location.origin
       }
     });
     return { error };
