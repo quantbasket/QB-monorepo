@@ -210,7 +210,7 @@ const Support = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray mb-4">
-                  Get detailed help via email
+                  Get detailed help via email support
                 </p>
                 <Badge variant="secondary" className="bg-qb-green/20 text-qb-green">
                   support@quantbasket.com
