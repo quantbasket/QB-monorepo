@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,44 +6,69 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "@/hooks/use-toast";
 import { CheckCircle, Users, TrendingUp, Coins, Shield } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [isSignedUp, setIsSignedUp] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    fullName: "",
   });
+  const [loading, setLoading] = useState(false);
+  const { signUp, signInWithGoogle, user } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSignedUp(true);
+    if (!formData.email || !formData.password) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await signUp(formData.email, formData.password, formData.fullName);
+    
+    if (error) {
+      toast({
+        title: "Signup Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Account Created!",
+        description: "Welcome to QuantBasket! Redirecting to your dashboard...",
+      });
+    }
+    setLoading(false);
   };
 
-  const handleGoogleSignup = () => {
-    setIsSignedUp(true);
+  const handleGoogleSignup = async () => {
+    setLoading(true);
+    const { error } = await signInWithGoogle();
+    
+    if (error) {
+      toast({
+        title: "Google Signup Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+    setLoading(false);
   };
-
-  if (isSignedUp) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-qb-soft-gray to-white">
-        <Navigation />
-        <div className="flex items-center justify-center min-h-[80vh] px-4">
-          <Card className="glass-card max-w-md w-full">
-            <CardHeader className="text-center">
-              <CheckCircle className="w-16 h-16 text-qb-green mx-auto mb-4" />
-              <CardTitle className="text-2xl text-qb-navy">Thank You!</CardTitle>
-              <CardDescription className="text-qb-dark-gray">
-                We will intimate you once your account is created. You'll receive an email confirmation shortly.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-qb-soft-gray to-white">
@@ -116,7 +141,18 @@ const Signup = () => {
               <CardContent className="space-y-4">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-qb-navy">Email</Label>
+                    <Label htmlFor="fullName" className="text-qb-navy">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      className="border-qb-dark-gray/30 focus:border-qb-green"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-qb-navy">Email *</Label>
                     <Input
                       id="email"
                       type="email"
@@ -128,7 +164,7 @@ const Signup = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-qb-navy">Password</Label>
+                    <Label htmlFor="password" className="text-qb-navy">Password *</Label>
                     <Input
                       id="password"
                       type="password"
@@ -139,8 +175,14 @@ const Signup = () => {
                       className="border-qb-dark-gray/30 focus:border-qb-green"
                     />
                   </div>
-                  <Button type="submit" variant="qbPrimary" className="w-full" size="lg">
-                    Sign Up for Free
+                  <Button 
+                    type="submit" 
+                    variant="qbPrimary" 
+                    className="w-full" 
+                    size="lg"
+                    disabled={loading}
+                  >
+                    {loading ? "Creating Account..." : "Sign Up for Free"}
                   </Button>
                 </form>
 
@@ -156,6 +198,7 @@ const Signup = () => {
                   variant="qbOutline"
                   className="w-full"
                   size="lg"
+                  disabled={loading}
                 >
                   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                     <path
@@ -175,7 +218,7 @@ const Signup = () => {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                     />
                   </svg>
-                  Continue with Google
+                  {loading ? "Signing up..." : "Continue with Google"}
                 </Button>
 
                 <div className="text-center">
