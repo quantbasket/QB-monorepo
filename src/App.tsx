@@ -13,6 +13,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -89,6 +91,8 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
         <Route path="/products" element={<Products />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         
