@@ -16,7 +16,7 @@ const NotFound = () => {
             <h1 className="text-6xl font-extrabold text-qb-navy mb-4">404</h1>
             <p className="text-2xl text-qb-dark-gray font-semibold mb-4">Oops! Page Not Found</p>
             <p className="text-lg text-gray-600 max-w-md mx-auto">
-              We couldn't find the page you're looking for. It might have been moved or deleted.
+              Looks like this page missed the alpha. It might have been moved or deleted.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -25,10 +25,10 @@ const NotFound = () => {
                 Return to Homepage
               </Button>
             </Link>
-            {/* Updated Contact Support Button */}
+            {/* Contact Support Button - uses mailto link but displays generic text */}
             <a href="mailto:support@quantbasket.com">
               <Button variant="outline" size="lg" className="text-lg px-8 border-qb-blue text-qb-blue hover:bg-qb-blue hover:text-white">
-                Contact: support@quantbasket.com
+                Contact Support
               </Button>
             </a>
           </div>
