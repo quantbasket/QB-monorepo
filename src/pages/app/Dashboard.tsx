@@ -316,29 +316,40 @@ export default function Dashboard() {
           userProfile={userProfile} 
           onSignOut={handleSignOut}
           isDarkMode={isDarkMode}
+          onToggleTheme={toggleTheme}
         />
         
         {/* Dashboard Header */}
         <header className={`border-b backdrop-blur-sm ${isDarkMode 
-          ? 'border-gray-700/50 bg-gray-800/50' 
-          : 'border-gray-200/50 bg-white/50'
+          ? 'border-slate-700/50 bg-slate-800/50' 
+          : 'border-slate-200/50 bg-white/50'
         }`}>
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <h1 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h1 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                   Dashboard
                 </h1>
               </div>
               
               <div className="flex items-center space-x-4">
                 <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                  <SelectTrigger className="w-24">
+                  <SelectTrigger className={`w-24 ${isDarkMode 
+                    ? 'bg-slate-800 border-slate-600 text-white' 
+                    : 'bg-white border-slate-300'
+                  }`}>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className={isDarkMode 
+                    ? 'bg-slate-800 border-slate-600' 
+                    : 'bg-white border-slate-300'
+                  }>
                     {currencies.map(currency => (
-                      <SelectItem key={currency.code} value={currency.code}>
+                      <SelectItem 
+                        key={currency.code} 
+                        value={currency.code}
+                        className={isDarkMode ? 'text-white hover:bg-slate-700' : 'text-slate-900 hover:bg-slate-50'}
+                      >
                         <div className="flex items-center space-x-2">
                           <currency.icon className="w-4 h-4" />
                           <span>{currency.code}</span>
@@ -347,12 +358,6 @@ export default function Dashboard() {
                     ))}
                   </SelectContent>
                 </Select>
-                
-                <div className="flex items-center space-x-2">
-                  <Sun className="w-4 h-4" />
-                  <Switch checked={isDarkMode} onCheckedChange={toggleTheme} />
-                  <Moon className="w-4 h-4" />
-                </div>
               </div>
             </div>
           </div>
@@ -360,8 +365,8 @@ export default function Dashboard() {
 
         <main className="container mx-auto px-4 py-6">
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-            <TabsList className={`grid w-full grid-cols-6 ${isDarkMode 
-              ? 'bg-gray-800/50' 
+            <TabsList className={`grid w-full grid-cols-5 ${isDarkMode 
+              ? 'bg-slate-800/50' 
               : 'bg-white/50'
             }`}>
               <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -369,7 +374,6 @@ export default function Dashboard() {
               <TabsTrigger value="impact">Impact</TabsTrigger>
               <TabsTrigger value="community">Community</TabsTrigger>
               <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-              <TabsTrigger value="profile">Profile</TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
@@ -919,132 +923,6 @@ export default function Dashboard() {
               </div>
             </TabsContent>
 
-            {/* Profile Tab */}
-            <TabsContent value="profile" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Profile Information */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleUpdateProfile} className="space-y-4">
-                      <div className="flex items-center space-x-4">
-                        <Avatar className="w-20 h-20">
-                          <AvatarFallback>{userProfile?.full_name?.[0] || 'U'}</AvatarFallback>
-                        </Avatar>
-                        <Button variant="outline" type="button">Change Avatar</Button>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label>Name</label>
-                        <Input
-                          value={profileForm.name}
-                          onChange={(e) => setProfileForm({...profileForm, name: e.target.value})}
-                          placeholder="Your name"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label>Email</label>
-                        <Input
-                          type="email"
-                          value={profileForm.email}
-                          onChange={(e) => setProfileForm({...profileForm, email: e.target.value})}
-                          placeholder="your.email@example.com"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label>Location</label>
-                        <Input
-                          value={profileForm.location}
-                          onChange={(e) => setProfileForm({...profileForm, location: e.target.value})}
-                          placeholder="Your location"
-                        />
-                      </div>
-                      
-                      <Button type="submit" className="w-full" disabled={loading}>
-                        {loading ? 'Updating...' : 'Update Profile'}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
-
-                {/* Settings & KYC */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Settings & Verification</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium">eKYC Verification</p>
-                          <p className="text-sm text-muted-foreground">Complete identity verification</p>
-                        </div>
-                        <Badge variant="outline">{userProfile?.kycStatus || 'Pending'}</Badge>
-                      </div>
-                      
-                      <Button variant="outline" className="w-full">
-                        Start eKYC Process
-                      </Button>
-                      
-                      <Separator />
-                      
-                      <div className="space-y-2">
-                        <label>Referral Code</label>
-                        <div className="flex space-x-2">
-                          <Input 
-                            value={userProfile?.referralCode || ''} 
-                            readOnly 
-                            className="flex-1"
-                          />
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={copyReferralCode}
-                          >
-                            {copiedRef ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                          </Button>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <p className="font-medium">Wallet Connection</p>
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="secondary" className={userProfile?.walletConnected ? "bg-green-500/20 text-green-600" : "bg-red-500/20 text-red-600"}>
-                            {userProfile?.walletConnected ? 'Connected' : 'Not Connected'}
-                          </Badge>
-                          {userProfile?.walletAddress && (
-                            <span className="text-sm text-muted-foreground">
-                              {userProfile.walletAddress.slice(0, 6)}...{userProfile.walletAddress.slice(-4)}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <Separator />
-                      
-                      <div className="flex items-center justify-between">
-                        <span>Two-Factor Authentication</span>
-                        <Switch />
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span>Email Notifications</span>
-                        <Switch defaultChecked />
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span>Price Alerts</span>
-                        <Switch defaultChecked />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
           </Tabs>
         </main>
       </div>

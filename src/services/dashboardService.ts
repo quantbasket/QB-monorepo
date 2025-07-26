@@ -8,6 +8,8 @@ export interface UserProfile extends Tables<'profiles'> {
   impactScore?: number;
   walletConnected?: boolean;
   walletAddress?: string;
+  username?: string;
+  country?: string;
 }
 
 export interface UserTokens {
