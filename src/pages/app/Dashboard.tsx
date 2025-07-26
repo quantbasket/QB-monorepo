@@ -1,540 +1,926 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@/hooks/useAuth";
-import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Switch } from '@/components/ui/switch';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { toast } from 'sonner';
 import { 
-  User, 
-  Upload, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Heart, 
+  Wallet, 
   TrendingUp, 
+  TrendingDown, 
+  Leaf, 
+  Sprout, 
+  Hammer, 
+  Users, 
+  BarChart3, 
+  Sun, 
+  Moon,
+  Settings,
+  Award,
+  Gift,
+  RefreshCw,
   DollarSign,
-  LogOut,
-  Star,
-  Plus
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
+  Euro,
+  IndianRupee,
+  Banknote,
+  Coins,
+  Copy,
+  Check
+} from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import DashboardNavigation from '@/components/DashboardNavigation';
+import LoadingScreen from '@/components/LoadingScreen';
+import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';
 
-interface Profile {
-  id: string;
-  user_id: string;
-  full_name: string | null;
-  phone_number: string | null;
-  location: string | null;
-  avatar_url: string | null;
-}
+// Token definitions
+const tokenDefinitions = {
+  portfolio: [
+    { symbol: 'PORT1', name: 'Growth Portfolio', price: 45.67, icon: TrendingUp },
+    { symbol: 'PORT2', name: 'Stable Portfolio', price: 23.45, icon: BarChart3 },
+    { symbol: 'PORT3', name: 'Tech Portfolio', price: 78.90, icon: TrendingUp }
+  ],
+  impact: [
+    { symbol: 'ECO', name: 'Eco Sustainability', price: 12.34, icon: Leaf },
+    { symbol: 'VEG', name: 'Vegan Impact', price: 8.90, icon: Sprout },
+    { symbol: 'MAKE', name: 'Maker Community', price: 15.67, icon: Hammer }
+  ],
+  quant: [
+    { symbol: 'STRD', name: 'Straddle Strategy', price: 34.56, icon: BarChart3 },
+    { symbol: 'ARBT', name: 'Arbitrage Strategy', price: 28.90, icon: TrendingUp },
+    { symbol: 'GRID', name: 'Grid Strategy', price: 41.23, icon: BarChart3 }
+  ]
+};
 
-interface Coin {
-  id: string;
-  name: string;
-  symbol: string;
-  coin_type: 'coins' | 'impact_coins' | 'community_coins';
-  description: string | null;
-  price: number | null;
-  market_cap: number | null;
-}
+const currencies = [
+  { code: 'USD', symbol: '$', icon: DollarSign },
+  { code: 'EUR', symbol: '€', icon: Euro },
+  { code: 'INR', symbol: '₹', icon: IndianRupee },
+  { code: 'RUB', symbol: '₽', icon: Banknote },
+  { code: 'CNY', symbol: '¥', icon: Coins }
+];
 
-interface UserFavorite {
-  id: string;
-  coin_id: string;
-  coins: Coin;
-}
+export default function Dashboard() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [userTokens, setUserTokens] = useState<UserTokens | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [portfolioSummary, setPortfolioSummary] = useState<PortfolioSummary | null>(null);
+  const [selectedTab, setSelectedTab] = useState('overview');
+  const [loading, setLoading] = useState(false);
+  const [copiedRef, setCopiedRef] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
-const Dashboard = () => {
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [coins, setCoins] = useState<Coin[]>([]);
-  const [favorites, setFavorites] = useState<UserFavorite[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  const [formData, setFormData] = useState({
-    full_name: '',
-    phone_number: '',
-    location: ''
+  // Get user from auth context
+  const { user, signOut, loading: authLoading } = useAuth();
+
+  // Form states
+  const [profileForm, setProfileForm] = useState({
+    name: '',
+    location: '',
+    email: ''
   });
 
+  const [buyForm, setBuyForm] = useState({
+    category: '',
+    symbol: '',
+    amount: 0
+  });
+
+  // Load user data when user is authenticated
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
+    if (user && !authLoading) {
+      loadUserData();
+    } else if (!authLoading && !user) {
+      setDataLoading(false);
     }
-    fetchProfile();
-    fetchCoins();
-    fetchFavorites();
-  }, [user, navigate]);
+  }, [user, authLoading]);
 
-  const fetchProfile = async () => {
-    if (!user) return;
-    
+  const loadUserData = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
+      setDataLoading(true);
+      if (!user) return;
 
-      if (error) throw error;
-      
-      setProfile(data);
-      setFormData({
-        full_name: data.full_name || '',
-        phone_number: data.phone_number || '',
-        location: data.location || ''
-      });
-    } catch (error: any) {
-      if (error.code !== 'PGRST116') { // Not found error
-        toast({
-          title: "Error",
-          description: "Failed to load profile",
-          variant: "destructive",
+      // Load user profile from service
+      const profile = await DashboardService.getUserProfile(user.id);
+      if (profile) {
+        setUserProfile(profile);
+        setProfileForm({
+          name: profile.full_name || user.user_metadata?.full_name || 'Demo User',
+          location: profile.location || 'Demo Location',
+          email: user.email || ''
         });
       }
-    }
-  };
 
-  const fetchCoins = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('coins')
-        .select('*')
-        .order('name');
+      // Load user tokens from service
+      const tokens = await DashboardService.getUserTokens(user.id);
+      setUserTokens(tokens);
 
-      if (error) throw error;
-      setCoins(data || []);
+      // Load portfolio summary from service
+      const summary = await DashboardService.getPortfolioSummary(user.id);
+      setPortfolioSummary(summary);
+
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load coins",
-        variant: "destructive",
-      });
+      console.error('Error loading user data:', error);
+      toast.error('Failed to load user data');
+    } finally {
+      setDataLoading(false);
     }
   };
 
-  const fetchFavorites = async () => {
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast.error('Failed to sign out');
+    } else {
+      toast.success('Signed out successfully');
+    }
+  };
+
+  const handleBuyToken = async (e) => {
+    e.preventDefault();
     if (!user) return;
-    
-    try {
-      const { data, error } = await supabase
-        .from('user_favorites')
-        .select(`
-          id,
-          coin_id,
-          coins (*)
-        `)
-        .eq('user_id', user.id);
 
-      if (error) throw error;
-      setFavorites(data || []);
+    setLoading(true);
+    try {
+      // Mock token purchase
+      const updatedTokens = { ...userTokens };
+      if (updatedTokens[buyForm.category] && updatedTokens[buyForm.category][buyForm.symbol] !== undefined) {
+        updatedTokens[buyForm.category][buyForm.symbol] += buyForm.amount;
+      }
+      
+      setUserTokens(updatedTokens);
+      toast.success(`Successfully bought ${buyForm.amount} ${buyForm.symbol} tokens! (Demo Mode)`);
+      setBuyForm({ category: '', symbol: '', amount: 0 });
+      
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load favorites",
-        variant: "destructive",
-      });
+      console.error('Buy token error:', error);
+      toast.error(error.message || 'Purchase failed');
     } finally {
       setLoading(false);
     }
   };
 
-  const updateProfile = async () => {
+  const handleReportImpact = async (type, description) => {
     if (!user) return;
-    
-    setUpdating(true);
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .upsert({
-          user_id: user.id,
-          full_name: formData.full_name,
-          phone_number: formData.phone_number,
-          location: formData.location
-        });
 
-      if (error) throw error;
+    setLoading(true);
+    try {
+      // Mock impact reporting
+      const symbolMap = { eco: 'ECO', veg: 'VEG', make: 'MAKE' };
+      const symbol = symbolMap[type.toLowerCase()];
+      const rewardAmount = 1;
       
-      toast({
-        title: "Success",
-        description: "Profile updated successfully",
-      });
-      fetchProfile();
+      if (symbol && userTokens?.impact[symbol] !== undefined) {
+        const updatedTokens = { ...userTokens };
+        updatedTokens.impact[symbol] += rewardAmount;
+        setUserTokens(updatedTokens);
+        
+        // Update impact score
+        const updatedProfile = { ...userProfile };
+        updatedProfile.impactScore = (updatedProfile.impactScore || 0) + 1;
+        setUserProfile(updatedProfile);
+      }
+
+      toast.success(`Impact action recorded! +${rewardAmount} ${symbol} tokens (Demo Mode)`);
+      
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update profile",
-        variant: "destructive",
-      });
+      console.error('Report impact error:', error);
+      toast.error(error.message || 'Impact report failed');
     } finally {
-      setUpdating(false);
+      setLoading(false);
     }
   };
 
-  const toggleFavorite = async (coinId: string) => {
+  const handleRedeemBenefit = async (benefitType, cost, token) => {
     if (!user) return;
-    
-    const isFavorited = favorites.some(fav => fav.coin_id === coinId);
-    
+
+    setLoading(true);
     try {
-      if (isFavorited) {
-        const { error } = await supabase
-          .from('user_favorites')
-          .delete()
-          .eq('user_id', user.id)
-          .eq('coin_id', coinId);
-        
-        if (error) throw error;
-        
-        toast({
-          title: "Removed from favorites",
-          description: "Coin removed from your favorites",
-        });
+      // Mock benefit redemption
+      const updatedTokens = { ...userTokens };
+      if (updatedTokens.community[token] >= cost) {
+        updatedTokens.community[token] -= cost;
+        setUserTokens(updatedTokens);
+        toast.success(`Successfully redeemed ${benefitType}! (Demo Mode)`);
       } else {
-        const { error } = await supabase
-          .from('user_favorites')
-          .insert({
-            user_id: user.id,
-            coin_id: coinId
-          });
-        
-        if (error) throw error;
-        
-        toast({
-          title: "Added to favorites",
-          description: "Coin added to your favorites",
-        });
+        toast.error('Insufficient community tokens');
       }
       
-      fetchFavorites();
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update favorites",
-        variant: "destructive",
-      });
+      console.error('Redeem benefit error:', error);
+      toast.error(error.message || 'Redemption failed');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      // Mock profile update
+      const updatedProfile = { ...userProfile, ...profileForm, updatedAt: new Date().toISOString() };
+      setUserProfile(updatedProfile);
+      toast.success('Profile updated successfully! (Demo Mode)');
+      
+    } catch (error) {
+      console.error('Profile update error:', error);
+      toast.error(error.message || 'Profile update failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const getCoinsByType = (type: string) => {
-    return coins.filter(coin => coin.coin_type === type);
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
   };
 
-  const formatPrice = (price: number | null) => {
-    if (!price) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(price);
+  const getCurrencyRate = (currency) => {
+    const rates = {
+      USD: 1,
+      EUR: 0.85,
+      INR: 83.12,
+      RUB: 74.55,
+      CNY: 7.24
+    };
+    return rates[currency] || 1;
   };
 
-  const formatMarketCap = (marketCap: number | null) => {
-    if (!marketCap) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      notation: 'compact'
-    }).format(marketCap);
+  const formatPrice = (price, currency) => {
+    const rate = getCurrencyRate(currency);
+    const convertedPrice = price * rate;
+    const currencyData = currencies.find(c => c.code === currency);
+    return `${currencyData?.symbol}${convertedPrice.toFixed(2)}`;
   };
 
-  if (loading) {
+  const copyReferralCode = () => {
+    if (userProfile?.referralCode) {
+      navigator.clipboard.writeText(userProfile.referralCode);
+      setCopiedRef(true);
+      setTimeout(() => setCopiedRef(false), 2000);
+      toast.success('Referral code copied!');
+    }
+  };
+
+  // Show loading state while auth is loading or data is loading
+  if (authLoading || dataLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-qb-green mx-auto"></div>
-          <p className="mt-4 text-qb-navy">Loading dashboard...</p>
-        </div>
-      </div>
+      <LoadingScreen 
+        message="Loading your dashboard..."
+        subMessage="Please wait while we prepare your Quant Basket experience"
+        size="md"
+      />
     );
   }
 
+  // This shouldn't happen due to ProtectedRoute, but just in case
+  if (!user) {
+    return null;
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={profile?.avatar_url || ''} />
-              <AvatarFallback>
-                {profile?.full_name?.split(' ').map(n => n[0]).join('') || user?.email?.[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="text-3xl font-bold text-qb-navy">
-                Welcome, {profile?.full_name || user?.email}
-              </h1>
-              <p className="text-gray-600">Manage your portfolio and account settings</p>
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      {/* Background Gradient */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-teal-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
+      
+      <div className="relative z-10 min-h-screen bg-background/95 backdrop-blur-sm">
+        {/* Dashboard Navigation */}
+        <DashboardNavigation 
+          userProfile={userProfile} 
+          onSignOut={handleSignOut} 
+        />
+        
+        {/* Dashboard Header */}
+        <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-xl font-bold">Dashboard</h1>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+                  <SelectTrigger className="w-24">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {currencies.map(currency => (
+                      <SelectItem key={currency.code} value={currency.code}>
+                        <div className="flex items-center space-x-2">
+                          <currency.icon className="w-4 h-4" />
+                          <span>{currency.code}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <div className="flex items-center space-x-2">
+                  <Sun className="w-4 h-4" />
+                  <Switch checked={isDarkMode} onCheckedChange={toggleTheme} />
+                  <Moon className="w-4 h-4" />
+                </div>
+              </div>
             </div>
           </div>
-          <Button onClick={handleSignOut} variant="outline" size="sm">
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
-        </div>
+        </header>
 
-        <Tabs defaultValue="portfolio" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-            <TabsTrigger value="favorites">Favorites</TabsTrigger>
-            <TabsTrigger value="explore">Explore</TabsTrigger>
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-          </TabsList>
+        <main className="container mx-auto px-4 py-6">
+          <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-6 bg-card/50">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="trading">Trading</TabsTrigger>
+              <TabsTrigger value="impact">Impact</TabsTrigger>
+              <TabsTrigger value="community">Community</TabsTrigger>
+              <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="portfolio">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Overview Tab */}
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className="bg-gradient-to-r from-blue-500 to-teal-500 text-white">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-blue-100">Total Portfolio Value</p>
+                        <p className="text-2xl font-bold">
+                          {formatPrice(portfolioSummary?.totalPortfolioValue || 0, selectedCurrency)}
+                        </p>
+                      </div>
+                      <TrendingUp className="w-8 h-8 text-blue-200" />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-muted-foreground">Community Tokens</p>
+                        <p className="text-2xl font-bold">{portfolioSummary?.totalCommunityTokens || 0}</p>
+                      </div>
+                      <Users className="w-8 h-8 text-muted-foreground" />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-muted-foreground">Impact Score</p>
+                        <p className="text-2xl font-bold">{portfolioSummary?.impactScore || 0}</p>
+                      </div>
+                      <Award className="w-8 h-8 text-green-500" />
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-muted-foreground">Active Strategies</p>
+                        <p className="text-2xl font-bold">{portfolioSummary?.activeStrategies || 0}</p>
+                      </div>
+                      <BarChart3 className="w-8 h-8 text-purple-500" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick Actions */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <DollarSign className="w-5 h-5 mr-2" />
-                    Regular Coins
-                  </CardTitle>
-                  <CardDescription>Traditional cryptocurrency investments</CardDescription>
+                  <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
-                    {getCoinsByType('coins').slice(0, 3).map(coin => (
-                      <div key={coin.id} className="flex justify-between items-center">
-                        <span className="font-medium">{coin.symbol}</span>
-                        <span className="text-sm text-gray-600">{formatPrice(coin.price)}</span>
-                      </div>
-                    ))}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Button 
+                      variant="outline" 
+                      className="h-20 flex-col"
+                      onClick={() => setSelectedTab('trading')}
+                    >
+                      <TrendingUp className="w-6 h-6 mb-2" />
+                      Buy Tokens
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-20 flex-col"
+                      onClick={() => setSelectedTab('trading')}
+                    >
+                      <TrendingDown className="w-6 h-6 mb-2" />
+                      Sell Tokens
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-20 flex-col"
+                      onClick={() => setSelectedTab('community')}
+                    >
+                      <Gift className="w-6 h-6 mb-2" />
+                      Claim Rewards
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="h-20 flex-col"
+                      onClick={() => setSelectedTab('impact')}
+                    >
+                      <Award className="w-6 h-6 mb-2" />
+                      Report Impact
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2" />
-                    Impact Coins
-                  </CardTitle>
-                  <CardDescription>Environmental and social impact investments</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {getCoinsByType('impact_coins').slice(0, 3).map(coin => (
-                      <div key={coin.id} className="flex justify-between items-center">
-                        <span className="font-medium">{coin.symbol}</span>
-                        <span className="text-sm text-gray-600">{formatPrice(coin.price)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Heart className="w-5 h-5 mr-2" />
-                    Community Coins
-                  </CardTitle>
-                  <CardDescription>Local community-focused investments</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {getCoinsByType('community_coins').slice(0, 3).map(coin => (
-                      <div key={coin.id} className="flex justify-between items-center">
-                        <span className="font-medium">{coin.symbol}</span>
-                        <span className="text-sm text-gray-600">{formatPrice(coin.price)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="favorites">
-            <Card>
-              <CardHeader>
-                <CardTitle>Your Favorite Coins</CardTitle>
-                <CardDescription>Coins you've marked as favorites</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {favorites.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
-                    No favorites yet. Explore coins and add them to your favorites!
-                  </p>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {favorites.map(favorite => (
-                      <Card key={favorite.id} className="border border-gray-200">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-start mb-2">
-                            <div>
-                              <h3 className="font-semibold">{favorite.coins.name}</h3>
-                              <Badge variant="outline">{favorite.coins.symbol}</Badge>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => toggleFavorite(favorite.coin_id)}
-                            >
-                              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            </Button>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-2">{favorite.coins.description}</p>
-                          <div className="flex justify-between text-sm">
-                            <span>Price: {formatPrice(favorite.coins.price)}</span>
-                            <span>Market Cap: {formatMarketCap(favorite.coins.market_cap)}</span>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="explore">
-            <div className="space-y-6">
-              {(['coins', 'impact_coins', 'community_coins'] as const).map(type => (
-                <Card key={type}>
+            {/* Trading Tab */}
+            <TabsContent value="trading" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Buy Tokens Form */}
+                <Card>
                   <CardHeader>
-                    <CardTitle>
-                      {type === 'coins' && 'Regular Coins'}
-                      {type === 'impact_coins' && 'Impact Coins'}
-                      {type === 'community_coins' && 'Community Coins'}
-                    </CardTitle>
+                    <CardTitle>Buy Tokens</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {getCoinsByType(type).map(coin => (
-                        <Card key={coin.id} className="border border-gray-200">
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <div>
-                                <h3 className="font-semibold">{coin.name}</h3>
-                                <Badge variant="outline">{coin.symbol}</Badge>
+                    <form onSubmit={handleBuyToken} className="space-y-4">
+                      <div className="space-y-2">
+                        <label>Token Category</label>
+                        <Select value={buyForm.category} onValueChange={(value) => setBuyForm({...buyForm, category: value, symbol: ''})}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="portfolio">Portfolio Tokens</SelectItem>
+                            <SelectItem value="impact">Impact Tokens</SelectItem>
+                            <SelectItem value="quant">Quant Strategy Tokens</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      {buyForm.category && (
+                        <div className="space-y-2">
+                          <label>Token</label>
+                          <Select value={buyForm.symbol} onValueChange={(value) => setBuyForm({...buyForm, symbol: value})}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select token" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {tokenDefinitions[buyForm.category]?.map(token => (
+                                <SelectItem key={token.symbol} value={token.symbol}>
+                                  {token.name} ({token.symbol})
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      )}
+                      
+                      <div className="space-y-2">
+                        <label>Amount</label>
+                        <Input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={buyForm.amount}
+                          onChange={(e) => setBuyForm({...buyForm, amount: parseFloat(e.target.value) || 0})}
+                          required
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full" disabled={loading || !buyForm.category || !buyForm.symbol}>
+                        {loading ? 'Processing...' : 'Buy Tokens'}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Token Listings */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Available Tokens</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {Object.entries(tokenDefinitions).map(([category, tokens]) => (
+                      <div key={category} className="space-y-2">
+                        <h4 className="font-medium capitalize">{category} Tokens</h4>
+                        {tokens.map(token => (
+                          <div key={token.symbol} className="flex items-center justify-between p-3 border rounded-lg">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                {token.symbol.slice(0, 2)}
                               </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => toggleFavorite(coin.id)}
-                              >
-                                <Star 
-                                  className={`w-4 h-4 ${
-                                    favorites.some(fav => fav.coin_id === coin.id)
-                                      ? 'fill-yellow-400 text-yellow-400'
-                                      : 'text-gray-400'
-                                  }`}
-                                />
-                              </Button>
+                              <div>
+                                <p className="font-medium text-sm">{token.name}</p>
+                                <p className="text-xs text-muted-foreground">{token.symbol}</p>
+                              </div>
                             </div>
-                            <p className="text-sm text-gray-600 mb-2">{coin.description}</p>
-                            <div className="flex justify-between text-sm">
-                              <span>Price: {formatPrice(coin.price)}</span>
-                              <span>Market Cap: {formatMarketCap(coin.market_cap)}</span>
+                            <div className="text-right">
+                              <p className="font-medium text-sm">{formatPrice(token.price, selectedCurrency)}</p>
+                              <p className="text-xs text-muted-foreground">
+                                Balance: {userTokens?.[category]?.[token.symbol] || 0}
+                              </p>
                             </div>
-                          </CardContent>
-                        </Card>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Impact Tab */}
+            <TabsContent value="impact" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Impact Tokens */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Impact Tokens</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {tokenDefinitions.impact.map(token => {
+                      const IconComponent = token.icon;
+                      return (
+                        <div key={token.symbol} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white">
+                              <IconComponent className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <p className="font-medium">{token.name}</p>
+                              <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium">{formatPrice(token.price, selectedCurrency)}</p>
+                            <p className="text-sm text-muted-foreground">
+                              Balance: {userTokens?.impact?.[token.symbol] || 0}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                </Card>
+
+                {/* Impact Actions */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Report Impact Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <Button 
+                        className="w-full justify-start bg-green-500/10 text-green-600 hover:bg-green-500/20"
+                        onClick={() => handleReportImpact('eco', 'Eco-friendly action reported')}
+                        disabled={loading}
+                      >
+                        <Leaf className="w-4 h-4 mr-2" />
+                        Eco-Friendly Action
+                      </Button>
+                      <Button 
+                        className="w-full justify-start bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
+                        onClick={() => handleReportImpact('veg', 'Vegan choice reported')}
+                        disabled={loading}
+                      >
+                        <Sprout className="w-4 h-4 mr-2" />
+                        Vegan Choice
+                      </Button>
+                      <Button 
+                        className="w-full justify-start bg-blue-500/10 text-blue-600 hover:bg-blue-500/20"
+                        onClick={() => handleReportImpact('make', 'Maker project reported')}
+                        disabled={loading}
+                      >
+                        <Hammer className="w-4 h-4 mr-2" />
+                        Maker Project
+                      </Button>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Your Impact Progress</p>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>ECO Tokens</span>
+                          <span>{userTokens?.impact?.ECO || 0}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>VEG Tokens</span>
+                          <span>{userTokens?.impact?.VEG || 0}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>MAKE Tokens</span>
+                          <span>{userTokens?.impact?.MAKE || 0}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Community Tab */}
+            <TabsContent value="community" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Community Tokens */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Community Tokens</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                          SA
+                        </div>
+                        <div>
+                          <p className="font-medium">SAE Community</p>
+                          <p className="text-sm text-muted-foreground">SAE</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-medium">Balance: {userTokens?.community?.SAE || 0}</p>
+                        <p className="text-sm text-muted-foreground">Community Token</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                          RO
+                        </div>
+                        <div>
+                          <p className="font-medium">Roto Community</p>
+                          <p className="text-sm text-muted-foreground">ROTO</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-medium">Balance: {userTokens?.community?.ROTO || 0}</p>
+                        <p className="text-sm text-muted-foreground">Community Token</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Redeem Benefits */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Redeem Benefits</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <p className="font-medium">Premium Features</p>
+                          <Badge>100 SAE</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">Unlock advanced trading features</p>
+                        <Button 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => handleRedeemBenefit('Premium Features', 100, 'SAE')}
+                          disabled={loading || (userTokens?.community?.SAE || 0) < 100}
+                        >
+                          {(userTokens?.community?.SAE || 0) < 100 ? 'Insufficient Tokens' : 'Redeem'}
+                        </Button>
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <p className="font-medium">Priority Support</p>
+                          <Badge>50 ROTO</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">Get priority customer support</p>
+                        <Button 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => handleRedeemBenefit('Priority Support', 50, 'ROTO')}
+                          disabled={loading || (userTokens?.community?.ROTO || 0) < 50}
+                        >
+                          {(userTokens?.community?.ROTO || 0) < 50 ? 'Insufficient Tokens' : 'Redeem'}
+                        </Button>
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex justify-between items-center mb-2">
+                          <p className="font-medium">Exclusive Events</p>
+                          <Badge>200 SAE</Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">Access to exclusive community events</p>
+                        <Button 
+                          size="sm" 
+                          className="w-full"
+                          onClick={() => handleRedeemBenefit('Exclusive Events', 200, 'SAE')}
+                          disabled={loading || (userTokens?.community?.SAE || 0) < 200}
+                        >
+                          {(userTokens?.community?.SAE || 0) < 200 ? 'Insufficient Tokens' : 'Redeem'}
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Portfolio Tab */}
+            <TabsContent value="portfolio" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2">
+                  <CardHeader>
+                    <CardTitle>Portfolio Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {userTokens && Object.entries(userTokens).map(([category, categoryTokens]) => (
+                        <div key={category} className="space-y-2">
+                          <h4 className="font-medium capitalize">{category} Tokens</h4>
+                          <div className="grid gap-2">
+                            {Object.entries(categoryTokens).map(([symbol, balance]) => (
+                              <div key={symbol} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                                <span>{symbol}</span>
+                                <span>{String(balance)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </TabsContent>
 
-          <TabsContent value="profile">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
-                  <CardDescription>Update your personal information</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      value={user?.email || ''}
-                      disabled
-                      className="bg-gray-50"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="fullName">Full Name</Label>
-                    <Input
-                      id="fullName"
-                      value={formData.full_name}
-                      onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      value={formData.phone_number}
-                      onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="location">Location</Label>
-                    <Input
-                      id="location"
-                      value={formData.location}
-                      onChange={(e) => setFormData({...formData, location: e.target.value})}
-                      placeholder="Enter your location"
-                    />
-                  </div>
-                  <Button 
-                    onClick={updateProfile} 
-                    disabled={updating}
-                    variant="qbPrimary"
-                  >
-                    {updating ? "Updating..." : "Update Profile"}
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Avatar</CardTitle>
-                  <CardDescription>Upload a profile picture</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <Avatar className="h-20 w-20">
-                      <AvatarImage src={profile?.avatar_url || ''} />
-                      <AvatarFallback>
-                        {profile?.full_name?.split(' ').map(n => n[0]).join('') || user?.email?.[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <Button variant="outline" size="sm">
-                        <Upload className="w-4 h-4 mr-2" />
-                        Upload Avatar
-                      </Button>
-                      <p className="text-sm text-gray-500 mt-1">
-                        JPG, PNG or GIF (max 2MB)
-                      </p>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Portfolio Stats</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm">Total Value</span>
+                        <span className="font-medium">
+                          {formatPrice(portfolioSummary?.totalPortfolioValue || 0, selectedCurrency)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">24h Change</span>
+                        <span className="font-medium text-green-500">+5.67%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Community Tokens</span>
+                        <span className="font-medium">{portfolioSummary?.totalCommunityTokens || 0}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm">Impact Score</span>
+                        <span className="font-medium">{portfolioSummary?.impactScore || 0}</span>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Profile Tab */}
+            <TabsContent value="profile" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Profile Information */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Profile Information</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleUpdateProfile} className="space-y-4">
+                      <div className="flex items-center space-x-4">
+                        <Avatar className="w-20 h-20">
+                          <AvatarFallback>{userProfile?.full_name?.[0] || 'U'}</AvatarFallback>
+                        </Avatar>
+                        <Button variant="outline" type="button">Change Avatar</Button>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label>Name</label>
+                        <Input
+                          value={profileForm.name}
+                          onChange={(e) => setProfileForm({...profileForm, name: e.target.value})}
+                          placeholder="Your name"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label>Email</label>
+                        <Input
+                          type="email"
+                          value={profileForm.email}
+                          onChange={(e) => setProfileForm({...profileForm, email: e.target.value})}
+                          placeholder="your.email@example.com"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label>Location</label>
+                        <Input
+                          value={profileForm.location}
+                          onChange={(e) => setProfileForm({...profileForm, location: e.target.value})}
+                          placeholder="Your location"
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full" disabled={loading}>
+                        {loading ? 'Updating...' : 'Update Profile'}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Settings & KYC */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Settings & Verification</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">eKYC Verification</p>
+                          <p className="text-sm text-muted-foreground">Complete identity verification</p>
+                        </div>
+                        <Badge variant="outline">{userProfile?.kycStatus || 'Pending'}</Badge>
+                      </div>
+                      
+                      <Button variant="outline" className="w-full">
+                        Start eKYC Process
+                      </Button>
+                      
+                      <Separator />
+                      
+                      <div className="space-y-2">
+                        <label>Referral Code</label>
+                        <div className="flex space-x-2">
+                          <Input 
+                            value={userProfile?.referralCode || ''} 
+                            readOnly 
+                            className="flex-1"
+                          />
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={copyReferralCode}
+                          >
+                            {copiedRef ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <p className="font-medium">Wallet Connection</p>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="secondary" className={userProfile?.walletConnected ? "bg-green-500/20 text-green-600" : "bg-red-500/20 text-red-600"}>
+                            {userProfile?.walletConnected ? 'Connected' : 'Not Connected'}
+                          </Badge>
+                          {userProfile?.walletAddress && (
+                            <span className="text-sm text-muted-foreground">
+                              {userProfile.walletAddress.slice(0, 6)}...{userProfile.walletAddress.slice(-4)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <Separator />
+                      
+                      <div className="flex items-center justify-between">
+                        <span>Two-Factor Authentication</span>
+                        <Switch />
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span>Email Notifications</span>
+                        <Switch defaultChecked />
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span>Price Alerts</span>
+                        <Switch defaultChecked />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </main>
       </div>
     </div>
   );
-};
-
-export default Dashboard;
+}
