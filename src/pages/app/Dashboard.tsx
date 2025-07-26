@@ -743,17 +743,17 @@ export default function Dashboard() {
                     <Separator />
                     
                     <div className="space-y-2">
-                      <p className="text-sm font-medium">Your Impact Progress</p>
+                      <p className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Your Impact Progress</p>
                       <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
+                        <div className={`flex justify-between text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
                           <span>ECO Tokens</span>
                           <span>{userTokens?.impact?.ECO || 0}</span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        <div className={`flex justify-between text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
                           <span>VEG Tokens</span>
                           <span>{userTokens?.impact?.VEG || 0}</span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        <div className={`flex justify-between text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
                           <span>MAKE Tokens</span>
                           <span>{userTokens?.impact?.MAKE || 0}</span>
                         </div>
@@ -768,99 +768,135 @@ export default function Dashboard() {
             <TabsContent value="community" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Community Tokens */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Community Tokens</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Community Tokens</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className={`flex items-center justify-between p-4 border rounded-lg ${
+                      isDarkMode 
+                        ? 'border-gray-600 bg-gray-700/30' 
+                        : 'border-gray-200 bg-gray-50/50'
+                    }`}>
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
                           SA
                         </div>
                         <div>
-                          <p className="font-medium">SAE Community</p>
-                          <p className="text-sm text-muted-foreground">SAE</p>
+                          <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>SAE Community</p>
+                          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>SAE</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">Balance: {userTokens?.community?.SAE || 0}</p>
-                        <p className="text-sm text-muted-foreground">Community Token</p>
+                        <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Balance: {userTokens?.community?.SAE || 0}</p>
+                        <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>Community Token</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className={`flex items-center justify-between p-4 border rounded-lg ${
+                      isDarkMode 
+                        ? 'border-gray-600 bg-gray-700/30' 
+                        : 'border-gray-200 bg-gray-50/50'
+                    }`}>
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
                           RO
                         </div>
                         <div>
-                          <p className="font-medium">Roto Community</p>
-                          <p className="text-sm text-muted-foreground">ROTO</p>
+                          <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Roto Community</p>
+                          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>ROTO</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">Balance: {userTokens?.community?.ROTO || 0}</p>
-                        <p className="text-sm text-muted-foreground">Community Token</p>
+                        <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Balance: {userTokens?.community?.ROTO || 0}</p>
+                        <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>Community Token</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Redeem Benefits */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Redeem Benefits</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Redeem Benefits</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <p className="font-medium">Premium Features</p>
-                          <Badge>100 SAE</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-3">Unlock advanced trading features</p>
-                        <Button 
-                          size="sm" 
-                          className="w-full"
-                          onClick={() => handleRedeemBenefit('Premium Features', 100, 'SAE')}
-                          disabled={loading || (userTokens?.community?.SAE || 0) < 100}
-                        >
-                          {(userTokens?.community?.SAE || 0) < 100 ? 'Insufficient Tokens' : 'Redeem'}
-                        </Button>
+                    <div className={`p-4 border rounded-lg ${
+                      isDarkMode 
+                        ? 'border-gray-600 bg-gray-700/30' 
+                        : 'border-gray-200 bg-gray-50/50'
+                    }`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Premium Features</p>
+                        <Badge className={`${isDarkMode ? 'bg-blue-600/50 text-blue-200' : ''}`}>100 SAE</Badge>
                       </div>
-                      
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <p className="font-medium">Priority Support</p>
-                          <Badge>50 ROTO</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-3">Get priority customer support</p>
-                        <Button 
-                          size="sm" 
-                          className="w-full"
-                          onClick={() => handleRedeemBenefit('Priority Support', 50, 'ROTO')}
-                          disabled={loading || (userTokens?.community?.ROTO || 0) < 50}
-                        >
-                          {(userTokens?.community?.ROTO || 0) < 50 ? 'Insufficient Tokens' : 'Redeem'}
-                        </Button>
+                      <p className={`text-sm mb-3 ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>Unlock advanced trading features</p>
+                      <Button 
+                        size="sm" 
+                        className={`w-full ${
+                          isDarkMode 
+                            ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30' 
+                            : ''
+                        }`}
+                        onClick={() => handleRedeemBenefit('Premium Features', 100, 'SAE')}
+                        disabled={loading || (userTokens?.community?.SAE || 0) < 100}
+                      >
+                        {(userTokens?.community?.SAE || 0) < 100 ? 'Insufficient Tokens' : 'Redeem'}
+                      </Button>
+                    </div>
+                    
+                    <div className={`p-4 border rounded-lg ${
+                      isDarkMode 
+                        ? 'border-gray-600 bg-gray-700/30' 
+                        : 'border-gray-200 bg-gray-50/50'
+                    }`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Priority Support</p>
+                        <Badge className={`${isDarkMode ? 'bg-purple-600/50 text-purple-200' : ''}`}>50 ROTO</Badge>
                       </div>
-                      
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <p className="font-medium">Exclusive Events</p>
-                          <Badge>200 SAE</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-3">Access to exclusive community events</p>
-                        <Button 
-                          size="sm" 
-                          className="w-full"
-                          onClick={() => handleRedeemBenefit('Exclusive Events', 200, 'SAE')}
-                          disabled={loading || (userTokens?.community?.SAE || 0) < 200}
-                        >
-                          {(userTokens?.community?.SAE || 0) < 200 ? 'Insufficient Tokens' : 'Redeem'}
-                        </Button>
+                      <p className={`text-sm mb-3 ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>Get priority customer support</p>
+                      <Button 
+                        size="sm" 
+                        className={`w-full ${
+                          isDarkMode 
+                            ? 'bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 border border-purple-500/30' 
+                            : ''
+                        }`}
+                        onClick={() => handleRedeemBenefit('Priority Support', 50, 'ROTO')}
+                        disabled={loading || (userTokens?.community?.ROTO || 0) < 50}
+                      >
+                        {(userTokens?.community?.ROTO || 0) < 50 ? 'Insufficient Tokens' : 'Redeem'}
+                      </Button>
+                    </div>
+                    
+                    <div className={`p-4 border rounded-lg ${
+                      isDarkMode 
+                        ? 'border-gray-600 bg-gray-700/30' 
+                        : 'border-gray-200 bg-gray-50/50'
+                    }`}>
+                      <div className="flex justify-between items-center mb-2">
+                        <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Exclusive Events</p>
+                        <Badge className={`${isDarkMode ? 'bg-pink-600/50 text-pink-200' : ''}`}>200 SAE</Badge>
                       </div>
+                      <p className={`text-sm mb-3 ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>Access to exclusive community events</p>
+                      <Button 
+                        size="sm" 
+                        className={`w-full ${
+                          isDarkMode 
+                            ? 'bg-pink-500/20 text-pink-400 hover:bg-pink-500/30 border border-pink-500/30' 
+                            : ''
+                        }`}
+                        onClick={() => handleRedeemBenefit('Exclusive Events', 200, 'SAE')}
+                        disabled={loading || (userTokens?.community?.SAE || 0) < 200}
+                      >
+                        {(userTokens?.community?.SAE || 0) < 200 ? 'Insufficient Tokens' : 'Redeem'}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -870,20 +906,27 @@ export default function Dashboard() {
             {/* Portfolio Tab */}
             <TabsContent value="portfolio" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Card className="lg:col-span-2">
+                <Card className={`lg:col-span-2 ${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Portfolio Overview</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Portfolio Overview</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {userTokens && Object.entries(userTokens).map(([category, categoryTokens]) => (
                         <div key={category} className="space-y-2">
-                          <h4 className="font-medium capitalize">{category} Tokens</h4>
+                          <h4 className={`font-medium capitalize ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{category} Tokens</h4>
                           <div className="grid gap-2">
                             {Object.entries(categoryTokens).map(([symbol, balance]) => (
-                              <div key={symbol} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
-                                <span>{symbol}</span>
-                                <span>{String(balance)}</span>
+                              <div key={symbol} className={`flex justify-between items-center p-3 rounded-lg ${
+                                isDarkMode 
+                                  ? 'bg-gray-700/50 border border-gray-600' 
+                                  : 'bg-muted/50'
+                              }`}>
+                                <span className={`${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>{symbol}</span>
+                                <span className={`${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>{String(balance)}</span>
                               </div>
                             ))}
                           </div>
@@ -893,29 +936,32 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Portfolio Stats</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Portfolio Stats</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-sm">Total Value</span>
-                        <span className="font-medium">
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>Total Value</span>
+                        <span className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
                           {formatPrice(portfolioSummary?.totalPortfolioValue || 0, selectedCurrency)}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">24h Change</span>
-                        <span className="font-medium text-green-500">+5.67%</span>
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>24h Change</span>
+                        <span className={`font-medium ${isDarkMode ? 'text-green-400' : 'text-green-500'}`}>+5.67%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Community Tokens</span>
-                        <span className="font-medium">{portfolioSummary?.totalCommunityTokens || 0}</span>
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>Community Tokens</span>
+                        <span className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>{portfolioSummary?.totalCommunityTokens || 0}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Impact Score</span>
-                        <span className="font-medium">{portfolioSummary?.impactScore || 0}</span>
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>Impact Score</span>
+                        <span className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>{portfolioSummary?.impactScore || 0}</span>
                       </div>
                     </div>
                   </CardContent>
