@@ -104,6 +104,14 @@ export default function Dashboard() {
     }
   }, [user, authLoading]);
 
+  // Reset dark mode when component unmounts (user leaves dashboard)
+  useEffect(() => {
+    return () => {
+      // Ensure dark mode is reset when leaving dashboard
+      setIsDarkMode(false);
+    };
+  }, []);
+
   const loadUserData = async () => {
     try {
       setDataLoading(true);
@@ -244,7 +252,8 @@ export default function Dashboard() {
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
+    // Dark mode is local to Dashboard only - doesn't affect other pages
+    // This prevents Login/Signup pages from being affected by Dashboard dark mode
   };
 
   const getCurrencyRate = (currency) => {
@@ -291,23 +300,35 @@ export default function Dashboard() {
   }
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+    <div className="min-h-screen">
       {/* Background Gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-teal-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700" />
+      <div className={`fixed inset-0 ${isDarkMode 
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700' 
+        : 'bg-gradient-to-br from-blue-900 via-blue-800 to-teal-600'
+      }`} />
       
-      <div className="relative z-10 min-h-screen bg-background/95 backdrop-blur-sm">
+      <div className={`relative z-10 min-h-screen backdrop-blur-sm ${isDarkMode 
+        ? 'bg-gray-900/95' 
+        : 'bg-white/95'
+      }`}>
         {/* Dashboard Navigation */}
         <DashboardNavigation 
           userProfile={userProfile} 
-          onSignOut={handleSignOut} 
+          onSignOut={handleSignOut}
+          isDarkMode={isDarkMode}
         />
         
         {/* Dashboard Header */}
-        <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm">
+        <header className={`border-b backdrop-blur-sm ${isDarkMode 
+          ? 'border-gray-700/50 bg-gray-800/50' 
+          : 'border-gray-200/50 bg-white/50'
+        }`}>
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <h1 className="text-xl font-bold">Dashboard</h1>
+                <h1 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Dashboard
+                </h1>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -339,7 +360,10 @@ export default function Dashboard() {
 
         <main className="container mx-auto px-4 py-6">
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6 bg-card/50">
+            <TabsList className={`grid w-full grid-cols-6 ${isDarkMode 
+              ? 'bg-gray-800/50' 
+              : 'bg-white/50'
+            }`}>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="trading">Trading</TabsTrigger>
               <TabsTrigger value="impact">Impact</TabsTrigger>
@@ -403,42 +427,63 @@ export default function Dashboard() {
               </div>
 
               {/* Quick Actions */}
-              <Card>
+              <Card className={`${isDarkMode 
+                ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                : 'bg-white/95 border-gray-200/50'
+              }`}>
                 <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
+                  <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Quick Actions
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <Button 
                       variant="outline" 
-                      className="h-20 flex-col"
+                      className={`h-20 flex-col ${
+                        isDarkMode 
+                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
+                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
                       onClick={() => setSelectedTab('trading')}
                     >
-                      <TrendingUp className="w-6 h-6 mb-2" />
+                      <TrendingUp className={`w-6 h-6 mb-2 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
                       Buy Tokens
                     </Button>
                     <Button 
                       variant="outline" 
-                      className="h-20 flex-col"
+                      className={`h-20 flex-col ${
+                        isDarkMode 
+                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
+                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
                       onClick={() => setSelectedTab('trading')}
                     >
-                      <TrendingDown className="w-6 h-6 mb-2" />
+                      <TrendingDown className={`w-6 h-6 mb-2 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
                       Sell Tokens
                     </Button>
                     <Button 
                       variant="outline" 
-                      className="h-20 flex-col"
+                      className={`h-20 flex-col ${
+                        isDarkMode 
+                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
+                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
                       onClick={() => setSelectedTab('community')}
                     >
-                      <Gift className="w-6 h-6 mb-2" />
+                      <Gift className={`w-6 h-6 mb-2 ${isDarkMode ? 'text-yellow-400' : 'text-yellow-600'}`} />
                       Claim Rewards
                     </Button>
                     <Button 
                       variant="outline" 
-                      className="h-20 flex-col"
+                      className={`h-20 flex-col ${
+                        isDarkMode 
+                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
+                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                      }`}
                       onClick={() => setSelectedTab('impact')}
                     >
-                      <Award className="w-6 h-6 mb-2" />
+                      <Award className={`w-6 h-6 mb-2 ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`} />
                       Report Impact
                     </Button>
                   </div>
@@ -450,36 +495,63 @@ export default function Dashboard() {
             <TabsContent value="trading" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Buy Tokens Form */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Buy Tokens</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Buy Tokens
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleBuyToken} className="space-y-4">
                       <div className="space-y-2">
-                        <label>Token Category</label>
+                        <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                          Token Category
+                        </label>
                         <Select value={buyForm.category} onValueChange={(value) => setBuyForm({...buyForm, category: value, symbol: ''})}>
-                          <SelectTrigger>
+                          <SelectTrigger className={`${isDarkMode 
+                            ? 'bg-gray-700/50 border-gray-600 text-gray-200 placeholder:text-gray-400' 
+                            : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500'
+                          }`}>
                             <SelectValue placeholder="Select category" />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="portfolio">Portfolio Tokens</SelectItem>
-                            <SelectItem value="impact">Impact Tokens</SelectItem>
-                            <SelectItem value="quant">Quant Strategy Tokens</SelectItem>
+                          <SelectContent className={`${isDarkMode 
+                            ? 'bg-gray-800 border-gray-600' 
+                            : 'bg-white border-gray-300'
+                          }`}>
+                            <SelectItem value="portfolio" className={`${isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-900 hover:bg-gray-50'}`}>
+                              Portfolio Tokens
+                            </SelectItem>
+                            <SelectItem value="impact" className={`${isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-900 hover:bg-gray-50'}`}>
+                              Impact Tokens
+                            </SelectItem>
+                            <SelectItem value="quant" className={`${isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-900 hover:bg-gray-50'}`}>
+                              Quant Strategy Tokens
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       
                       {buyForm.category && (
                         <div className="space-y-2">
-                          <label>Token</label>
+                          <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                            Token
+                          </label>
                           <Select value={buyForm.symbol} onValueChange={(value) => setBuyForm({...buyForm, symbol: value})}>
-                            <SelectTrigger>
+                            <SelectTrigger className={`${isDarkMode 
+                              ? 'bg-gray-700/50 border-gray-600 text-gray-200 placeholder:text-gray-400' 
+                              : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500'
+                            }`}>
                               <SelectValue placeholder="Select token" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className={`${isDarkMode 
+                              ? 'bg-gray-800 border-gray-600' 
+                              : 'bg-white border-gray-300'
+                            }`}>
                               {tokenDefinitions[buyForm.category]?.map(token => (
-                                <SelectItem key={token.symbol} value={token.symbol}>
+                                <SelectItem key={token.symbol} value={token.symbol} className={`${isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-900 hover:bg-gray-50'}`}>
                                   {token.name} ({token.symbol})
                                 </SelectItem>
                               ))}
@@ -489,7 +561,9 @@ export default function Dashboard() {
                       )}
                       
                       <div className="space-y-2">
-                        <label>Amount</label>
+                        <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                          Amount
+                        </label>
                         <Input
                           type="number"
                           step="0.01"
@@ -497,6 +571,10 @@ export default function Dashboard() {
                           value={buyForm.amount}
                           onChange={(e) => setBuyForm({...buyForm, amount: parseFloat(e.target.value) || 0})}
                           required
+                          className={`${isDarkMode 
+                            ? 'bg-gray-700/50 border-gray-600 text-gray-200 placeholder:text-gray-400' 
+                            : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500'
+                          }`}
                         />
                       </div>
                       
@@ -508,28 +586,45 @@ export default function Dashboard() {
                 </Card>
 
                 {/* Token Listings */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Available Tokens</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Available Tokens
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {Object.entries(tokenDefinitions).map(([category, tokens]) => (
                       <div key={category} className="space-y-2">
-                        <h4 className="font-medium capitalize">{category} Tokens</h4>
+                        <h4 className={`font-medium capitalize ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                          {category} Tokens
+                        </h4>
                         {tokens.map(token => (
-                          <div key={token.symbol} className="flex items-center justify-between p-3 border rounded-lg">
+                          <div key={token.symbol} className={`flex items-center justify-between p-3 border rounded-lg ${
+                            isDarkMode 
+                              ? 'border-gray-600 bg-gray-700/30' 
+                              : 'border-gray-200 bg-gray-50/50'
+                          }`}>
                             <div className="flex items-center space-x-3">
                               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
                                 {token.symbol.slice(0, 2)}
                               </div>
                               <div>
-                                <p className="font-medium text-sm">{token.name}</p>
-                                <p className="text-xs text-muted-foreground">{token.symbol}</p>
+                                <p className={`font-medium text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                                  {token.name}
+                                </p>
+                                <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                  {token.symbol}
+                                </p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="font-medium text-sm">{formatPrice(token.price, selectedCurrency)}</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className={`font-medium text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                                {formatPrice(token.price, selectedCurrency)}
+                              </p>
+                              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                                 Balance: {userTokens?.[category]?.[token.symbol] || 0}
                               </p>
                             </div>
@@ -546,27 +641,42 @@ export default function Dashboard() {
             <TabsContent value="impact" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Impact Tokens */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Impact Tokens</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Impact Tokens
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {tokenDefinitions.impact.map(token => {
                       const IconComponent = token.icon;
                       return (
-                        <div key={token.symbol} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div key={token.symbol} className={`flex items-center justify-between p-4 border rounded-lg ${
+                          isDarkMode 
+                            ? 'border-gray-600 bg-gray-700/30' 
+                            : 'border-gray-200 bg-gray-50/50'
+                        }`}>
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white">
                               <IconComponent className="w-5 h-5" />
                             </div>
                             <div>
-                              <p className="font-medium">{token.name}</p>
-                              <p className="text-sm text-muted-foreground">{token.symbol}</p>
+                              <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                                {token.name}
+                              </p>
+                              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {token.symbol}
+                              </p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium">{formatPrice(token.price, selectedCurrency)}</p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                              {formatPrice(token.price, selectedCurrency)}
+                            </p>
+                            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                               Balance: {userTokens?.impact?.[token.symbol] || 0}
                             </p>
                           </div>
@@ -577,14 +687,23 @@ export default function Dashboard() {
                 </Card>
 
                 {/* Impact Actions */}
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
+                  : 'bg-white/95 border-gray-200/50'
+                }`}>
                   <CardHeader>
-                    <CardTitle>Report Impact Actions</CardTitle>
+                    <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      Report Impact Actions
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       <Button 
-                        className="w-full justify-start bg-green-500/10 text-green-600 hover:bg-green-500/20"
+                        className={`w-full justify-start ${
+                          isDarkMode 
+                            ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30' 
+                            : 'bg-green-500/10 text-green-600 hover:bg-green-500/20'
+                        }`}
                         onClick={() => handleReportImpact('eco', 'Eco-friendly action reported')}
                         disabled={loading}
                       >
@@ -592,7 +711,11 @@ export default function Dashboard() {
                         Eco-Friendly Action
                       </Button>
                       <Button 
-                        className="w-full justify-start bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20"
+                        className={`w-full justify-start ${
+                          isDarkMode 
+                            ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30' 
+                            : 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20'
+                        }`}
                         onClick={() => handleReportImpact('veg', 'Vegan choice reported')}
                         disabled={loading}
                       >
@@ -600,7 +723,11 @@ export default function Dashboard() {
                         Vegan Choice
                       </Button>
                       <Button 
-                        className="w-full justify-start bg-blue-500/10 text-blue-600 hover:bg-blue-500/20"
+                        className={`w-full justify-start ${
+                          isDarkMode 
+                            ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30' 
+                            : 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
+                        }`}
                         onClick={() => handleReportImpact('make', 'Maker project reported')}
                         disabled={loading}
                       >

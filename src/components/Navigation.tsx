@@ -1,8 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/Logo";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navigation = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -11,14 +14,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src="/qb_logo.png" 
-                alt="QB Logo" 
-                className="w-10 h-10"
-              />
-              <span className="text-white font-bold text-xl">Quant Basket</span>
-            </Link>
+            <Logo size="lg" linkTo="/" className="text-white" isAuthenticated={!!user} />
           </div>
           
           <div className="hidden md:block">

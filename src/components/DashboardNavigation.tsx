@@ -15,15 +15,18 @@ import {
   Settings
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import Logo from '@/components/Logo';
 
 interface DashboardNavigationProps {
   userProfile?: any;
   onSignOut: () => void;
+  isDarkMode?: boolean;
 }
 
 const DashboardNavigation: React.FC<DashboardNavigationProps> = ({ 
   userProfile, 
-  onSignOut 
+  onSignOut,
+  isDarkMode = false
 }) => {
   const location = useLocation();
   const { user } = useAuth();
@@ -31,21 +34,23 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-card/50 backdrop-blur-sm border-b border-border/50">
+    <nav className={`backdrop-blur-sm border-b ${isDarkMode 
+      ? 'bg-gray-800/50 border-gray-700/50' 
+      : 'bg-white/50 border-gray-200/50'
+    }`}>
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">QB</span>
-              </div>
-              <span className="text-xl font-bold">Quant Basket</span>
-            </Link>
+            <Logo size="md" linkTo="/" isAuthenticated={!!user} isDarkMode={isDarkMode} />
             
             {/* Back to Main Site */}
             <Link to="/">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              <Button variant="ghost" size="sm" className={`${
+                isDarkMode 
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-700/50' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
+              }`}>
                 <Home className="w-4 h-4 mr-2" />
                 Back to Site
               </Button>
@@ -68,8 +73,12 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
               </Avatar>
               
               <div className="hidden md:block text-sm">
-                <p className="font-medium">{userProfile?.name || user?.user_metadata?.full_name || 'User'}</p>
-                <p className="text-muted-foreground text-xs">{user?.email}</p>
+                <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  {userProfile?.name || user?.user_metadata?.full_name || 'User'}
+                </p>
+                <p className={`text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {user?.email}
+                </p>
               </div>
 
               <Button variant="ghost" size="sm" onClick={onSignOut}>
