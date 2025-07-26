@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Navigation from "@/components/Navigation"; // Assuming Navigation is used throughout
-import Footer from "@/components/Footer"; // Assuming Footer is used throughout
-import { Frown } from "lucide-react"; // A relevant icon for "not found"
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Frown } from "lucide-react";
 
 const NotFound = () => {
   return (
@@ -25,12 +25,12 @@ const NotFound = () => {
                 Return to Homepage
               </Button>
             </Link>
-            {/* Optionally, add another button for support or other relevant links */}
-            <Link to="/contact"> {/* Assuming a contact page exists */}
+            {/* Updated Contact Support Button */}
+            <a href="mailto:support@quantbasket.com">
               <Button variant="outline" size="lg" className="text-lg px-8 border-qb-blue text-qb-blue hover:bg-qb-blue hover:text-white">
-                Contact Support
+                Contact: support@quantbasket.com
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </main>
