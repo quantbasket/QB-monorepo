@@ -47,36 +47,75 @@ export type Database = {
         }
         Relationships: []
       }
+      kv_store_32032301: {
+        Row: {
+          key: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
+          country: string | null
           created_at: string
           full_name: string | null
           id: string
+          impact_score: number | null
+          kyc_status: string | null
+          last_profile_update: string | null
           location: string | null
           phone_number: string | null
+          referral_code: string | null
           updated_at: string
           user_id: string
+          username: string | null
+          wallet_address: string | null
+          wallet_connected: boolean | null
         }
         Insert: {
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
+          impact_score?: number | null
+          kyc_status?: string | null
+          last_profile_update?: string | null
           location?: string | null
           phone_number?: string | null
+          referral_code?: string | null
           updated_at?: string
           user_id: string
+          username?: string | null
+          wallet_address?: string | null
+          wallet_connected?: boolean | null
         }
         Update: {
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
+          impact_score?: number | null
+          kyc_status?: string | null
+          last_profile_update?: string | null
           location?: string | null
           phone_number?: string | null
+          referral_code?: string | null
           updated_at?: string
           user_id?: string
+          username?: string | null
+          wallet_address?: string | null
+          wallet_connected?: boolean | null
         }
         Relationships: []
       }
@@ -108,6 +147,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_notifications: {
+        Row: {
+          created_at: string
+          email_notifications: boolean | null
+          id: string
+          marketing_notifications: boolean | null
+          push_notifications: boolean | null
+          sms_notifications: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          marketing_notifications?: boolean | null
+          push_notifications?: boolean | null
+          sms_notifications?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_notifications?: boolean | null
+          id?: string
+          marketing_notifications?: boolean | null
+          push_notifications?: boolean | null
+          sms_notifications?: boolean | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {
