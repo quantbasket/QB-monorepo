@@ -26,25 +26,23 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
   
-  const initializedRef = useRef(false);
-  const userIdRef = useRef<string | null>(null);
+  const loadedUserRef = useRef<string | null>(null);
 
   // Load all user data
   const loadUserData = async () => {
-    if (!user) {
-      console.log('DashboardProvider: No user, clearing data');
+    if (!user?.id) {
+      console.log('DashboardProvider: No user ID, clearing data');
       setUserProfile(null);
       setUserTokens(null);
       setPortfolioSummary(null);
       setDataLoading(false);
-      initializedRef.current = false;
-      userIdRef.current = null;
+      loadedUserRef.current = null;
       return;
     }
 
-    // Only load if user changed
-    if (userIdRef.current === user.id && initializedRef.current) {
-      console.log('DashboardProvider: User data already loaded');
+    // Prevent re-loading same user data
+    if (loadedUserRef.current === user.id) {
+      console.log('DashboardProvider: Data already loaded for user:', user.id);
       return;
     }
 
@@ -64,9 +62,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       setUserTokens(tokens);
       setPortfolioSummary(summary);
       
-      initializedRef.current = true;
-      userIdRef.current = user.id;
-      
+      loadedUserRef.current = user.id;
       console.log('DashboardProvider: Data loaded successfully');
 
     } catch (error) {
@@ -79,7 +75,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Update user profile
   const updateProfile = async (updates: Partial<UserProfile>): Promise<boolean> => {
-    if (!user) return false;
+    if (!user?.id) return false;
 
     try {
       setLoading(true);
@@ -106,14 +102,13 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Purchase tokens
   const purchaseTokens = async (category: string, symbol: string, amount: number): Promise<boolean> => {
-    if (!user) return false;
+    if (!user?.id) return false;
 
     try {
       setLoading(true);
       const success = await DashboardService.purchaseTokens(user.id, category, symbol, amount);
       
       if (success) {
-        // Reload token data
         const updatedTokens = await DashboardService.getUserTokens(user.id);
         if (updatedTokens) setUserTokens(updatedTokens);
         toast.success(`Successfully bought ${amount} ${symbol} tokens!`);
@@ -133,14 +128,13 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Report impact
   const reportImpact = async (type: string, description: string): Promise<boolean> => {
-    if (!user) return false;
+    if (!user?.id) return false;
 
     try {
       setLoading(true);
       const success = await DashboardService.reportImpact(user.id, type, description);
       
       if (success) {
-        // Reload data
         const [updatedTokens, updatedSummary] = await Promise.all([
           DashboardService.getUserTokens(user.id),
           DashboardService.getPortfolioSummary(user.id)
@@ -166,14 +160,13 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Redeem benefit
   const redeemBenefit = async (benefitType: string, cost: number, token: string): Promise<boolean> => {
-    if (!user) return false;
+    if (!user?.id) return false;
 
     try {
       setLoading(true);
       const success = await DashboardService.redeemBenefit(user.id, benefitType, cost, token);
       
       if (success) {
-        // Reload token data
         const updatedTokens = await DashboardService.getUserTokens(user.id);
         if (updatedTokens) setUserTokens(updatedTokens);
         toast.success(`Successfully redeemed ${benefitType}!`);
@@ -193,15 +186,18 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Refresh all data
   const refreshData = async () => {
-    initializedRef.current = false;
+    loadedUserRef.current = null;
     await loadUserData();
   };
 
-  // Load data when user changes
+  // Simple effect that only runs when user ID actually changes
   useEffect(() => {
-    console.log('DashboardProvider useEffect triggered. User ID:', user?.id, 'Previous ID:', userIdRef.current);
-    loadUserData();
-  }, [user?.id]); // Only depend on user ID
+    const userId = user?.id;
+    if (userId !== loadedUserRef.current) {
+      console.log('DashboardProvider: User changed from', loadedUserRef.current, 'to', userId);
+      loadUserData();
+    }
+  }, [user?.id]);
 
   const contextValue: DashboardContextType = {
     userProfile,
