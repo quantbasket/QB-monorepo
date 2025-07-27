@@ -100,7 +100,9 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
         {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
-            <Dashboard />
+            <DashboardProvider>
+              <Dashboard />
+            </DashboardProvider>
           </ProtectedRoute>
         } />
 
@@ -116,13 +118,11 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider> {/* AuthProvider wraps the content that needs auth context */}
-      <DashboardProvider> {/* DashboardProvider for shared dashboard state */}
-        <TooltipProvider>
-          <BrowserRouter> {/* BrowserRouter should wrap the routes */}
-            <AppContent /> {/* Render the AppContent with all the routes and logic */}
-          </BrowserRouter>
-        </TooltipProvider>
-      </DashboardProvider>
+      <TooltipProvider>
+        <BrowserRouter> {/* BrowserRouter should wrap the routes */}
+          <AppContent /> {/* Render the AppContent with all the routes and logic */}
+        </BrowserRouter>
+      </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
 );
