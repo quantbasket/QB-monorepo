@@ -17,10 +17,14 @@ export const useDashboard = () => {
 
   // Load all user data
   const loadUserData = useCallback(async () => {
-    // If there's no user or the user ID hasn't changed since the last fetch,
-    // and data has already been loaded, prevent unnecessary re-fetches.
-    if (!user || (user.id === lastUserIdRef.current && !dataLoading)) {
-      setDataLoading(false); // Ensure loading state is false if no fetch occurs
+    // If there's no user, don't proceed
+    if (!user) {
+      setDataLoading(false);
+      return;
+    }
+
+    // If the user ID hasn't changed since the last fetch, don't re-fetch
+    if (user.id === lastUserIdRef.current) {
       return;
     }
 
@@ -49,7 +53,7 @@ export const useDashboard = () => {
       setDataLoading(false);
       console.log('setDataLoading(false) called after loadUserData.'); // For debugging
     }
-  }, [user, dataLoading]); // Only depend on user and dataLoading to prevent infinite loops
+  }, [user]); // Only depend on user object
 
   // Update user profile
   const updateProfile = async (updates: Partial<UserProfile>) => {
@@ -170,14 +174,14 @@ export const useDashboard = () => {
     await loadUserData();
   };
 
-  // Load data when user changes or loadUserData is updated
+  // Load data when user changes
   useEffect(() => {
-    if (user) {
+    if (user && user.id !== lastUserIdRef.current) {
       loadUserData();
-    } else {
+    } else if (!user) {
       setDataLoading(false);
     }
-  }, [user, loadUserData]); // Added loadUserData to dependencies as it's a useCallback
+  }, [user?.id]); // Only depend on user ID to prevent loops
 
   return {
     userProfile,
