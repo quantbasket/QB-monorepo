@@ -65,17 +65,17 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
   const { userProfile, updateProfile, loading } = useDashboard();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profileForm, setProfileForm] = useState({
-    full_name: userProfile?.full_name || '',
-    username: userProfile?.username || '',
-    phone_number: userProfile?.phone_number || '',
-    location: userProfile?.location || '',
-    country: userProfile?.country || '',
+    full_name: '',
+    username: '',
+    phone_number: '',
+    location: '',
+    country: '',
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  // Sync profileForm with userProfile changes
-  useEffect(() => {
+  // Initialize form when dialog opens to prevent unnecessary re-renders
+  const handleProfileOpen = () => {
     if (userProfile) {
       setProfileForm({
         full_name: userProfile.full_name || '',
@@ -85,7 +85,8 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
         country: userProfile.country || '',
       });
     }
-  }, [userProfile]); // Update form when userProfile changes
+    setIsProfileOpen(true);
+  };
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,7 +201,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
           <DropdownMenuSeparator />
           
           <DropdownMenuItem 
-            onClick={() => setIsProfileOpen(true)}
+            onClick={handleProfileOpen}
             className={`cursor-pointer ${isDarkMode ? 'text-slate-200 hover:bg-slate-800' : 'text-slate-700 hover:bg-slate-50'}`}
           >
             <User className="mr-2 h-4 w-4" />

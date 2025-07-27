@@ -199,6 +199,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Load data when user changes
   useEffect(() => {
+    console.log('DashboardProvider useEffect triggered. User ID:', user?.id, 'Previous ID:', userIdRef.current);
     loadUserData();
   }, [user?.id]); // Only depend on user ID
 
