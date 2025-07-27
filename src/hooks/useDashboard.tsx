@@ -34,10 +34,10 @@ export const useDashboard = () => {
         DashboardService.getPortfolioSummary(user.id)
       ]);
 
-      // Only update state if data has actually changed to prevent unnecessary re-renders
-      if (profile && !isEqual(userProfile, profile)) setUserProfile(profile);
-      if (tokens && !isEqual(userTokens, tokens)) setUserTokens(tokens);
-      if (summary && !isEqual(portfolioSummary, summary)) setPortfolioSummary(summary);
+      // Update state with new data
+      setUserProfile(profile);
+      setUserTokens(tokens);
+      setPortfolioSummary(summary);
 
       lastUserIdRef.current = user.id; // Update last fetched user ID
       console.log('User data loaded successfully.'); // For debugging
@@ -49,7 +49,7 @@ export const useDashboard = () => {
       setDataLoading(false);
       console.log('setDataLoading(false) called after loadUserData.'); // For debugging
     }
-  }, [user, userProfile, userTokens, portfolioSummary, dataLoading]); // Added dataLoading to deps for clarity, though it's set in this function
+  }, [user, dataLoading]); // Only depend on user and dataLoading to prevent infinite loops
 
   // Update user profile
   const updateProfile = async (updates: Partial<UserProfile>) => {
