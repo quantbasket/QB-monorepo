@@ -29,7 +29,7 @@ import {
   Camera
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { useDashboard } from '@/hooks/useDashboard';
+import { useDashboard } from '@/hooks/useDashboardContext';
 import { DashboardService } from '@/services/dashboardService';
 
 // Countries data

@@ -37,7 +37,7 @@ import {
   Check
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { useDashboard } from '@/hooks/useDashboard';
+import { useDashboard } from '@/hooks/useDashboardContext';
 import DashboardNavigation from '@/components/DashboardNavigation';
 import LoadingScreen from '@/components/LoadingScreen';
 import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';

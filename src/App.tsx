@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { DashboardProvider } from "@/hooks/useDashboardContext";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Products from "./pages/Products";
@@ -115,11 +116,13 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider> {/* AuthProvider wraps the content that needs auth context */}
-      <TooltipProvider>
-        <BrowserRouter> {/* BrowserRouter should wrap the routes */}
-          <AppContent /> {/* Render the AppContent with all the routes and logic */}
-        </BrowserRouter>
-      </TooltipProvider>
+      <DashboardProvider> {/* DashboardProvider for shared dashboard state */}
+        <TooltipProvider>
+          <BrowserRouter> {/* BrowserRouter should wrap the routes */}
+            <AppContent /> {/* Render the AppContent with all the routes and logic */}
+          </BrowserRouter>
+        </TooltipProvider>
+      </DashboardProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

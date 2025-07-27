@@ -1,9 +1,24 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { useAuth } from './useAuth';
 import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';
 import { toast } from 'sonner';
 
-export const useDashboard = () => {
+interface DashboardContextType {
+  userProfile: UserProfile | null;
+  userTokens: UserTokens | null;
+  portfolioSummary: PortfolioSummary | null;
+  loading: boolean;
+  dataLoading: boolean;
+  updateProfile: (updates: Partial<UserProfile>) => Promise<boolean>;
+  purchaseTokens: (category: string, symbol: string, amount: number) => Promise<boolean>;
+  reportImpact: (type: string, description: string) => Promise<boolean>;
+  redeemBenefit: (benefitType: string, cost: number, token: string) => Promise<boolean>;
+  refreshData: () => Promise<void>;
+}
+
+const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
+
+export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userTokens, setUserTokens] = useState<UserTokens | null>(null);
@@ -12,21 +27,28 @@ export const useDashboard = () => {
   const [dataLoading, setDataLoading] = useState(false);
   
   const initializedRef = useRef(false);
+  const userIdRef = useRef<string | null>(null);
 
-  // Load all user data - no useCallback to avoid dependency issues
+  // Load all user data
   const loadUserData = async () => {
     if (!user) {
-      console.log('useDashboard: No user, setting dataLoading to false');
+      console.log('DashboardProvider: No user, clearing data');
+      setUserProfile(null);
+      setUserTokens(null);
+      setPortfolioSummary(null);
       setDataLoading(false);
+      initializedRef.current = false;
+      userIdRef.current = null;
       return;
     }
 
-    if (initializedRef.current) {
-      console.log('useDashboard: Already initialized, skipping reload');
+    // Only load if user changed
+    if (userIdRef.current === user.id && initializedRef.current) {
+      console.log('DashboardProvider: User data already loaded');
       return;
     }
 
-    console.log('useDashboard: Loading data for user:', user.id);
+    console.log('DashboardProvider: Loading data for user:', user.id);
 
     try {
       setDataLoading(true);
@@ -42,7 +64,10 @@ export const useDashboard = () => {
       setUserTokens(tokens);
       setPortfolioSummary(summary);
       
-      console.log('useDashboard: Data loaded successfully');
+      initializedRef.current = true;
+      userIdRef.current = user.id;
+      
+      console.log('DashboardProvider: Data loaded successfully');
 
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -53,7 +78,7 @@ export const useDashboard = () => {
   };
 
   // Update user profile
-  const updateProfile = async (updates: Partial<UserProfile>) => {
+  const updateProfile = async (updates: Partial<UserProfile>): Promise<boolean> => {
     if (!user) return false;
 
     try {
@@ -80,7 +105,7 @@ export const useDashboard = () => {
   };
 
   // Purchase tokens
-  const purchaseTokens = async (category: string, symbol: string, amount: number) => {
+  const purchaseTokens = async (category: string, symbol: string, amount: number): Promise<boolean> => {
     if (!user) return false;
 
     try {
@@ -107,7 +132,7 @@ export const useDashboard = () => {
   };
 
   // Report impact
-  const reportImpact = async (type: string, description: string) => {
+  const reportImpact = async (type: string, description: string): Promise<boolean> => {
     if (!user) return false;
 
     try {
@@ -140,7 +165,7 @@ export const useDashboard = () => {
   };
 
   // Redeem benefit
-  const redeemBenefit = async (benefitType: string, cost: number, token: string) => {
+  const redeemBenefit = async (benefitType: string, cost: number, token: string): Promise<boolean> => {
     if (!user) return false;
 
     try {
@@ -168,24 +193,16 @@ export const useDashboard = () => {
 
   // Refresh all data
   const refreshData = async () => {
+    initializedRef.current = false;
     await loadUserData();
   };
 
-  // Simple useEffect that only runs once when user changes
+  // Load data when user changes
   useEffect(() => {
-    if (user && !initializedRef.current) {
-      initializedRef.current = true;
-      loadUserData();
-    } else if (!user) {
-      initializedRef.current = false;
-      setUserProfile(null);
-      setUserTokens(null);
-      setPortfolioSummary(null);
-      setDataLoading(false);
-    }
-  }, [user?.id]);
+    loadUserData();
+  }, [user?.id]); // Only depend on user ID
 
-  return {
+  const contextValue: DashboardContextType = {
     userProfile,
     userTokens,
     portfolioSummary,
@@ -197,4 +214,18 @@ export const useDashboard = () => {
     redeemBenefit,
     refreshData
   };
-};
+
+  return (
+    <DashboardContext.Provider value={contextValue}>
+      {children}
+    </DashboardContext.Provider>
+  );
+}
+
+export function useDashboard(): DashboardContextType {
+  const context = useContext(DashboardContext);
+  if (context === undefined) {
+    throw new Error('useDashboard must be used within a DashboardProvider');
+  }
+  return context;
+}
