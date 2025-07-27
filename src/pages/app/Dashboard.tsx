@@ -37,6 +37,7 @@ import {
   Check
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useDashboard } from '@/hooks/useDashboard';
 import DashboardNavigation from '@/components/DashboardNavigation';
 import LoadingScreen from '@/components/LoadingScreen';
 import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';
@@ -71,16 +72,23 @@ const currencies = [
 export default function Dashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
-  const [userTokens, setUserTokens] = useState<UserTokens | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [portfolioSummary, setPortfolioSummary] = useState<PortfolioSummary | null>(null);
   const [selectedTab, setSelectedTab] = useState('overview');
-  const [loading, setLoading] = useState(false);
   const [copiedRef, setCopiedRef] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true);
 
-  // Get user from auth context
+  // Get user from auth context and dashboard data from hook
   const { user, signOut, loading: authLoading } = useAuth();
+  const {
+    userProfile,
+    userTokens,
+    portfolioSummary,
+    loading,
+    dataLoading,
+    updateProfile,
+    purchaseTokens,
+    reportImpact,
+    redeemBenefit,
+    refreshData
+  } = useDashboard();
 
   // Form states
   const [profileForm, setProfileForm] = useState({
@@ -95,14 +103,16 @@ export default function Dashboard() {
     amount: 0
   });
 
-  // Load user data when user is authenticated
+  // Update profile form when userProfile changes
   useEffect(() => {
-    if (user && !authLoading) {
-      loadUserData();
-    } else if (!authLoading && !user) {
-      setDataLoading(false);
+    if (userProfile) {
+      setProfileForm({
+        name: userProfile.full_name || user?.user_metadata?.full_name || 'Demo User',
+        location: userProfile.location || 'Demo Location',
+        email: user?.email || ''
+      });
     }
-  }, [user, authLoading]);
+  }, [userProfile, user]);
 
   // Reset dark mode when component unmounts (user leaves dashboard)
   useEffect(() => {
@@ -112,37 +122,6 @@ export default function Dashboard() {
     };
   }, []);
 
-  const loadUserData = async () => {
-    try {
-      setDataLoading(true);
-      if (!user) return;
-
-      // Load user profile from service
-      const profile = await DashboardService.getUserProfile(user.id);
-      if (profile) {
-        setUserProfile(profile);
-        setProfileForm({
-          name: profile.full_name || user.user_metadata?.full_name || 'Demo User',
-          location: profile.location || 'Demo Location',
-          email: user.email || ''
-        });
-      }
-
-      // Load user tokens from service
-      const tokens = await DashboardService.getUserTokens(user.id);
-      setUserTokens(tokens);
-
-      // Load portfolio summary from service
-      const summary = await DashboardService.getPortfolioSummary(user.id);
-      setPortfolioSummary(summary);
-
-    } catch (error) {
-      console.error('Error loading user data:', error);
-      toast.error('Failed to load user data');
-    } finally {
-      setDataLoading(false);
-    }
-  };
 
   const handleSignOut = async () => {
     const { error } = await signOut();
@@ -157,77 +136,36 @@ export default function Dashboard() {
     e.preventDefault();
     if (!user) return;
 
-    setLoading(true);
     try {
-      // Mock token purchase
-      const updatedTokens = { ...userTokens };
-      if (updatedTokens[buyForm.category] && updatedTokens[buyForm.category][buyForm.symbol] !== undefined) {
-        updatedTokens[buyForm.category][buyForm.symbol] += buyForm.amount;
+      const success = await purchaseTokens(buyForm.category, buyForm.symbol, buyForm.amount);
+      if (success) {
+        setBuyForm({ category: '', symbol: '', amount: 0 });
       }
-      
-      setUserTokens(updatedTokens);
-      toast.success(`Successfully bought ${buyForm.amount} ${buyForm.symbol} tokens! (Demo Mode)`);
-      setBuyForm({ category: '', symbol: '', amount: 0 });
-      
     } catch (error) {
       console.error('Buy token error:', error);
       toast.error(error.message || 'Purchase failed');
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleReportImpact = async (type, description) => {
     if (!user) return;
 
-    setLoading(true);
     try {
-      // Mock impact reporting
-      const symbolMap = { eco: 'ECO', veg: 'VEG', make: 'MAKE' };
-      const symbol = symbolMap[type.toLowerCase()];
-      const rewardAmount = 1;
-      
-      if (symbol && userTokens?.impact[symbol] !== undefined) {
-        const updatedTokens = { ...userTokens };
-        updatedTokens.impact[symbol] += rewardAmount;
-        setUserTokens(updatedTokens);
-        
-        // Update impact score
-        const updatedProfile = { ...userProfile };
-        updatedProfile.impactScore = (updatedProfile.impactScore || 0) + 1;
-        setUserProfile(updatedProfile);
-      }
-
-      toast.success(`Impact action recorded! +${rewardAmount} ${symbol} tokens (Demo Mode)`);
-      
+      await reportImpact(type, description);
     } catch (error) {
       console.error('Report impact error:', error);
       toast.error(error.message || 'Impact report failed');
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleRedeemBenefit = async (benefitType, cost, token) => {
     if (!user) return;
 
-    setLoading(true);
     try {
-      // Mock benefit redemption
-      const updatedTokens = { ...userTokens };
-      if (updatedTokens.community[token] >= cost) {
-        updatedTokens.community[token] -= cost;
-        setUserTokens(updatedTokens);
-        toast.success(`Successfully redeemed ${benefitType}! (Demo Mode)`);
-      } else {
-        toast.error('Insufficient community tokens');
-      }
-      
+      await redeemBenefit(benefitType, cost, token);
     } catch (error) {
       console.error('Redeem benefit error:', error);
       toast.error(error.message || 'Redemption failed');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -235,18 +173,18 @@ export default function Dashboard() {
     e.preventDefault();
     if (!user) return;
 
-    setLoading(true);
     try {
-      // Mock profile update
-      const updatedProfile = { ...userProfile, ...profileForm, updatedAt: new Date().toISOString() };
-      setUserProfile(updatedProfile);
-      toast.success('Profile updated successfully! (Demo Mode)');
+      const success = await updateProfile({
+        full_name: profileForm.name,
+        location: profileForm.location
+      });
       
+      if (success) {
+        toast.success('Profile updated successfully!');
+      }
     } catch (error) {
       console.error('Profile update error:', error);
       toast.error(error.message || 'Profile update failed');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -393,36 +331,45 @@ export default function Dashboard() {
                   </CardContent>
                 </Card>
                 
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-slate-800/70 border-slate-700/50' 
+                  : 'bg-slate-100/80 border-slate-300/50'
+                }`}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-muted-foreground">Community Tokens</p>
-                        <p className="text-2xl font-bold">{portfolioSummary?.totalCommunityTokens || 0}</p>
+                        <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Tokens</p>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{portfolioSummary?.totalCommunityTokens || 0}</p>
                       </div>
-                      <Users className="w-8 h-8 text-muted-foreground" />
+                      <Users className={`w-8 h-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`} />
                     </div>
                   </CardContent>
                 </Card>
                 
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-slate-800/70 border-slate-700/50' 
+                  : 'bg-slate-100/80 border-slate-300/50'
+                }`}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-muted-foreground">Impact Score</p>
-                        <p className="text-2xl font-bold">{portfolioSummary?.impactScore || 0}</p>
+                        <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Impact Score</p>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{portfolioSummary?.impactScore || 0}</p>
                       </div>
                       <Award className="w-8 h-8 text-green-500" />
                     </div>
                   </CardContent>
                 </Card>
                 
-                <Card>
+                <Card className={`${isDarkMode 
+                  ? 'bg-slate-800/70 border-slate-700/50' 
+                  : 'bg-slate-100/80 border-slate-300/50'
+                }`}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-muted-foreground">Active Strategies</p>
-                        <p className="text-2xl font-bold">{portfolioSummary?.activeStrategies || 0}</p>
+                        <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Active Strategies</p>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{portfolioSummary?.activeStrategies || 0}</p>
                       </div>
                       <BarChart3 className="w-8 h-8 text-purple-500" />
                     </div>
@@ -432,8 +379,8 @@ export default function Dashboard() {
 
               {/* Quick Actions */}
               <Card className={`${isDarkMode 
-                ? 'bg-gray-800/80 border-gray-700/50 shadow-lg' 
-                : 'bg-white/95 border-gray-200/50'
+                ? 'bg-slate-800/70 border-slate-700/50 shadow-lg' 
+                : 'bg-slate-100/80 border-slate-300/50'
               }`}>
                 <CardHeader>
                   <CardTitle className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -446,8 +393,8 @@ export default function Dashboard() {
                       variant="outline" 
                       className={`h-20 flex-col ${
                         isDarkMode 
-                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
-                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'border-slate-600 bg-slate-700/70 text-slate-100 hover:bg-slate-600/70 hover:text-white hover:border-slate-500' 
+                          : 'border-slate-400 bg-slate-200/60 text-slate-800 hover:bg-slate-300/60 hover:text-slate-900'
                       }`}
                       onClick={() => setSelectedTab('trading')}
                     >
@@ -458,8 +405,8 @@ export default function Dashboard() {
                       variant="outline" 
                       className={`h-20 flex-col ${
                         isDarkMode 
-                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
-                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'border-slate-600 bg-slate-700/70 text-slate-100 hover:bg-slate-600/70 hover:text-white hover:border-slate-500' 
+                          : 'border-slate-400 bg-slate-200/60 text-slate-800 hover:bg-slate-300/60 hover:text-slate-900'
                       }`}
                       onClick={() => setSelectedTab('trading')}
                     >
@@ -470,8 +417,8 @@ export default function Dashboard() {
                       variant="outline" 
                       className={`h-20 flex-col ${
                         isDarkMode 
-                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
-                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'border-slate-600 bg-slate-700/70 text-slate-100 hover:bg-slate-600/70 hover:text-white hover:border-slate-500' 
+                          : 'border-slate-400 bg-slate-200/60 text-slate-800 hover:bg-slate-300/60 hover:text-slate-900'
                       }`}
                       onClick={() => setSelectedTab('community')}
                     >
@@ -482,8 +429,8 @@ export default function Dashboard() {
                       variant="outline" 
                       className={`h-20 flex-col ${
                         isDarkMode 
-                          ? 'border-gray-600 bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-white hover:border-gray-500' 
-                          : 'border-gray-300 bg-white/50 text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'border-slate-600 bg-slate-700/70 text-slate-100 hover:bg-slate-600/70 hover:text-white hover:border-slate-500' 
+                          : 'border-slate-400 bg-slate-200/60 text-slate-800 hover:bg-slate-300/60 hover:text-slate-900'
                       }`}
                       onClick={() => setSelectedTab('impact')}
                     >

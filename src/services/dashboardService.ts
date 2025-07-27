@@ -2,14 +2,28 @@ import { supabase } from '@/integrations/supabase/client';
 import { Tables, TablesInsert, TablesUpdate } from '@/integrations/supabase/types';
 
 // Types for our dashboard data
-export interface UserProfile extends Tables<'profiles'> {
+export interface UserProfile {
+  id: string;
+  user_id: string;
+  full_name: string | null;
+  username: string | null;
+  phone_number: string | null;
+  location: string | null;
+  country: string | null;
+  avatar_url: string | null;
+  wallet_connected: boolean | null;
+  wallet_address: string | null;
+  kyc_status: string | null;
+  impact_score: number | null;
+  referral_code: string | null;
+  last_profile_update: string | null;
+  created_at: string;
+  updated_at: string;
   kycStatus?: 'pending' | 'verified' | 'rejected';
   referralCode?: string;
   impactScore?: number;
   walletConnected?: boolean;
   walletAddress?: string;
-  username?: string;
-  country?: string;
 }
 
 export interface UserTokens {
@@ -47,17 +61,17 @@ export class DashboardService {
 
       if (error) throw error;
 
-      // Add mock data for demo purposes
-      const mockProfile: UserProfile = {
+      // Map database fields to interface
+      const profile: UserProfile = {
         ...data,
-        kycStatus: 'pending',
-        referralCode: `QB-REF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
-        impactScore: 87,
-        walletConnected: false,
-        walletAddress: undefined
+        kycStatus: (data.kyc_status as 'pending' | 'verified' | 'rejected') || 'pending',
+        referralCode: data.referral_code || `QB-REF-${Math.random().toString(36).substring(2, 8).toUpperCase()}`,
+        impactScore: data.impact_score || 0,
+        walletConnected: data.wallet_connected || false,
+        walletAddress: data.wallet_address || undefined
       };
 
-      return mockProfile;
+      return profile;
     } catch (error) {
       console.error('Error fetching user profile:', error);
       return null;
@@ -71,9 +85,15 @@ export class DashboardService {
         .from('profiles')
         .update({
           full_name: updates.full_name,
+          username: updates.username,
           location: updates.location,
+          country: updates.country,
           phone_number: updates.phone_number,
           avatar_url: updates.avatar_url,
+          wallet_connected: updates.walletConnected,
+          wallet_address: updates.walletAddress,
+          kyc_status: updates.kycStatus,
+          last_profile_update: new Date().toISOString(),
           updated_at: new Date().toISOString()
         })
         .eq('user_id', userId);
@@ -241,5 +261,52 @@ export class DashboardService {
     
     console.log(`Mock redemption: ${benefitType} for ${cost} ${token} tokens by user ${userId}`);
     return true;
+  }
+
+  // Get user notification settings
+  static async getUserNotifications(userId: string): Promise<any> {
+    try {
+      const { data, error } = await supabase
+        .from('user_notifications')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') throw error;
+      
+      return data || {
+        email_notifications: true,
+        sms_notifications: false,
+        push_notifications: true,
+        marketing_notifications: false
+      };
+    } catch (error) {
+      console.error('Error fetching notification settings:', error);
+      return {
+        email_notifications: true,
+        sms_notifications: false,
+        push_notifications: true,
+        marketing_notifications: false
+      };
+    }
+  }
+
+  // Update user notification settings
+  static async updateUserNotifications(userId: string, settings: any): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('user_notifications')
+        .upsert({
+          user_id: userId,
+          ...settings,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error updating notification settings:', error);
+      return false;
+    }
   }
 } 
