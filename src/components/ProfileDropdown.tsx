@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -73,6 +73,19 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  // Sync profileForm with userProfile changes
+  useEffect(() => {
+    if (userProfile) {
+      setProfileForm({
+        full_name: userProfile.full_name || '',
+        username: userProfile.username || '',
+        phone_number: userProfile.phone_number || '',
+        location: userProfile.location || '',
+        country: userProfile.country || '',
+      });
+    }
+  }, [userProfile]); // Update form when userProfile changes
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();

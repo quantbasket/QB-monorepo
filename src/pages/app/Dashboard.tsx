@@ -81,8 +81,8 @@ export default function Dashboard() {
     userProfile,
     userTokens,
     portfolioSummary,
-    loading,
-    dataLoading,
+    loading, // This `loading` is for individual actions
+    dataLoading, // This `dataLoading` is for the initial/full data load
     updateProfile,
     purchaseTokens,
     reportImpact,
@@ -220,6 +220,9 @@ export default function Dashboard() {
       toast.success('Referral code copied!');
     }
   };
+
+  // Log loading states for debugging
+  console.log('Dashboard - authLoading:', authLoading, 'dataLoading:', dataLoading);
 
   // Show loading state while auth is loading or data is loading
   if (authLoading || dataLoading) {

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from './useAuth';
 import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';
 import { toast } from 'sonner';
+import { isEqual } from 'lodash'; // Assuming lodash is installed. If not, you might need to implement a deep comparison or use a simpler check for primitives.
 
 export const useDashboard = () => {
   const { user } = useAuth();
@@ -11,9 +12,17 @@ export const useDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
 
+  // Use a ref to store the last fetched user ID to prevent re-fetching if user object reference changes but ID is same
+  const lastUserIdRef = useRef<string | undefined>(undefined);
+
   // Load all user data
-  const loadUserData = async () => {
-    if (!user) return;
+  const loadUserData = useCallback(async () => {
+    // If there's no user or the user ID hasn't changed since the last fetch,
+    // and data has already been loaded, prevent unnecessary re-fetches.
+    if (!user || (user.id === lastUserIdRef.current && !dataLoading)) {
+      setDataLoading(false); // Ensure loading state is false if no fetch occurs
+      return;
+    }
 
     try {
       setDataLoading(true);
@@ -25,17 +34,22 @@ export const useDashboard = () => {
         DashboardService.getPortfolioSummary(user.id)
       ]);
 
-      if (profile) setUserProfile(profile);
-      if (tokens) setUserTokens(tokens);
-      if (summary) setPortfolioSummary(summary);
+      // Only update state if data has actually changed to prevent unnecessary re-renders
+      if (profile && !isEqual(userProfile, profile)) setUserProfile(profile);
+      if (tokens && !isEqual(userTokens, tokens)) setUserTokens(tokens);
+      if (summary && !isEqual(portfolioSummary, summary)) setPortfolioSummary(summary);
+
+      lastUserIdRef.current = user.id; // Update last fetched user ID
+      console.log('User data loaded successfully.'); // For debugging
 
     } catch (error) {
       console.error('Error loading user data:', error);
       toast.error('Failed to load user data');
     } finally {
       setDataLoading(false);
+      console.log('setDataLoading(false) called after loadUserData.'); // For debugging
     }
-  };
+  }, [user, userProfile, userTokens, portfolioSummary, dataLoading]); // Added dataLoading to deps for clarity, though it's set in this function
 
   // Update user profile
   const updateProfile = async (updates: Partial<UserProfile>) => {
@@ -46,7 +60,7 @@ export const useDashboard = () => {
       const success = await DashboardService.updateUserProfile(user.id, updates);
       
       if (success) {
-        // Reload profile data
+        // Reload profile data after update
         const updatedProfile = await DashboardService.getUserProfile(user.id);
         if (updatedProfile) setUserProfile(updatedProfile);
         toast.success('Profile updated successfully!');
@@ -156,14 +170,14 @@ export const useDashboard = () => {
     await loadUserData();
   };
 
-  // Load data when user changes
+  // Load data when user changes or loadUserData is updated
   useEffect(() => {
     if (user) {
       loadUserData();
     } else {
       setDataLoading(false);
     }
-  }, [user]);
+  }, [user, loadUserData]); // Added loadUserData to dependencies as it's a useCallback
 
   return {
     userProfile,
@@ -177,4 +191,4 @@ export const useDashboard = () => {
     redeemBenefit,
     refreshData
   };
-}; 
+};
