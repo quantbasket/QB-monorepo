@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from './useAuth';
 import { DashboardService, UserProfile, UserTokens, PortfolioSummary } from '@/services/dashboardService';
 import { toast } from 'sonner';
-import { isEqual } from 'lodash'; // Assuming lodash is installed. If not, you might need to implement a deep comparison or use a simpler check for primitives.
 
 export const useDashboard = () => {
   const { user } = useAuth();
@@ -10,21 +9,14 @@ export const useDashboard = () => {
   const [userTokens, setUserTokens] = useState<UserTokens | null>(null);
   const [portfolioSummary, setPortfolioSummary] = useState<PortfolioSummary | null>(null);
   const [loading, setLoading] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(false);
+  
+  const initializedRef = useRef(false);
 
-  // Use a ref to store the last fetched user ID to prevent re-fetching if user object reference changes but ID is same
-  const lastUserIdRef = useRef<string | undefined>(undefined);
-
-  // Load all user data
-  const loadUserData = useCallback(async () => {
-    // If there's no user, don't proceed
+  // Load all user data - no useCallback to avoid dependency issues
+  const loadUserData = async () => {
     if (!user) {
       setDataLoading(false);
-      return;
-    }
-
-    // If the user ID hasn't changed since the last fetch, don't re-fetch
-    if (user.id === lastUserIdRef.current) {
       return;
     }
 
@@ -38,22 +30,17 @@ export const useDashboard = () => {
         DashboardService.getPortfolioSummary(user.id)
       ]);
 
-      // Update state with new data
       setUserProfile(profile);
       setUserTokens(tokens);
       setPortfolioSummary(summary);
-
-      lastUserIdRef.current = user.id; // Update last fetched user ID
-      console.log('User data loaded successfully.'); // For debugging
 
     } catch (error) {
       console.error('Error loading user data:', error);
       toast.error('Failed to load user data');
     } finally {
       setDataLoading(false);
-      console.log('setDataLoading(false) called after loadUserData.'); // For debugging
     }
-  }, [user]); // Only depend on user object
+  };
 
   // Update user profile
   const updateProfile = async (updates: Partial<UserProfile>) => {
@@ -174,14 +161,19 @@ export const useDashboard = () => {
     await loadUserData();
   };
 
-  // Load data when user changes
+  // Simple useEffect that only runs once when user changes
   useEffect(() => {
-    if (user && user.id !== lastUserIdRef.current) {
+    if (user && !initializedRef.current) {
+      initializedRef.current = true;
       loadUserData();
     } else if (!user) {
+      initializedRef.current = false;
+      setUserProfile(null);
+      setUserTokens(null);
+      setPortfolioSummary(null);
       setDataLoading(false);
     }
-  }, [user?.id]); // Only depend on user ID to prevent loops
+  }, [user?.id]);
 
   return {
     userProfile,
