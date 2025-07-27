@@ -221,8 +221,6 @@ export default function Dashboard() {
     }
   };
 
-  // Log loading states for debugging
-  console.log('Dashboard - authLoading:', authLoading, 'dataLoading:', dataLoading);
 
   // Show loading state while auth is loading or data is loading
   if (authLoading || dataLoading) {
