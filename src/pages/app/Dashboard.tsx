@@ -103,16 +103,16 @@ export default function Dashboard() {
     amount: 0
   });
 
-  // Update profile form when userProfile changes
-  useEffect(() => {
-    if (userProfile) {
+  // Initialize profile form with current data when component mounts
+  const initializeProfileForm = () => {
+    if (userProfile && user) {
       setProfileForm({
-        name: userProfile.full_name || user?.user_metadata?.full_name || 'Demo User',
+        name: userProfile.full_name || user.user_metadata?.full_name || 'Demo User',
         location: userProfile.location || 'Demo Location',
-        email: user?.email || ''
+        email: user.email || ''
       });
     }
-  }, [userProfile, user]);
+  };
 
   // Reset dark mode when component unmounts (user leaves dashboard)
   useEffect(() => {
