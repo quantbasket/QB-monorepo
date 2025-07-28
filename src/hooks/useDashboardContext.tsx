@@ -186,10 +186,13 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Simple effect that only runs when user ID actually changes
+  // Use setTimeout(0) to prevent Supabase deadlock
   useEffect(() => {
     const userId = user?.id;
     if (userId !== loadedUserRef.current) {
-      loadUserData();
+      setTimeout(() => {
+        loadUserData();
+      }, 0);
     }
   }, [user?.id]);
 
