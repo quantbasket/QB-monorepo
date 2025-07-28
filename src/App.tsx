@@ -55,29 +55,16 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
     if (!loading) { 
       const currentPath = location.pathname;
 
-      // Scenario 1: User IS authenticated
-      if (user) {
-        // If an authenticated user lands on public auth pages (root, login, signup),
-        // redirect them directly to the dashboard.
-        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
-          navigate('/dashboard', { replace: true });
-        }
-        // IMPORTANT: If currentPath is already /dashboard (from OAuth redirect),
-        // this 'if' condition (currentPath === '/' || ...) will be false,
-        // so no further redirection will occur. The user will stay on /dashboard.
-      } 
       // Scenario 2: User is NOT authenticated
-      else {
+      if (!user) {
         // If an unauthenticated user tries to access the dashboard (or other protected route),
         // redirect them to the login page.
-        // This acts as a fallback if ProtectedRoute didn't catch it for some reason,
-        // or if a direct URL was typed for a protected route not wrapped by ProtectedRoute.
-        if (currentPath === '/dashboard') { // Add other top-level protected paths here if they are not Wrapped by ProtectedRoute
+        if (currentPath === '/dashboard') {
           navigate('/login', { replace: true });
         }
-        // For public pages like /, /login, /signup, /about, products, pricing, support,
-        // and other unlisted paths, an unauthenticated user will remain on that page.
       }
+      // Note: Removed automatic redirect from "/" for authenticated users
+      // Let them stay on the homepage if they want to
     }
   }, [user, loading, navigate, location.pathname]);
 
