@@ -22,18 +22,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isInitialized = false;
+    
     const { data: { subscription } = { data: { subscription: null } } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
+        if (isInitialized) {
+          setLoading(false);
+        }
       }
     );
 
+    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      isInitialized = true;
     });
 
     return () => {
@@ -70,47 +76,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signInWithGoogle = async () => {
     let redirectToUrl;
     
-    // --- UPDATED DEBUGGING LOGS (keep for now) ---
-    console.log("Environment Detection Started:");
-    console.log("  window.location.hostname:", window.location.hostname);
-    console.log("  process.env.VITE_VERCEL_URL (from build config):", process.env.VITE_VERCEL_URL);
-    // Add this new log
-    console.log("  process.env.VERCEL_ENV (from Vercel build config):", process.env.VERCEL_ENV); 
-
-    // 1. Check if running on localhost (development)
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       redirectToUrl = 'http://localhost:8080/dashboard'; 
-      console.log("  Resolved Environment: Localhost");
-    } 
-    // 2. Check if it's a PRODUCTION deployment on Vercel
-    // VERCEL_ENV will be 'production' for your quantbasket.com deployment
-    // We explicitly use the custom domain for production
-    else if (process.env.VERCEL_ENV === 'production') {
-      redirectToUrl = 'https://quantbasket.com/dashboard'; // Your actual production domain
-      console.log("  Resolved Environment: Vercel Production Deployment");
-    }
-    // 3. Check for Vercel PREVIEW deployments (Vercel's generated URLs)
-    // VERCEL_ENV will be 'preview' for these
-    else if (process.env.VERCEL_ENV === 'preview' && process.env.VITE_VERCEL_URL) {
-      // VITE_VERCEL_URL should contain the full URL like https://website-git-main-quantbaskets.vercel.app
+    } else if (process.env.VERCEL_ENV === 'production') {
+      redirectToUrl = 'https://quantbasket.com/dashboard';
+    } else if (process.env.VERCEL_ENV === 'preview' && process.env.VITE_VERCEL_URL) {
       let baseVercelUrl = process.env.VITE_VERCEL_URL;
       if (baseVercelUrl.endsWith('/')) {
           baseVercelUrl = baseVercelUrl.slice(0, -1);
       }
       redirectToUrl = `${baseVercelUrl}/dashboard`; 
-      console.log("  Resolved Environment: Vercel Preview Deployment");
-    } 
-    // 4. Fallback (should ideally not be hit if VERCEL_ENV is always set by Vercel)
-    else {
-      // This fallback might be hit if VERCEL_ENV is not set or VITE_VERCEL_URL is missing.
-      // For robustness, you could use window.location.origin here if quantbasket.com
-      // is guaranteed to be the only other possibility.
+    } else {
       redirectToUrl = 'https://quantbasket.com/dashboard'; 
-      console.log("  Resolved Environment: Unknown/Production Fallback");
     }
-
-    console.log("Final redirectToUrl sent to Supabase:", redirectToUrl);
-    // --- END DEBUGGING LOGS ---
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',

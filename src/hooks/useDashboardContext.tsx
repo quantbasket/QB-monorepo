@@ -31,7 +31,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   // Load all user data
   const loadUserData = async () => {
     if (!user?.id) {
-      console.log('DashboardProvider: No user ID, clearing data');
       setUserProfile(null);
       setUserTokens(null);
       setPortfolioSummary(null);
@@ -42,11 +41,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
     // Prevent re-loading same user data
     if (loadedUserRef.current === user.id) {
-      console.log('DashboardProvider: Data already loaded for user:', user.id);
       return;
     }
-
-    console.log('DashboardProvider: Loading data for user:', user.id);
 
     try {
       setDataLoading(true);
@@ -63,7 +59,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       setPortfolioSummary(summary);
       
       loadedUserRef.current = user.id;
-      console.log('DashboardProvider: Data loaded successfully');
 
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -194,7 +189,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const userId = user?.id;
     if (userId !== loadedUserRef.current) {
-      console.log('DashboardProvider: User changed from', loadedUserRef.current, 'to', userId);
       loadUserData();
     }
   }, [user?.id]);
