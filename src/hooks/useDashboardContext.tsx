@@ -26,8 +26,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
   
-  const loadedUserRef = useRef<string | null>(null);
-
   // Load all user data
   const loadUserData = async () => {
     if (!user?.id) {
@@ -35,12 +33,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       setUserTokens(null);
       setPortfolioSummary(null);
       setDataLoading(false);
-      loadedUserRef.current = null;
-      return;
-    }
-
-    // Prevent re-loading same user data
-    if (loadedUserRef.current === user.id) {
       return;
     }
 
@@ -57,8 +49,6 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       setUserProfile(profile);
       setUserTokens(tokens);
       setPortfolioSummary(summary);
-      
-      loadedUserRef.current = user.id;
 
     } catch (error) {
       console.error('Error loading user data:', error);
@@ -181,18 +171,13 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   // Refresh all data
   const refreshData = async () => {
-    loadedUserRef.current = null;
     await loadUserData();
   };
 
-  // Simple effect that only runs when user ID actually changes
-  // Use setTimeout(0) to prevent Supabase deadlock
+  // Load data when user changes
   useEffect(() => {
-    const userId = user?.id;
-    if (userId !== loadedUserRef.current) {
-      setTimeout(() => {
-        loadUserData();
-      }, 0);
+    if (user?.id) {
+      loadUserData();
     }
   }, [user?.id]);
 
