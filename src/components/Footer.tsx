@@ -63,6 +63,11 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Products</h3>
             <ul className="space-y-2">
               <li className="text-gray-300">Community Tokens</li>
+              <li>
+                <Link to="/community-tokens" className="text-gray-300 hover:text-qb-green transition-colors">
+                  Learn More
+                </Link>
+              </li>
               <li className="text-gray-300">Impact Coins</li>
               <li className="text-gray-300">Quant Strategies</li>
               <li className="text-gray-300">Tokenised Portfolios</li>

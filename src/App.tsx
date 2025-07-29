@@ -8,6 +8,7 @@ import { DashboardProvider } from "@/hooks/useDashboardContext";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Products from "./pages/Products";
+import CommunityTokens from "./pages/CommunityTokens";
 import Pricing from "./pages/Pricing";
 import Support from "./pages/Support";
 import Signup from "./pages/Signup";
@@ -76,7 +77,8 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
-        <Route path="/products" element={<Products />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/community-tokens" element={<CommunityTokens />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
