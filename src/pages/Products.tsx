@@ -18,50 +18,54 @@ const Products = () => {
         "Impact-driven economics",
         "Collective wealth building"
       ],
-      badge: "Popular",
-      color: "qb-green"
+      badge: "Available Now",
+      color: "qb-green",
+      available: true
     },
     {
       title: "Impact Coins",
       icon: Globe,
-      description: "Tokenized ETFs backed by real shares and commodities, bringing traditional assets to the blockchain.",
+      description: "Future feature: Sustainable investment tokens backed by ESG-compliant projects and impact metrics.",
       features: [
-        "Real asset backing",
-        "Fractional ownership",
-        "Blockchain transparency",
-        "Lower entry barriers",
-        "Global accessibility"
+        "ESG compliance tracking",
+        "Impact measurement",
+        "Sustainable returns",
+        "Social responsibility",
+        "Environmental benefits"
       ],
-      badge: "Sustainable",
-      color: "qb-blue"
+      badge: "Coming Soon",
+      color: "qb-blue",
+      available: false
     },
     {
       title: "Quant Strategies",
       icon: BarChart3,
-      description: "Mathematical trading strategies with advanced model implementations and algorithmic systems.",
+      description: "Planned feature: Mathematical trading strategies with advanced model implementations and algorithmic systems.",
       features: [
-        "Mathematically backed tokens",
+        "Mathematically backed models",
         "Algorithmic execution",
-        "Mathematical precision",
-        "Risk-optimized models",
-        "Quantitative engineering"
+        "Risk optimization",
+        "Quantitative analysis",
+        "Professional strategies"
       ],
-      badge: "Advanced",
-      color: "qb-green"
+      badge: "Coming Soon",
+      color: "qb-green",
+      available: false
     },
     {
       title: "Tokenized Portfolios",
       icon: TrendingUp,
-      description: "Community-created portfolios combining multiple assets and strategies into tradeable token baskets.",
+      description: "Future expansion: Community-created portfolios combining multiple assets and strategies into tradeable token baskets.",
       features: [
-        "Community-designed baskets",
-        "Multi-strategy integration",
+        "Multi-asset baskets",
+        "Strategy combination",
         "Transparent composition",
-        "Tokenized liquidity",
-        "Collective intelligence"
+        "Community management",
+        "Diversified exposure"
       ],
-      badge: "Professional",
-      color: "qb-blue"
+      badge: "Planned",
+      color: "qb-blue",
+      available: false
     }
   ];
 
@@ -86,13 +90,16 @@ const Products = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {products.map((product, index) => (
-              <Card key={index} className="glass-card hover:shadow-xl transition-all duration-300">
+              <Card key={index} className={`glass-card hover:shadow-xl transition-all duration-300 ${!product.available ? 'opacity-70' : ''}`}>
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
                     <div className={`w-12 h-12 bg-${product.color}/20 rounded-lg flex items-center justify-center`}>
                       <product.icon className={`w-6 h-6 text-${product.color}`} />
                     </div>
-                    <Badge variant="secondary" className="bg-qb-green/20 text-qb-green">
+                    <Badge 
+                      variant="secondary" 
+                      className={product.available ? "bg-qb-green/20 text-qb-green" : "bg-qb-blue/20 text-qb-blue"}
+                    >
                       {product.badge}
                     </Badge>
                   </div>
@@ -113,8 +120,12 @@ const Products = () => {
                     </ul>
                   </div>
                   
-                  <Button variant="qbPrimary" className="w-full">
-                    Learn More
+                  <Button 
+                    variant={product.available ? "qbPrimary" : "qbSecondary"} 
+                    className="w-full"
+                    disabled={!product.available}
+                  >
+                    {product.available ? "Get Started" : "Coming Soon"}
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
                 </CardContent>
@@ -230,7 +241,7 @@ const Products = () => {
             Ready to Explore Our Products?
           </h2>
           <p className="text-xl text-gray-200 mb-8">
-            Join our platform and start building your diversified portfolio today.
+            Start with Community Tokens and be part of our ecosystem as we expand with new features.
           </p>
           <Button variant="qbPrimary" size="lg" className="text-lg px-12">
             Get Started Now

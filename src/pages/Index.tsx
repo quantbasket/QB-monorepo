@@ -24,8 +24,8 @@ const Index = () => {
                 <span className="text-qb-green block">Decentralized Access.</span>
               </h1>
               <p className="text-xl mb-8 text-gray-200">
-                Building a community-driven crypto platform where financial engineers create 
-                tokenized ETFs, community coins, and mathematical trading strategies.
+                Launch your community token today! Create community-driven tokens that reward impactful actions.
+                <span className="block text-lg text-qb-green mt-2">Additional features like ETFs and quant strategies coming soon.</span>
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/signup">
@@ -102,15 +102,18 @@ const Index = () => {
               <img 
                 src={quantStrategiesImg} 
                 alt="Quantitative Strategies" 
-                className="w-full h-auto rounded-xl shadow-lg"
+                className="w-full h-auto rounded-xl shadow-lg opacity-60"
               />
             </div>
             <div>
-              <h2 className="text-4xl font-bold text-qb-navy mb-6">
-                Tokenized ETFs & Quant Strategies
-              </h2>
+              <div className="flex items-center gap-3 mb-4">
+                <h2 className="text-4xl font-bold text-qb-navy">
+                  Tokenized ETFs & Quant Strategies
+                </h2>
+                <span className="bg-qb-blue/20 text-qb-blue px-3 py-1 rounded-full text-sm font-medium">Coming Soon</span>
+              </div>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers create 
+                Future feature: Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers will create 
                 sophisticated mathematical models and algorithmic strategies for optimal returns.
               </p>
               <div className="space-y-4">
@@ -134,17 +137,20 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Impact Coins Marketplace Section */}
+      {/* Impact Marketplace Section */}
       <section className="section-gradient py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-qb-navy mb-6">
-                Community-Driven Crypto Ecosystem
-              </h2>
+              <div className="flex items-center gap-3 mb-4">
+                <h2 className="text-4xl font-bold text-qb-navy">
+                  Impact Marketplace
+                </h2>
+                <span className="bg-qb-green/20 text-qb-green px-3 py-1 rounded-full text-sm font-medium">Planned</span>
+              </div>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Join our growing crypto community where members shape the platform's future. Trade community coins, 
-                create tokenized portfolios, and access quantitative strategies built by financial engineers.
+                Future expansion: A marketplace for impact-driven projects and ESG-compliant investments. 
+                Start with community tokens now and access the broader ecosystem as we expand.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="glass-card">
@@ -166,8 +172,8 @@ const Index = () => {
             <div className="order-first lg:order-last">
               <img 
                 src={impactMarketplaceImg} 
-                alt="Impact Coins Marketplace" 
-                className="w-full h-auto rounded-xl shadow-lg"
+                alt="Impact Marketplace" 
+                className="w-full h-auto rounded-xl shadow-lg opacity-60"
               />
             </div>
           </div>
@@ -191,30 +197,39 @@ const Index = () => {
               </CardContent>
             </Card>
             
-            <Card className="glass-card hover:shadow-xl transition-all duration-300">
+            <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <Coins className="w-12 h-12 text-qb-blue mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Impact Coins</CardTitle>
+                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
+                  Impact Coins
+                  <span className="bg-qb-blue/20 text-qb-blue px-2 py-1 rounded text-xs">Coming Soon</span>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Invest in sustainable and socially responsible projects</p>
               </CardContent>
             </Card>
             
-            <Card className="glass-card hover:shadow-xl transition-all duration-300">
+            <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <BarChart3 className="w-12 h-12 text-qb-green mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Quant Strategies</CardTitle>
+                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
+                  Quant Strategies
+                  <span className="bg-qb-green/20 text-qb-green px-2 py-1 rounded text-xs">Coming Soon</span>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Access advanced algorithmic trading strategies</p>
               </CardContent>
             </Card>
             
-            <Card className="glass-card hover:shadow-xl transition-all duration-300">
+            <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <TrendingUp className="w-12 h-12 text-qb-blue mx-auto mb-4" />
-                <CardTitle className="text-qb-navy">Tokenized Portfolios</CardTitle>
+                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
+                  Tokenized Portfolios
+                  <span className="bg-qb-blue/20 text-qb-blue px-2 py-1 rounded text-xs">Planned</span>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Diversified portfolios powered by financial engineering</p>
@@ -231,7 +246,7 @@ const Index = () => {
             Ready to Revolutionize Your Portfolio?
           </h2>
           <p className="text-xl text-gray-200 mb-8">
-            Join thousands of forward-thinking investors who are already building wealth through our platform.
+            Start with Community Tokens today and be part of our growing ecosystem as we launch new features.
           </p>
           <Link to="/signup">
             <Button variant="qbPrimary" size="lg" className="text-lg px-12">
