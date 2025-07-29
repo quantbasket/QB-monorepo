@@ -17,6 +17,7 @@ import Dashboard from "./pages/app/Dashboard";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import ComingSoon from "./pages/ComingSoon";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -37,7 +38,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   // While loading, show a placeholder. This prevents rendering protected content before auth check.
   if (loading) {
-    return <div>Loading authentication...</div>; 
+    return <div>Loading authentication...</div>;
   }
 
   // Render children only if user is authenticated.
@@ -46,14 +47,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 
-const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvider correctly
+const AppContent = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     // Ensure authentication state is determined and stable
-    if (!loading) { 
+    if (!loading) {
       const currentPath = location.pathname;
 
       // Scenario 2: User is NOT authenticated
@@ -64,8 +65,6 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
           navigate('/login', { replace: true });
         }
       }
-      // Note: Removed automatic redirect from "/" for authenticated users
-      // Let them stay on the homepage if they want to
     }
   }, [user, loading, navigate, location.pathname]);
 
@@ -77,15 +76,44 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/community-tokens" element={<CommunityTokens />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/community-tokens" element={<CommunityTokens />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        
+
+        {/* Updated Routes for Coming Soon pages with new subtitles */}
+        <Route
+          path="/impact-coins"
+          element={
+            <ComingSoon
+              title="Impact Coins: Coming Soon!"
+              subtitle="Impact isn’t just a word. It’s a token. Launching soon." // Updated subtitle
+            />
+          }
+        />
+        <Route
+          path="/quant-strategies"
+          element={
+            <ComingSoon
+              title="Quant Strategies: Coming Soon!"
+              subtitle="Code. Data. Alpha. Quant tokens drop soon." // Updated subtitle
+            />
+          }
+        />
+        <Route
+          path="/tokenized-portfolios"
+          element={
+            <ComingSoon
+              title="Tokenized Portfolios: Coming Soon!"
+              subtitle="Coming soon: Diversified alpha, tokenized and tradable." // Updated subtitle
+            />
+          }
+        />
+
         {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
@@ -106,10 +134,10 @@ const AppContent = () => { // Renamed App to AppContent to wrap it in AuthProvid
 // The main App component structure, wrapping everything with necessary providers
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider> {/* AuthProvider wraps the content that needs auth context */}
+    <AuthProvider>
       <TooltipProvider>
-        <BrowserRouter> {/* BrowserRouter should wrap the routes */}
-          <AppContent /> {/* Render the AppContent with all the routes and logic */}
+        <BrowserRouter>
+          <AppContent />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>

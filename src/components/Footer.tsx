@@ -7,22 +7,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <img 
-                src="/qb_logo.png" 
-                alt="QB Logo" 
+              <img
+                src="/qb_logo.png"
+                alt="QB Logo"
                 className="w-10 h-10"
               />
               <span className="text-white font-bold text-xl">Quant Basket</span>
             </div>
             <p className="text-gray-300 mb-4">
-              Revolutionary platform for community-based tokenization, quantitative strategies, 
+              Revolutionary platform for community-based tokenization, quantitative strategies,
               and impact investing powered by advanced financial engineering.
             </p>
             <div className="text-sm text-gray-400">
               <p>© 2024 Quant Basket. All rights reserved.</p>
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
@@ -58,23 +58,35 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Products</h3>
             <ul className="space-y-2">
-              <li className="text-gray-300">Community Tokens</li>
               <li>
                 <Link to="/community-tokens" className="text-gray-300 hover:text-qb-green transition-colors">
-                  Learn More
+                  Community Tokens
                 </Link>
               </li>
-              <li className="text-gray-300">Impact Coins</li>
-              <li className="text-gray-300">Quant Strategies</li>
-              <li className="text-gray-300">Tokenised Portfolios</li>
+              {/* Updated links for Coming Soon pages */}
+              <li>
+                <Link to="/impact-coins" className="text-gray-300 hover:text-qb-green transition-colors">
+                  Impact Coins
+                </Link>
+              </li>
+              <li>
+                <Link to="/quant-strategies" className="text-gray-300 hover:text-qb-green transition-colors">
+                  Quant Strategies
+                </Link>
+              </li>
+              <li>
+                <Link to="/tokenized-portfolios" className="text-gray-300 hover:text-qb-green transition-colors">
+                  Tokenised Portfolios
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
             Empowering the future of decentralized finance through quantitative innovation
