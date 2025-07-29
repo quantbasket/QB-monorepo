@@ -56,19 +56,12 @@ All colors MUST be HSL.
     --glass-shadow: 0 8px 32px 0 rgba(10, 13, 45, 0.1);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -137,4 +130,16 @@ All colors MUST be HSL.
   .section-gradient {
     background: linear-gradient(180deg, hsl(var(--qb-white)) 0%, hsl(var(--qb-soft-gray)) 100%);
   }
+
+  /* --- FIX FOR LOGO BORDER IN DARK MODE --- */
+  /* This class will be applied to the <img> tag of the logo in Logo.tsx when isDarkMode is true */
+  .dark-mode-logo-fix {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important; /* Crucial for transparent areas of the image */
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* -------------------------------------- */
 }

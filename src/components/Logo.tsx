@@ -32,10 +32,8 @@ const Logo: React.FC<LogoProps> = ({
     xl: 'text-2xl'
   };
 
-  // Choose logo based on authentication status
-  const logoSource = isAuthenticated ? '/qb_logoc.png' : '/qb_logo.png';
+  const logoSource = isAuthenticated ? '/qb_logoc.webp' : '/qb_logo.webp';
 
-  // Determine text color based on dark mode and existing className
   const getTextColor = () => {
     if (className.includes('text-white')) return 'text-white';
     if (isDarkMode) return 'text-white';
@@ -47,7 +45,8 @@ const Logo: React.FC<LogoProps> = ({
       <img 
         src={logoSource} 
         alt="Quant Basket Logo" 
-        className={`${sizeClasses[size]} object-contain`}
+        // THIS IS THE KEY LINE THAT APPLIES THE FIXING CLASS
+        className={`${sizeClasses[size]} object-contain ${isDarkMode ? 'dark-mode-logo-fix' : ''}`}
       />
       {showText && (
         <span className={`font-bold ${textSizes[size]} ${getTextColor()}`}>
@@ -68,4 +67,4 @@ const Logo: React.FC<LogoProps> = ({
   return logoElement;
 };
 
-export default Logo; 
+export default Logo;

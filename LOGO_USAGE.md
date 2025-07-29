@@ -6,8 +6,8 @@ The Quant Basket logo has been standardized across the website using a reusable 
 
 ## Logo Files
 
-- **`/public/qb_logoc.png`** - Main logo file (used in Dashboard and main site)
-- **`/public/qb_logo.png`** - Alternative logo file (legacy)
+- **`/public/qb_logoc.webp`** - Main logo file (used in Dashboard and main site)
+- **`/public/qb_logo.webp`** - Alternative logo file (legacy)
 
 ## Logo Component
 
@@ -108,14 +108,14 @@ The logo component automatically handles:
 
 To update the logo across the entire website:
 
-1. Replace `/public/qb_logoc.png` with your new logo file
+1. Replace `/public/qb_logoc.webp` with your new logo file
 2. Ensure the new file has the same dimensions or update the size classes
 3. Test across different screen sizes
 
 ## Troubleshooting
 
 ### Logo Not Displaying
-- Check if the file exists in `/public/qb_logoc.png`
+- Check if the file exists in `/public/qb_logoc.webp`
 - Verify the file path is correct
 - Check browser console for 404 errors
 

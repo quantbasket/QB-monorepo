@@ -121,4 +121,4 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
   );
 };
 
-export default DashboardNavigation; 
+export default DashboardNavigation;

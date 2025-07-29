@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <img
-                src="/qb_logo.png"
+                src="/qb_logo.webp"
                 alt="QB Logo"
                 className="w-10 h-10"
               />
