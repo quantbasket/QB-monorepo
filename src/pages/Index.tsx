@@ -197,10 +197,10 @@ const Index = () => {
             <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <Coins className="w-12 h-12 text-qb-blue mx-auto mb-4" />
-                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
-                  Impact Coins
-                  <span className="bg-qb-blue/20 text-qb-blue px-2 py-1 rounded text-xs">Coming Soon</span>
-                </CardTitle>
+                <div className="text-center">
+                  <CardTitle className="text-qb-navy mb-2">Impact Coins</CardTitle>
+                  <span className="bg-qb-green/20 text-qb-green px-2 py-1 rounded text-xs">Coming Soon</span>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Invest in sustainable and socially responsible projects</p>
@@ -210,10 +210,10 @@ const Index = () => {
             <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <BarChart3 className="w-12 h-12 text-qb-green mx-auto mb-4" />
-                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
-                  Quant Strategies
-                  <span className="bg-qb-green/20 text-qb-green px-2 py-1 rounded text-xs">Planned</span>
-                </CardTitle>
+                <div className="text-center">
+                  <CardTitle className="text-qb-navy mb-2">Quant Strategies</CardTitle>
+                  <span className="bg-qb-blue/20 text-qb-blue px-2 py-1 rounded text-xs">Planned</span>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Access advanced algorithmic trading strategies</p>
@@ -223,10 +223,10 @@ const Index = () => {
             <Card className="glass-card hover:shadow-xl transition-all duration-300 opacity-60">
               <CardHeader>
                 <TrendingUp className="w-12 h-12 text-qb-blue mx-auto mb-4" />
-                <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
-                  Tokenized Portfolios
+                <div className="text-center">
+                  <CardTitle className="text-qb-navy mb-2">Tokenized Portfolios</CardTitle>
                   <span className="bg-qb-blue/20 text-qb-blue px-2 py-1 rounded text-xs">Planned</span>
-                </CardTitle>
+                </div>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">Diversified portfolios powered by financial engineering</p>

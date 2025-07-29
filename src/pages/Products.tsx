@@ -48,7 +48,7 @@ const Products = () => {
         "Quantitative analysis",
         "Professional strategies"
       ],
-      badge: "Coming Soon",
+      badge: "Planned",
       color: "qb-green",
       available: false
     },
@@ -98,7 +98,11 @@ const Products = () => {
                     </div>
                     <Badge 
                       variant="secondary" 
-                      className={product.available ? "bg-qb-green/20 text-qb-green" : "bg-qb-blue/20 text-qb-blue"}
+                      className={
+                        product.available ? "bg-qb-green/20 text-qb-green" : 
+                        product.badge === "Coming Soon" ? "bg-qb-green/20 text-qb-green" :
+                        "bg-qb-blue/20 text-qb-blue"
+                      }
                     >
                       {product.badge}
                     </Badge>

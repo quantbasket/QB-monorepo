@@ -11,41 +11,39 @@ const Pricing = () => {
       name: "Free",
       price: "0",
       period: "forever",
-      description: "Perfect for getting started with quantitative finance",
+      description: "Perfect for getting started with community tokens",
       icon: Star,
       popular: false,
       features: [
         "Create basic community coins",
-        "Access to 3 tokenized ETFs",
-        "Basic trading interface",
         "Community forum access",
         "Educational resources",
         "Mobile app access",
-        "Email support"
+        "Email support",
+        "Basic community analytics"
       ],
       limitations: [
-        "Basic risk metrics only",
-        "No premium strategies"
+        "Limited to 1 community token",
+        "Basic features only"
       ]
     },
     {
       name: "Standard",
-      price: "100",
+      price: "50",
       period: "per month",
-      description: "Advanced tools for serious investors",
+      description: "Advanced community token features for growing communities",
       icon: Zap,
       popular: true,
       features: [
         "All Free plan features",
-        "Advanced community coin creation",
-        "Access to 20+ tokenized ETFs",
-        "Advanced mathematical strategies",
+        "Create up to 5 community tokens",
+        "Advanced token customization",
+        "Community governance tools",
         "Advanced analytics dashboard",
         "API access",
         "Priority email support",
         "Webinar access",
-        "Custom portfolio baskets",
-        "Algorithmic trading tools"
+        "Custom reward mechanisms"
       ],
       limitations: [
         "Standard execution speed"
@@ -53,24 +51,21 @@ const Pricing = () => {
     },
     {
       name: "Pro",
-      price: "250",
-      period: "per month",
-      description: "Institutional-grade tools and features",
+      price: "Currently Not Available",
+      period: "",
+      description: "Enterprise-grade community token solutions",
       icon: Crown,
       popular: false,
+      available: false,
       features: [
         "All Standard plan features",
-        "Unlimited community coin creation",
-        "Full tokenized ETF marketplace",
-        "Custom mathematical models",
-        "Dedicated account manager",
+        "Unlimited community token creation",
         "White-label community solutions",
-        "Advanced backtesting tools",
-        "Institutional reporting",
+        "Dedicated account manager",
+        "Advanced governance features",
+        "Custom integrations",
         "24/7 phone support",
-        "Early access to new features",
-        "Direct financial engineer access",
-        "Custom integrations"
+        "Early access to new features"
       ],
       limitations: []
     }
@@ -125,8 +120,14 @@ const Pricing = () => {
                   </div>
                   <CardTitle className="text-2xl text-qb-navy">{plan.name}</CardTitle>
                   <div className="text-4xl font-bold text-qb-navy">
-                    ${plan.price}
-                    <span className="text-lg font-normal text-qb-dark-gray">/{plan.period}</span>
+                    {plan.name === 'Pro' ? (
+                      <span className="text-lg text-qb-dark-gray">Coming Soon</span>
+                    ) : (
+                      <>
+                        ${plan.price}
+                        <span className="text-lg font-normal text-qb-dark-gray">{plan.period && `/${plan.period}`}</span>
+                      </>
+                    )}
                   </div>
                   <p className="text-qb-dark-gray">{plan.description}</p>
                 </CardHeader>
@@ -161,8 +162,10 @@ const Pricing = () => {
                     variant={plan.popular ? "qbPrimary" : "qbOutline"} 
                     className="w-full"
                     size="lg"
+                    disabled={plan.available === false}
                   >
-                    {plan.name === 'Free' ? 'Get Started Free' : 'Start Trial'}
+                    {plan.name === 'Free' ? 'Get Started Free' : 
+                     plan.available === false ? 'Coming Soon' : 'Start Trial'}
                   </Button>
                 </CardContent>
               </Card>
@@ -177,7 +180,7 @@ const Pricing = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">All Plans Include</h2>
             <p className="text-lg text-qb-dark-gray">
-              Core features available across all subscription tiers
+              Core features available for community token management
             </p>
           </div>
           
@@ -210,8 +213,8 @@ const Pricing = () => {
               <div className="w-12 h-12 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Check className="w-6 h-6 text-qb-blue" />
               </div>
-              <h3 className="font-semibold text-qb-navy mb-2">Educational Resources</h3>
-              <p className="text-sm text-qb-dark-gray">Learn about quantitative finance</p>
+              <h3 className="font-semibold text-qb-navy mb-2">Community Resources</h3>
+              <p className="text-sm text-qb-dark-gray">Learn about community tokenization</p>
             </div>
           </div>
         </div>
