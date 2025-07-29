@@ -19,7 +19,6 @@ const Footer = () => {
               and impact investing powered by advanced financial engineering.
             </p>
             <div className="text-sm text-gray-400">
-              <p>A HoneyJa Company</p>
               <p>© 2024 Quant Basket. All rights reserved.</p>
             </div>
           </div>

@@ -136,27 +136,30 @@ const About = () => {
       {/* Divider */}
       <div className="h-px bg-gradient-to-r from-transparent via-qb-dark-gray/20 to-transparent"></div>
 
-      {/* Parent Company */}
+      {/* Values Section */}
       <section className="section-gradient py-20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <Card className="glass-card p-8">
-            <h2 className="text-3xl font-bold text-qb-navy mb-6">A HoneyJa Company</h2>
+            <h2 className="text-3xl font-bold text-qb-navy mb-6">Our Values</h2>
             <p className="text-lg text-qb-dark-gray mb-6">
-              Quant Basket is proudly part of the HoneyJa ecosystem, a technology conglomerate 
-              specializing in financial engineering and innovative blockchain solutions. HoneyJa's 
-              expertise in quantitative finance and commitment to community-driven innovation 
-              provides the foundation for our revolutionary crypto platform.
+              We believe in democratizing access to sophisticated financial tools through blockchain innovation. 
+              Our commitment to transparency, mathematical rigor, and community empowerment drives everything we do.
+              We're building the future of decentralized finance, one community token at a time.
             </p>
-            <a 
-              href="https://www.honeyja.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <Button variant="qbSecondaryOutline" className="inline-flex items-center">
-                Learn More About HoneyJa
-                <ExternalLink className="ml-2 w-4 h-4" />
-              </Button>
-            </a>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div className="text-center">
+                <h3 className="font-semibold text-qb-navy mb-2">Transparency</h3>
+                <p className="text-sm text-qb-dark-gray">Open-source principles and blockchain transparency</p>
+              </div>
+              <div className="text-center">
+                <h3 className="font-semibold text-qb-navy mb-2">Innovation</h3>
+                <p className="text-sm text-qb-dark-gray">Cutting-edge quantitative finance meets DeFi</p>
+              </div>
+              <div className="text-center">
+                <h3 className="font-semibold text-qb-navy mb-2">Community</h3>
+                <p className="text-sm text-qb-dark-gray">Empowering communities through tokenization</p>
+              </div>
+            </div>
           </Card>
         </div>
       </section>

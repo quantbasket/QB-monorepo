@@ -110,7 +110,7 @@ const Index = () => {
                 <h2 className="text-4xl font-bold text-qb-navy">
                   Tokenized ETFs & Quant Strategies
                 </h2>
-                <span className="bg-qb-blue/20 text-qb-blue px-3 py-1 rounded-full text-sm font-medium">Coming Soon</span>
+                <span className="bg-qb-blue/20 text-qb-blue px-3 py-1 rounded-full text-sm font-medium">Planned</span>
               </div>
               <p className="text-lg text-qb-dark-gray mb-6">
                 Future feature: Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers will create 
@@ -143,14 +143,11 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <h2 className="text-4xl font-bold text-qb-navy">
-                  Impact Marketplace
-                </h2>
-                <span className="bg-qb-green/20 text-qb-green px-3 py-1 rounded-full text-sm font-medium">Planned</span>
+                <h2 className="text-4xl font-bold text-qb-navy">Impact Marketplace</h2>
+                <span className="bg-qb-green/20 text-qb-green px-3 py-1 rounded-full text-sm font-medium">Coming Soon</span>
               </div>
               <p className="text-lg text-qb-dark-gray mb-6">
-                Future expansion: A marketplace for impact-driven projects and ESG-compliant investments. 
-                Start with community tokens now and access the broader ecosystem as we expand.
+                Future expansion: A marketplace for impact-driven projects and ESG-compliant investments. Start with community tokens now and access the broader ecosystem as we expand.
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Card className="glass-card">
@@ -215,7 +212,7 @@ const Index = () => {
                 <BarChart3 className="w-12 h-12 text-qb-green mx-auto mb-4" />
                 <CardTitle className="text-qb-navy flex items-center justify-center gap-2">
                   Quant Strategies
-                  <span className="bg-qb-green/20 text-qb-green px-2 py-1 rounded text-xs">Coming Soon</span>
+                  <span className="bg-qb-green/20 text-qb-green px-2 py-1 rounded text-xs">Planned</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
