@@ -50,16 +50,6 @@ const Navigation = () => {
                 Products
               </Link>
               <Link
-                to="/community-tokens"
-                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  isActive("/community-tokens")
-                    ? "text-qb-green bg-qb-navy/50"
-                    : "text-white hover:text-qb-green"
-                }`}
-              >
-                Community Tokens
-              </Link>
-              <Link
                 to="/pricing"
                 className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/pricing")

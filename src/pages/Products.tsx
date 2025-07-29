@@ -125,23 +125,25 @@ const Products = () => {
                     </ul>
                   </div>
                   
-                  {product.available && product.title === "Community Tokens" ? (
-                    <Link to="/community-tokens" className="w-full">
-                      <Button variant="qbPrimary" className="w-full">
-                        Learn More
+                  <div className="pt-4">
+                    {product.available && product.title === "Community Tokens" ? (
+                      <Link to="/community-tokens" className="w-full">
+                        <Button variant="qbPrimary" className="w-full">
+                          Learn More
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button 
+                        variant={product.available ? "qbPrimary" : "qbSecondary"} 
+                        className="w-full"
+                        disabled={!product.available}
+                      >
+                        {product.available ? "Get Started" : "Coming Soon"}
                         <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>
-                    </Link>
-                  ) : (
-                    <Button 
-                      variant={product.available ? "qbPrimary" : "qbSecondary"} 
-                      className="w-full"
-                      disabled={!product.available}
-                    >
-                      {product.available ? "Get Started" : "Coming Soon"}
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  )}
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}
