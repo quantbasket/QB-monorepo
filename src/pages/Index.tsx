@@ -34,9 +34,11 @@ const Index = () => {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white">
-                  Learn More
-                </Button>
+                <Link to="/products">
+                  <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white">
+                    Learn More
+                  </Button>
+                </Link>
               </div>
             </div>
             
@@ -81,6 +83,14 @@ const Index = () => {
                     <p className="text-sm text-qb-dark-gray">Blockchain-powered security and full transparency</p>
                   </CardContent>
                 </Card>
+              </div>
+              <div className="mt-8">
+                <Link to="/community-tokens">
+                  <Button variant="qbPrimary" className="text-lg px-8">
+                    Get Started with Community Tokens
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="order-first lg:order-last">
@@ -190,7 +200,12 @@ const Index = () => {
                 <CardTitle className="text-qb-navy">Community Tokens</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-qb-dark-gray">Participate in decentralized communities and governance</p>
+                <p className="text-qb-dark-gray mb-4">Participate in decentralized communities and governance</p>
+                <Link to="/community-tokens">
+                  <Button variant="qbOutline" size="sm" className="w-full">
+                    Learn More
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
             

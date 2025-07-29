@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, Coins, BarChart3, TrendingUp, Shield, Zap, Globe, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const products = [
@@ -124,14 +125,23 @@ const Products = () => {
                     </ul>
                   </div>
                   
-                  <Button 
-                    variant={product.available ? "qbPrimary" : "qbSecondary"} 
-                    className="w-full"
-                    disabled={!product.available}
-                  >
-                    {product.available ? "Get Started" : "Coming Soon"}
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  {product.available && product.title === "Community Tokens" ? (
+                    <Link to="/community-tokens" className="w-full">
+                      <Button variant="qbPrimary" className="w-full">
+                        Learn More
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button 
+                      variant={product.available ? "qbPrimary" : "qbSecondary"} 
+                      className="w-full"
+                      disabled={!product.available}
+                    >
+                      {product.available ? "Get Started" : "Coming Soon"}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -247,10 +257,12 @@ const Products = () => {
           <p className="text-xl text-gray-200 mb-8">
             Start with Community Tokens and be part of our ecosystem as we expand with new features.
           </p>
-          <Button variant="qbPrimary" size="lg" className="text-lg px-12">
-            Get Started Now
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
+          <Link to="/community-tokens">
+            <Button variant="qbPrimary" size="lg" className="text-lg px-12">
+              Get Started Now
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 
