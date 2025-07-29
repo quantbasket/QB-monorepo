@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Users, Coins, Trophy, Gift, Calendar, Zap, CheckCircle, ArrowRight, Star, Shield, 
-  Settings, BarChart3, Lock, Smartphone, Globe, Code2, Layers, TrendingUp 
+import {
+  Users, Coins, Trophy, Gift, Calendar, Zap, CheckCircle, ArrowRight, Star, Shield,
+  Settings, BarChart3, Lock, Smartphone, Globe, Code2, Layers, TrendingUp
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -81,13 +81,13 @@ const CommunityTokens = () => {
       tasks: ["Define token economics", "Community goal mapping", "Reward structure design", "Integration planning"]
     },
     {
-      phase: "Development", 
+      phase: "Development",
       duration: "2-3 weeks",
       tasks: ["Smart contract deployment", "Dashboard setup", "Mobile app integration", "Security testing"]
     },
     {
       phase: "Launch",
-      duration: "1 week", 
+      duration: "1 week",
       tasks: ["Community onboarding", "Initial distribution", "Training sessions", "Go-live support"]
     },
     {
@@ -100,7 +100,7 @@ const CommunityTokens = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <Navigation />
-      
+
       {/* Product Header */}
       <section className="bg-qb-navy py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,7 +116,7 @@ const CommunityTokens = () => {
                 </div>
               </div>
               <p className="text-xl text-gray-300 mb-6">
-                Professional-grade tokenization platform designed for community organizations to create, 
+                Professional-grade tokenization platform designed for community organizations to create,
                 manage, and scale their internal value exchange systems.
               </p>
               <div className="flex gap-4">
@@ -126,12 +126,19 @@ const CommunityTokens = () => {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <Button variant="qbGlass" size="lg" className="text-white border-white hover:bg-white/20">
-                  Schedule Demo
-                </Button>
+                {/* MODIFIED: Schedule Demo button linked to Calendly */}
+                <a
+                  href="https://calendly.com/quantbasket"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="qbGlass" size="lg" className="text-white border-white hover:bg-white/20">
+                    Schedule Demo
+                  </Button>
+                </a>
               </div>
             </div>
-            
+
             <div className="lg:col-span-1">
               <Card className="glass-card p-6 border-qb-green/20">
                 <div className="text-center">
@@ -291,7 +298,7 @@ const CommunityTokens = () => {
                   <h3 className="text-2xl font-bold text-qb-navy mb-4">Implementation Roadmap</h3>
                   <p className="text-lg text-qb-dark-gray">Professional deployment process with dedicated support</p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {implementationSteps.map((step, index) => (
                     <Card key={index} className="relative">
@@ -330,7 +337,7 @@ const CommunityTokens = () => {
             <h2 className="text-3xl font-bold text-white mb-4">Proven Results</h2>
             <p className="text-xl text-gray-200">Measurable impact across diverse community organizations</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl font-bold text-qb-green mb-2">85%</div>
