@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, Zap, Crown } from "lucide-react";
+import { Link } from "react-router-dom"; // Import Link
 
 const Pricing = () => {
   const plans = [
@@ -74,7 +75,7 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="hero-gradient py-20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
@@ -92,8 +93,8 @@ const Pricing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className={`glass-card relative ${
                   plan.popular ? 'ring-2 ring-qb-green shadow-2xl scale-105' : ''
                 } hover:shadow-xl transition-all duration-300`}
@@ -105,7 +106,7 @@ const Pricing = () => {
                     </Badge>
                   </div>
                 )}
-                
+
                 <CardHeader className="text-center pb-8">
                   <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
                     plan.name === 'Free' ? 'bg-qb-blue/20' :
@@ -131,7 +132,7 @@ const Pricing = () => {
                   </div>
                   <p className="text-qb-dark-gray">{plan.description}</p>
                 </CardHeader>
-                
+
                 <CardContent className="space-y-6">
                   <div>
                     <h4 className="font-semibold text-qb-navy mb-4">Features included:</h4>
@@ -144,7 +145,7 @@ const Pricing = () => {
                       ))}
                     </ul>
                   </div>
-                  
+
                   {plan.limitations.length > 0 && (
                     <div>
                       <h4 className="font-semibold text-qb-dark-gray mb-2 text-sm">Limitations:</h4>
@@ -157,16 +158,30 @@ const Pricing = () => {
                       </ul>
                     </div>
                   )}
-                  
-                  <Button 
-                    variant={plan.popular ? "qbPrimary" : "qbOutline"} 
-                    className="w-full"
-                    size="lg"
-                    disabled={plan.available === false}
-                  >
-                    {plan.name === 'Free' ? 'Get Started Free' : 
-                     plan.available === false ? 'Coming Soon' : 'Start Trial'}
-                  </Button>
+
+                  {plan.name === 'Free' ? (
+                    <Link to="/signup" className="w-full">
+                        <Button
+                            variant="qbPrimary"
+                            className="w-full"
+                            size="lg"
+                        >
+                            Get Started Free
+                        </Button>
+                    </Link>
+                  ) : (
+                    // Link for Standard and Pro (if Pro becomes available for trial)
+                    <Link to={`/signup?plan=${plan.name.toLowerCase()}`} className="w-full">
+                        <Button
+                            variant={plan.popular ? "qbPrimary" : "qbOutline"}
+                            className="w-full"
+                            size="lg"
+                            disabled={plan.available === false}
+                        >
+                            {plan.available === false ? 'Coming Soon' : 'Start Trial'}
+                        </Button>
+                    </Link>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -183,7 +198,7 @@ const Pricing = () => {
               Core features available for community token management
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
@@ -192,7 +207,7 @@ const Pricing = () => {
               <h3 className="font-semibold text-qb-navy mb-2">Secure Platform</h3>
               <p className="text-sm text-qb-dark-gray">Bank-grade security for all transactions</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Check className="w-6 h-6 text-qb-blue" />
@@ -200,7 +215,7 @@ const Pricing = () => {
               <h3 className="font-semibold text-qb-navy mb-2">Mobile Access</h3>
               <p className="text-sm text-qb-dark-gray">Trade and monitor on the go</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Check className="w-6 h-6 text-qb-green" />
@@ -208,7 +223,7 @@ const Pricing = () => {
               <h3 className="font-semibold text-qb-navy mb-2">Community Forum</h3>
               <p className="text-sm text-qb-dark-gray">Connect with other investors</p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Check className="w-6 h-6 text-qb-blue" />
@@ -226,7 +241,7 @@ const Pricing = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Frequently Asked Questions</h2>
           </div>
-          
+
           <div className="space-y-6">
             <Card className="glass-card">
               <CardHeader>
@@ -234,31 +249,31 @@ const Pricing = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  Yes, you can change your plan at any time. Upgrades take effect immediately, 
+                  Yes, you can change your plan at any time. Upgrades take effect immediately,
                   while downgrades take effect at the end of your current billing cycle.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="text-qb-navy">Is there a free trial for paid plans?</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  Yes, both Standard and Pro plans come with a 14-day free trial. 
+                  Yes, both Standard and Pro plans come with a 14-day free trial.
                   No credit card required to start your trial.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="glass-card">
               <CardHeader>
                 <CardTitle className="text-qb-navy">What payment methods do you accept?</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray">
-                  We accept all major credit cards, bank transfers, and select cryptocurrencies. 
+                  We accept all major credit cards, bank transfers, and select cryptocurrencies.
                   All payments are processed securely with enterprise-grade encryption.
                 </p>
               </CardContent>
