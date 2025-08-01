@@ -13,7 +13,7 @@ interface DashboardContextType {
   purchaseTokens: (category: string, symbol: string, amount: number) => Promise<boolean>;
   reportImpact: (type: string, description: string) => Promise<boolean>;
   redeemBenefit: (benefitType: string, cost: number, token: string) => Promise<boolean>;
-  refreshDashboardData: () => Promise<void>;
+  refreshData: () => Promise<void>;
 }
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -36,16 +36,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Prevent multiple rapid refreshes
-    if (dataLoading) {
-      return;
-    }
-
     try {
       setDataLoading(true);
-      
-      // Add a small delay to prevent rapid consecutive calls
-      await new Promise(resolve => setTimeout(resolve, 100));
       
       // Load data in parallel
       const [profile, tokens, summary] = await Promise.all([
@@ -177,12 +169,17 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Refresh all data
+  const refreshData = async () => {
+    await loadUserData();
+  };
+
   // Load data when user changes
   useEffect(() => {
     if (user?.id) {
       loadUserData();
     }
-  }, [user?.id]); // user?.id dependency is correct here
+  }, [user?.id]);
 
   const contextValue: DashboardContextType = {
     userProfile,
@@ -194,7 +191,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     purchaseTokens,
     reportImpact,
     redeemBenefit,
-    refreshDashboardData: loadUserData
+    refreshData
   };
 
   return (

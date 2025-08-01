@@ -8,6 +8,8 @@ import { useDashboard } from '@/hooks/useDashboardContext';
 import DashboardNavigation from '@/components/DashboardNavigation';
 import LoadingScreen from '@/components/LoadingScreen';
 import DashboardOverview from '@/components/dashboard/DashboardOverview';
+import TokenCreator from '@/components/TokenCreator';
+import GovernancePanel from '@/components/GovernancePanel';
 
 const currencies = [
   { code: 'USD', symbol: '$', icon: DollarSign },
@@ -21,6 +23,7 @@ export default function Dashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [selectedTab, setSelectedTab] = useState('overview');
+  const [selectedProduct, setSelectedProduct] = useState('community');
 
   const { user, signOut, loading: authLoading } = useAuth();
   const {
@@ -102,10 +105,19 @@ export default function Dashboard() {
         }`}>
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
+
               <div className="flex items-center space-x-4">
-                <h1 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  Dashboard
-                </h1>
+                <Select value={selectedProduct} onValueChange={setSelectedProduct}>
+                  <SelectTrigger className={`w-64 font-bold h-12 shadow-none ring-0 focus:ring-0 focus:border-0 border-0 ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-slate-900'}`} style={{boxShadow: 'none', border: 'none'}}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className={isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-slate-900'}>
+                    <SelectItem value="community" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Community Coins</SelectItem>
+                    <SelectItem value="impact" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Impact Coins (Coming Soon)</SelectItem>
+                    <SelectItem value="quant" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Quant Strategies (Coming Soon)</SelectItem>
+                    <SelectItem value="portfolio" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Tokenized Portfolio (Coming Soon)</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -140,54 +152,70 @@ export default function Dashboard() {
         </header>
 
         <main className="container mx-auto px-4 py-6">
-          <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-            <TabsList className={`grid w-full grid-cols-5 ${isDarkMode 
-              ? 'bg-slate-800/50' 
-              : 'bg-white/50'
-            }`}>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="trading">Trading</TabsTrigger>
-              <TabsTrigger value="impact">Impact</TabsTrigger>
-              <TabsTrigger value="community">Community</TabsTrigger>
-              <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-            </TabsList>
+          {selectedProduct === 'community' ? (
+            <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
+              <TabsList className={`grid w-full grid-cols-6 ${isDarkMode 
+                ? 'bg-slate-800/50' 
+                : 'bg-white/50'
+              }`}>
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="trading">Trading</TabsTrigger>
+                <TabsTrigger value="impact">Impact</TabsTrigger>
+                <TabsTrigger value="token-creator">Token Creator</TabsTrigger>
+                <TabsTrigger value="governance">Governance</TabsTrigger>
+                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
+              </TabsList>
 
-            {/* Overview Tab */}
-            <TabsContent value="overview" className="space-y-6">
-              <DashboardOverview
-                portfolioSummary={portfolioSummary}
-                isDarkMode={isDarkMode}
-                selectedCurrency={selectedCurrency}
-                formatPrice={formatPrice}
-                onTabChange={setSelectedTab}
-              />
-            </TabsContent>
+              {/* Overview Tab */}
+              <TabsContent value="overview" className="space-y-6">
+                <DashboardOverview
+                  portfolioSummary={portfolioSummary}
+                  isDarkMode={isDarkMode}
+                  selectedCurrency={selectedCurrency}
+                  formatPrice={formatPrice}
+                  onTabChange={setSelectedTab}
+                />
+              </TabsContent>
 
-            {/* Other tabs - simplified placeholders for now */}
-            <TabsContent value="trading" className="space-y-6">
-              <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                Trading functionality coming soon...
-              </div>
-            </TabsContent>
+              {/* Other tabs - simplified placeholders for now */}
+              <TabsContent value="trading" className="space-y-6">
+                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  Trading functionality coming soon...
+                </div>
+              </TabsContent>
 
-            <TabsContent value="impact" className="space-y-6">
-              <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                Impact tracking coming soon...
-              </div>
-            </TabsContent>
+              <TabsContent value="impact" className="space-y-6">
+                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  Impact tracking coming soon...
+                </div>
+              </TabsContent>
 
-            <TabsContent value="community" className="space-y-6">
-              <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                Community features coming soon...
-              </div>
-            </TabsContent>
+              {/* Token Creator Tab */}
+              <TabsContent value="token-creator" className="space-y-6">
+                <TokenCreator isDarkMode={isDarkMode} />
+              </TabsContent>
 
-            <TabsContent value="portfolio" className="space-y-6">
-              <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                Portfolio details coming soon...
-              </div>
-            </TabsContent>
-          </Tabs>
+              {/* Governance Tab */}
+              <TabsContent value="governance" className="space-y-6">
+                <GovernancePanel isDarkMode={isDarkMode} />
+              </TabsContent>
+
+              <TabsContent value="portfolio" className="space-y-6">
+                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  Portfolio details coming soon...
+                </div>
+              </TabsContent>
+            </Tabs>
+          ) : (
+            <div className={`flex flex-col items-center justify-center min-h-[400px] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+              <h2 className="text-2xl font-bold mb-4">
+                {selectedProduct === 'impact' && 'Impact Coins'}
+                {selectedProduct === 'quant' && 'Quant Strategies'}
+                {selectedProduct === 'portfolio' && 'Tokenized Portfolio'}
+              </h2>
+              <div className="text-lg opacity-70">Coming Soon</div>
+            </div>
+          )}
         </main>
       </div>
     </div>
