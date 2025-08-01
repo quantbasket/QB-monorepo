@@ -1,15 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-import { DollarSign, Euro, IndianRupee, Banknote, Coins } from 'lucide-react';
+import { 
+  DollarSign, 
+  Euro, 
+  IndianRupee, 
+  Banknote, 
+  Coins,
+  TrendingUp,
+  Users,
+  Vote,
+  Activity,
+  FileText,
+  MessageCircle,
+  Settings,
+  ExternalLink,
+  Calendar,
+  Award,
+  Target,
+  Zap
+} from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useDashboard } from '@/hooks/useDashboardContext';
 import DashboardNavigation from '@/components/DashboardNavigation';
 import LoadingScreen from '@/components/LoadingScreen';
-import DashboardOverview from '@/components/dashboard/DashboardOverview';
-import TokenCreator from '@/components/TokenCreator';
-import GovernancePanel from '@/components/GovernancePanel';
 
 const currencies = [
   { code: 'USD', symbol: '$', icon: DollarSign },
@@ -19,16 +37,34 @@ const currencies = [
   { code: 'CNY', symbol: '¥', icon: Coins }
 ];
 
+// Mock data for community token
+const mockTokenData = {
+  name: "Community Coin",
+  ticker: "COMM",
+  logo: "🪙",
+  description: "Empowering communities through value exchange",
+  launchDate: "2024-01-15",
+  status: "Live",
+  communitySize: 1247,
+  governancePower: 2.3,
+  currentPrice: 0.45,
+  marketCap: 562000,
+  volume24h: 12500,
+  growth7d: 12.5,
+  userBalance: 150,
+  stakedAmount: 50,
+  claimableRewards: 5.2,
+  votesParticipated: 8
+};
+
 export default function Dashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [selectedTab, setSelectedTab] = useState('overview');
-  const [selectedProduct, setSelectedProduct] = useState('community');
 
   const { user, signOut, loading: authLoading } = useAuth();
   const {
     userProfile,
-    portfolioSummary,
     dataLoading
   } = useDashboard();
 
@@ -45,30 +81,19 @@ export default function Dashboard() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const getCurrencyRate = (currency: string) => {
-    const rates = {
-      USD: 1,
-      EUR: 0.85,
-      INR: 83.12,
-      RUB: 74.55,
-      CNY: 7.24
-    };
-    return rates[currency] || 1;
-  };
-
   const formatPrice = (price: number, currency: string) => {
-    const rate = getCurrencyRate(currency);
+    const rates = { USD: 1, EUR: 0.85, INR: 83.12, RUB: 74.55, CNY: 7.24 };
+    const rate = rates[currency] || 1;
     const convertedPrice = price * rate;
     const currencyData = currencies.find(c => c.code === currency);
     return `${currencyData?.symbol}${convertedPrice.toFixed(2)}`;
   };
 
-  // Show loading state while auth is loading or data is loading
   if (authLoading || dataLoading) {
     return (
       <LoadingScreen 
-        message="Loading your dashboard..."
-        subMessage="Please wait while we prepare your Quant Basket experience"
+        message="Loading your community tokens dashboard..."
+        subMessage="Please wait while we prepare your community experience"
         size="md"
       />
     );
@@ -80,17 +105,15 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen">
-      {/* Background Gradient */}
       <div className={`fixed inset-0 ${isDarkMode 
-        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700' 
-        : 'bg-gradient-to-br from-blue-900 via-blue-800 to-teal-600'
+        ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700' 
+        : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'
       }`} />
       
-      <div className={`relative z-10 min-h-screen backdrop-blur-sm ${isDarkMode 
-        ? 'bg-gray-900/95' 
+      <div className={`relative z-10 min-h-screen ${isDarkMode 
+        ? 'bg-slate-900/95' 
         : 'bg-white/95'
       }`}>
-        {/* Dashboard Navigation */}
         <DashboardNavigation 
           userProfile={userProfile} 
           onSignOut={handleSignOut}
@@ -98,26 +121,16 @@ export default function Dashboard() {
           onToggleTheme={toggleTheme}
         />
         
-        {/* Dashboard Header */}
-        <header className={`border-b backdrop-blur-sm ${isDarkMode 
+        <header className={`border-b ${isDarkMode 
           ? 'border-slate-700/50 bg-slate-800/50' 
           : 'border-slate-200/50 bg-white/50'
-        }`}>
+        } backdrop-blur-sm`}>
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-
               <div className="flex items-center space-x-4">
-                <Select value={selectedProduct} onValueChange={setSelectedProduct}>
-                  <SelectTrigger className={`w-64 font-bold h-12 shadow-none ring-0 focus:ring-0 focus:border-0 border-0 ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-slate-900'}`} style={{boxShadow: 'none', border: 'none'}}>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className={isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-slate-900'}>
-                    <SelectItem value="community" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Community Coins</SelectItem>
-                    <SelectItem value="impact" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Impact Coins (Coming Soon)</SelectItem>
-                    <SelectItem value="quant" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Quant Strategies (Coming Soon)</SelectItem>
-                    <SelectItem value="portfolio" className={isDarkMode ? 'text-white text-base' : 'text-slate-900 text-base'}>Tokenized Portfolio (Coming Soon)</SelectItem>
-                  </SelectContent>
-                </Select>
+                <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                  Community Tokens Dashboard
+                </h1>
               </div>
               
               <div className="flex items-center space-x-4">
@@ -152,70 +165,405 @@ export default function Dashboard() {
         </header>
 
         <main className="container mx-auto px-4 py-6">
-          {selectedProduct === 'community' ? (
-            <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-              <TabsList className={`grid w-full grid-cols-6 ${isDarkMode 
-                ? 'bg-slate-800/50' 
-                : 'bg-white/50'
-              }`}>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="trading">Trading</TabsTrigger>
-                <TabsTrigger value="impact">Impact</TabsTrigger>
-                <TabsTrigger value="token-creator">Token Creator</TabsTrigger>
-                <TabsTrigger value="governance">Governance</TabsTrigger>
-                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-              </TabsList>
+          <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
+            <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
+              ? 'bg-slate-800/50' 
+              : 'bg-white/50'
+            }`}>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="performance">Performance</TabsTrigger>
+              <TabsTrigger value="holdings">My Holdings</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="governance">Governance</TabsTrigger>
+              <TabsTrigger value="engage">Engage</TabsTrigger>
+              <TabsTrigger value="tokenomics">Tokenomics</TabsTrigger>
+              <TabsTrigger value="contract">Contract</TabsTrigger>
+            </TabsList>
 
-              {/* Overview Tab */}
-              <TabsContent value="overview" className="space-y-6">
-                <DashboardOverview
-                  portfolioSummary={portfolioSummary}
-                  isDarkMode={isDarkMode}
-                  selectedCurrency={selectedCurrency}
-                  formatPrice={formatPrice}
-                  onTabChange={setSelectedTab}
-                />
-              </TabsContent>
+            {/* Token Overview Tab */}
+            <TabsContent value="overview" className="space-y-6">
+              <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="text-4xl">{mockTokenData.logo}</div>
+                      <div>
+                        <CardTitle className={`text-2xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {mockTokenData.name} ({mockTokenData.ticker})
+                        </CardTitle>
+                        <p className={`text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                          {mockTokenData.description}
+                        </p>
+                      </div>
+                    </div>
+                    <Badge variant="default" className="bg-green-500/20 text-green-600 border-green-500/30">
+                      {mockTokenData.status}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Calendar className="w-4 h-4 text-blue-500" />
+                        <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Launch Date</span>
+                      </div>
+                      <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.launchDate}
+                      </p>
+                    </div>
+                    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Users className="w-4 h-4 text-green-500" />
+                        <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Size</span>
+                      </div>
+                      <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.communitySize.toLocaleString()} holders
+                      </p>
+                    </div>
+                    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Vote className="w-4 h-4 text-purple-500" />
+                        <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Governance Power</span>
+                      </div>
+                      <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.governancePower}%
+                      </p>
+                    </div>
+                    <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                      <div className="flex items-center space-x-2 mb-2">
+                        <TrendingUp className="w-4 h-4 text-orange-500" />
+                        <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Current Price</span>
+                      </div>
+                      <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {formatPrice(mockTokenData.currentPrice, selectedCurrency)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-              {/* Other tabs - simplified placeholders for now */}
-              <TabsContent value="trading" className="space-y-6">
-                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  Trading functionality coming soon...
-                </div>
-              </TabsContent>
+            {/* Performance Tab */}
+            <TabsContent value="performance" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      Market Cap
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      {formatPrice(mockTokenData.marketCap, selectedCurrency)}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      24h Volume
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      {formatPrice(mockTokenData.volume24h, selectedCurrency)}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      7d Growth
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-green-500">
+                      +{mockTokenData.growth7d}%
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                      Community Momentum
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold text-blue-500">High</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="impact" className="space-y-6">
-                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  Impact tracking coming soon...
-                </div>
-              </TabsContent>
+            {/* My Holdings Tab */}
+            <TabsContent value="holdings" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Your Balance</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Available</span>
+                      <span className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.userBalance} {mockTokenData.ticker}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Staked</span>
+                      <span className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.stakedAmount} {mockTokenData.ticker}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Claimable Rewards</span>
+                      <span className="font-bold text-green-500">
+                        {mockTokenData.claimableRewards} {mockTokenData.ticker}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Governance Activity</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>Votes Participated</span>
+                      <span className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {mockTokenData.votesParticipated}
+                      </span>
+                    </div>
+                    <Button className="w-full" variant="outline">
+                      Claim Rewards
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
 
-              {/* Token Creator Tab */}
-              <TabsContent value="token-creator" className="space-y-6">
-                <TokenCreator isDarkMode={isDarkMode} />
-              </TabsContent>
+            {/* Activity Feed Tab */}
+            <TabsContent value="activity" className="space-y-6">
+              <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <CardHeader>
+                  <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <Activity className="w-5 h-5" />
+                    <span>Recent Activity</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {[
+                    { type: 'proposal', title: 'New Community Initiative Proposal', time: '2 hours ago' },
+                    { type: 'vote', title: 'Vote completed: Community Event Funding', time: '1 day ago' },
+                    { type: 'reward', title: 'Weekly rewards distributed', time: '3 days ago' },
+                    { type: 'collab', title: 'Partnership announcement with Local Business', time: '1 week ago' }
+                  ].map((activity, index) => (
+                    <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700/30' : 'border-slate-200 bg-slate-50'}`}>
+                      <div className="flex items-center justify-between">
+                        <h4 className={`font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {activity.title}
+                        </h4>
+                        <span className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                          {activity.time}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-              {/* Governance Tab */}
-              <TabsContent value="governance" className="space-y-6">
-                <GovernancePanel isDarkMode={isDarkMode} />
-              </TabsContent>
+            {/* Governance Tab */}
+            <TabsContent value="governance" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <Vote className="w-5 h-5" />
+                      <span>Active Proposals</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {[
+                      { title: 'Community Event Budget Allocation', votes: 156, timeLeft: '5 days' },
+                      { title: 'New Member Benefits Program', votes: 89, timeLeft: '2 weeks' }
+                    ].map((proposal, index) => (
+                      <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700' : 'border-slate-200'}`}>
+                        <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {proposal.title}
+                        </h4>
+                        <div className="flex justify-between text-sm">
+                          <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                            {proposal.votes} votes
+                          </span>
+                          <span className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                            {proposal.timeLeft} left
+                          </span>
+                        </div>
+                        <Button className="w-full mt-3" size="sm">Vote Now</Button>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+                
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Create Proposal</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" variant="outline">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Submit New Proposal
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="portfolio" className="space-y-6">
-                <div className={`p-8 text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  Portfolio details coming soon...
-                </div>
-              </TabsContent>
-            </Tabs>
-          ) : (
-            <div className={`flex flex-col items-center justify-center min-h-[400px] ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-              <h2 className="text-2xl font-bold mb-4">
-                {selectedProduct === 'impact' && 'Impact Coins'}
-                {selectedProduct === 'quant' && 'Quant Strategies'}
-                {selectedProduct === 'portfolio' && 'Tokenized Portfolio'}
-              </h2>
-              <div className="text-lg opacity-70">Coming Soon</div>
-            </div>
-          )}
+            {/* Engage Tab */}
+            <TabsContent value="engage" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <MessageCircle className="w-8 h-8 mx-auto mb-2" />
+                      Community Posts
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" variant="outline">Join Discussion</Button>
+                  </CardContent>
+                </Card>
+                
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <Target className="w-8 h-8 mx-auto mb-2" />
+                      Tasks & Bounties
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" variant="outline">View Tasks</Button>
+                  </CardContent>
+                </Card>
+                
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <Award className="w-8 h-8 mx-auto mb-2" />
+                      Quests & XP
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" variant="outline">View Quests</Button>
+                  </CardContent>
+                </Card>
+                
+                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <CardHeader>
+                    <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                      <Zap className="w-8 h-8 mx-auto mb-2" />
+                      Submit Ideas
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" variant="outline">Share Ideas</Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Tokenomics Tab */}
+            <TabsContent value="tokenomics" className="space-y-6">
+              <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <CardHeader>
+                  <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Tokenomics Overview</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className={`font-medium mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Minting Process</h4>
+                      <p className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                        Tokens are minted based on community participation, contributions, and time invested in community activities.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className={`font-medium mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Backing Assets</h4>
+                      <p className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                        Backed by community value, member engagement metrics, and verified contributions.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className={`font-medium mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Supply Cap</h4>
+                      <p className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                        Dynamic supply based on community growth with sustainable inflation model.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className={`font-medium mb-3 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Distribution</h4>
+                      <p className={isDarkMode ? 'text-slate-300' : 'text-slate-600'}>
+                        Fair distribution through participation rewards, governance incentives, and community milestones.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Smart Contract Tab */}
+            <TabsContent value="contract" className="space-y-6">
+              <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <CardHeader>
+                  <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <Settings className="w-5 h-5" />
+                    <span>Smart Contract Information</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        Contract Address
+                      </label>
+                      <p className={`font-mono text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        0x1234...5678
+                      </p>
+                    </div>
+                    <div>
+                      <label className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        Blockchain
+                      </label>
+                      <p className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        Ethereum
+                      </p>
+                    </div>
+                    <div>
+                      <label className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        Audit Status
+                      </label>
+                      <Badge variant="default" className="bg-green-500/20 text-green-600 border-green-500/30">
+                        Verified
+                      </Badge>
+                    </div>
+                    <div>
+                      <label className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                        Trust Level
+                      </label>
+                      <p className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        High
+                      </p>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View on Explorer
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </main>
       </div>
     </div>
