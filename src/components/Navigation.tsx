@@ -60,6 +60,16 @@ const Navigation = () => {
                 Pricing
               </Link>
               <Link
+                to="/learn"
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  isActive("/learn")
+                    ? "text-qb-green bg-qb-navy/50"
+                    : "text-white hover:text-qb-green"
+                }`}
+              >
+                Learn
+              </Link>
+              <Link
                 to="/support"
                 className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                   isActive("/support")

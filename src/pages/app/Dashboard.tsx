@@ -226,9 +226,9 @@ export default function Dashboard() {
           ? 'border-slate-700/50 bg-slate-800/50' 
           : 'border-slate-200/50 bg-white/50'
         } backdrop-blur-sm`}>
-          <div className="w-full px-6 py-4">
+          <div className="w-full px-4 py-3">
             <div className="flex items-center justify-between w-full">
-              <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-6">
                 <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
                   Dashboard
                 </h1>
@@ -315,7 +315,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main className="w-full px-6 py-6">
+        <main className="w-full px-4 py-4">
           {dashboardType === 'community' ? (
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
@@ -334,60 +334,76 @@ export default function Dashboard() {
 
               {/* Community Token Overview Tab */}
               <TabsContent value="overview" className="space-y-6">
-                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="text-4xl">{mockTokenData.logo}</div>
+                <Card className={`backdrop-blur-xl ${isDarkMode 
+                  ? 'bg-slate-800/30 border-slate-700/50 shadow-2xl shadow-blue-500/10' 
+                  : 'bg-white/70 border-slate-200/50 shadow-2xl shadow-blue-500/5'
+                } border-2`}>
+                  <CardHeader className="relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-cyan-500/10" />
+                    <div className="relative flex items-center justify-between">
+                      <div className="flex items-center space-x-6">
+                        <div className="text-6xl animate-pulse">{mockTokenData.logo}</div>
                         <div>
-                          <CardTitle className={`text-2xl ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          <CardTitle className={`text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent`}>
                             {mockTokenData.name} ({mockTokenData.ticker})
                           </CardTitle>
-                          <p className={`text-lg ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                          <p className={`text-lg mt-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                             {mockTokenData.description}
                           </p>
                         </div>
                       </div>
-                      <Badge variant="default" className="bg-green-500/20 text-green-600 border-green-500/30">
+                      <Badge variant="default" className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-400 border-green-500/30 px-4 py-2 text-lg font-semibold">
                         {mockTokenData.status}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Calendar className="w-4 h-4 text-blue-500" />
-                          <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Launch Date</span>
+                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
+                        ? 'bg-gradient-to-br from-blue-900/30 to-slate-800/30 border border-blue-500/30' 
+                        : 'bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-200/50'
+                      } hover:scale-105 transition-all duration-300`}>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Calendar className="w-5 h-5 text-blue-400" />
+                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Launch Date</span>
                         </div>
-                        <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockTokenData.launchDate}
                         </p>
                       </div>
-                      <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Users className="w-4 h-4 text-green-500" />
-                          <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Size</span>
+                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
+                        ? 'bg-gradient-to-br from-green-900/30 to-slate-800/30 border border-green-500/30' 
+                        : 'bg-gradient-to-br from-green-50 to-slate-50 border border-green-200/50'
+                      } hover:scale-105 transition-all duration-300`}>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Users className="w-5 h-5 text-green-400" />
+                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Size</span>
                         </div>
-                        <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockTokenData.communitySize.toLocaleString()} holders
                         </p>
                       </div>
-                      <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Vote className="w-4 h-4 text-purple-500" />
-                          <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Governance Power</span>
+                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
+                        ? 'bg-gradient-to-br from-purple-900/30 to-slate-800/30 border border-purple-500/30' 
+                        : 'bg-gradient-to-br from-purple-50 to-slate-50 border border-purple-200/50'
+                      } hover:scale-105 transition-all duration-300`}>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Vote className="w-5 h-5 text-purple-400" />
+                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Governance Power</span>
                         </div>
-                        <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockTokenData.governancePower}%
                         </p>
                       </div>
-                      <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <TrendingUp className="w-4 h-4 text-orange-500" />
-                          <span className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Current Price</span>
+                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
+                        ? 'bg-gradient-to-br from-orange-900/30 to-slate-800/30 border border-orange-500/30' 
+                        : 'bg-gradient-to-br from-orange-50 to-slate-50 border border-orange-200/50'
+                      } hover:scale-105 transition-all duration-300`}>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <TrendingUp className="w-5 h-5 text-orange-400" />
+                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Current Price</span>
                         </div>
-                        <p className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {formatPrice(mockTokenData.currentPrice, selectedCurrency)}
                         </p>
                       </div>

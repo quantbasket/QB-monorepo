@@ -27,7 +27,13 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
   const [profileForm, setProfileForm] = useState({
     full_name: '',
     location: '',
-    phone_number: ''
+    phone_number: '',
+    address: '',
+    date_of_birth: '',
+    wallet_address: '',
+    bank_account: '',
+    pan_number: '',
+    kyc_document: ''
   });
 
   const handleProfileOpen = () => {
@@ -35,7 +41,13 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
       setProfileForm({
         full_name: userProfile.full_name || '',
         location: userProfile.location || '',
-        phone_number: userProfile.phone_number || ''
+        phone_number: userProfile.phone_number || '',
+        address: (userProfile as any).address || '',
+        date_of_birth: (userProfile as any).date_of_birth || '',
+        wallet_address: (userProfile as any).wallet_address || '',
+        bank_account: (userProfile as any).bank_account || '',
+        pan_number: (userProfile as any).pan_number || '',
+        kyc_document: (userProfile as any).kyc_document || ''
       });
     }
     setIsProfileOpen(true);
@@ -129,9 +141,9 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Simple Profile Settings Dialog */}
+      {/* Enhanced Profile Settings Dialog */}
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
-        <DialogContent className={`max-w-md z-50 ${
+        <DialogContent className={`max-w-2xl max-h-[80vh] overflow-y-auto z-50 ${
           isDarkMode 
             ? 'bg-slate-900 border-slate-700 text-white' 
             : 'bg-white border-slate-200'
@@ -142,41 +154,134 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isDarkMode = false })
             </DialogTitle>
           </DialogHeader>
           
-          <form onSubmit={handleProfileUpdate} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="full_name" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
-                Full Name
-              </Label>
-              <Input
-                id="full_name"
-                value={profileForm.full_name}
-                onChange={(e) => setProfileForm({...profileForm, full_name: e.target.value})}
-                className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
-              />
+          <form onSubmit={handleProfileUpdate} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="full_name" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                  Full Name *
+                </Label>
+                <Input
+                  id="full_name"
+                  value={profileForm.full_name}
+                  onChange={(e) => setProfileForm({...profileForm, full_name: e.target.value})}
+                  className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phone_number" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                  Phone Number *
+                </Label>
+                <Input
+                  id="phone_number"
+                  type="tel"
+                  value={profileForm.phone_number}
+                  onChange={(e) => setProfileForm({...profileForm, phone_number: e.target.value})}
+                  className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="date_of_birth" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                  Date of Birth
+                </Label>
+                <Input
+                  id="date_of_birth"
+                  type="date"
+                  value={profileForm.date_of_birth}
+                  onChange={(e) => setProfileForm({...profileForm, date_of_birth: e.target.value})}
+                  className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="location" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                  Location
+                </Label>
+                <Input
+                  id="location"
+                  value={profileForm.location}
+                  onChange={(e) => setProfileForm({...profileForm, location: e.target.value})}
+                  className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="location" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
-                Location
+              <Label htmlFor="address" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                Complete Address
               </Label>
               <Input
-                id="location"
-                value={profileForm.location}
-                onChange={(e) => setProfileForm({...profileForm, location: e.target.value})}
+                id="address"
+                value={profileForm.address}
+                onChange={(e) => setProfileForm({...profileForm, address: e.target.value})}
                 className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                placeholder="Street, City, State, Country, Postal Code"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone_number" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
-                Phone Number
-              </Label>
-              <Input
-                id="phone_number"
-                value={profileForm.phone_number}
-                onChange={(e) => setProfileForm({...profileForm, phone_number: e.target.value})}
-                className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
-              />
+            <div className="space-y-4">
+              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                Financial Information
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="wallet_address" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                    Wallet Address
+                  </Label>
+                  <Input
+                    id="wallet_address"
+                    value={profileForm.wallet_address}
+                    onChange={(e) => setProfileForm({...profileForm, wallet_address: e.target.value})}
+                    className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                    placeholder="0x..."
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bank_account" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                    Bank Account (Last 4 digits)
+                  </Label>
+                  <Input
+                    id="bank_account"
+                    value={profileForm.bank_account}
+                    onChange={(e) => setProfileForm({...profileForm, bank_account: e.target.value})}
+                    className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                    placeholder="****1234"
+                    maxLength={4}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="pan_number" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                    PAN Number
+                  </Label>
+                  <Input
+                    id="pan_number"
+                    value={profileForm.pan_number}
+                    onChange={(e) => setProfileForm({...profileForm, pan_number: e.target.value})}
+                    className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                    placeholder="ABCDE1234F"
+                    maxLength={10}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="kyc_document" className={isDarkMode ? 'text-slate-200' : 'text-slate-700'}>
+                    KYC Document Type
+                  </Label>
+                  <Input
+                    id="kyc_document"
+                    value={profileForm.kyc_document}
+                    onChange={(e) => setProfileForm({...profileForm, kyc_document: e.target.value})}
+                    className={isDarkMode ? 'bg-slate-800 border-slate-600 text-white' : ''}
+                    placeholder="Aadhaar/Passport/Driver's License"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="flex justify-end space-x-3 pt-4">
