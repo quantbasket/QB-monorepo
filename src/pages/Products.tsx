@@ -3,10 +3,20 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Coins, BarChart3, TrendingUp, Shield, Zap, Globe, ArrowRight } from "lucide-react";
+import { Users, Coins, BarChart3, TrendingUp, Shield, Zap, Globe, ArrowRight, Download, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Products = () => {
+  const isMobile = useIsMobile();
+
+  const handleDownloadApp = (platform: 'ios' | 'android') => {
+    if (platform === 'ios') {
+      window.open('https://apps.apple.com/app/quantbasket', '_blank');
+    } else {
+      window.open('https://play.google.com/store/apps/details?id=com.quantbasket', '_blank');
+    }
+  };
   const products = [
     {
       title: "Community Tokens",
@@ -75,21 +85,65 @@ const Products = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="hero-gradient py-20">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl font-bold text-white mb-6">
-            Our Products
-          </h1>
-          <p className="text-xl text-gray-200">
-            Cutting-edge financial products that bridge traditional finance with blockchain innovation
-          </p>
+            {/* Hero Section */}
+      <section className="pt-24 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <Badge className="mb-4">Our Products</Badge>
+            <h1 className={`font-bold text-gray-900 mb-6 ${isMobile ? 'text-3xl' : 'text-5xl'}`}>
+              Revolutionary Trading Solutions
+            </h1>
+            <p className={`text-gray-600 mb-8 leading-relaxed ${isMobile ? 'text-lg px-2' : 'text-xl'}`}>
+              Experience the future of algorithmic trading with our cutting-edge products designed for traders of all levels
+            </p>
+            {isMobile ? (
+              <div className="flex flex-col space-y-3">
+                <Button 
+                  onClick={() => handleDownloadApp('ios')}
+                  size="lg" 
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Download for iOS
+                </Button>
+                <Button 
+                  onClick={() => handleDownloadApp('android')}
+                  size="lg" 
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Smartphone className="mr-2 h-5 w-5" />
+                  Download for Android
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  onClick={() => handleDownloadApp('ios')}
+                  size="lg" 
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Download for iOS
+                </Button>
+                <Button 
+                  onClick={() => handleDownloadApp('android')}
+                  size="lg" 
+                  variant="outline"
+                >
+                  <Smartphone className="mr-2 h-5 w-5" />
+                  Download for Android
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* Products Grid */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className={`grid gap-8 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
             {products.map((product, index) => (
               <Card key={index} className={`glass-card hover:shadow-xl transition-all duration-300 ${!product.available ? 'opacity-70' : ''}`}>
                 <CardHeader>
@@ -126,22 +180,46 @@ const Products = () => {
                   </div>
                   
                   <div className="pt-4">
-                    {product.available && product.title === "Community Tokens" ? (
-                      <Link to="/community-tokens" className="w-full">
-                        <Button variant="qbPrimary" className="w-full">
-                          Learn More
+                    {isMobile ? (
+                      product.available ? (
+                        <div className="space-y-2">
+                          <Button 
+                            onClick={() => handleDownloadApp('ios')}
+                            variant="qbPrimary" 
+                            className="w-full"
+                          >
+                            <Download className="mr-2 w-4 h-4" />
+                            Download App
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button 
+                          variant="qbSecondary" 
+                          className="w-full"
+                          disabled={true}
+                        >
+                          Coming Soon
                           <ArrowRight className="ml-2 w-4 h-4" />
                         </Button>
-                      </Link>
+                      )
                     ) : (
-                      <Button 
-                        variant={product.available ? "qbPrimary" : "qbSecondary"} 
-                        className="w-full"
-                        disabled={!product.available}
-                      >
-                        {product.available ? "Get Started" : "Coming Soon"}
-                        <ArrowRight className="ml-2 w-4 h-4" />
-                      </Button>
+                      product.available && product.title === "Community Tokens" ? (
+                        <Link to="/community-tokens" className="w-full">
+                          <Button variant="qbPrimary" className="w-full">
+                            Learn More
+                            <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Button 
+                          variant={product.available ? "qbPrimary" : "qbSecondary"} 
+                          className="w-full"
+                          disabled={!product.available}
+                        >
+                          {product.available ? "Get Started" : "Coming Soon"}
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      )
                     )}
                   </div>
                 </CardContent>
@@ -155,13 +233,13 @@ const Products = () => {
       <section className="section-gradient py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-qb-navy mb-6">Platform Features</h2>
-            <p className="text-lg text-qb-dark-gray">
+            <h2 className={`font-bold text-qb-navy mb-6 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>Platform Features</h2>
+            <p className={`text-qb-dark-gray ${isMobile ? 'text-base px-2' : 'text-lg'}`}>
               Advanced capabilities that power all our products
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className={`grid gap-8 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-3'}`}>
             <Card className="glass-card text-center">
               <CardHeader>
                 <Zap className="w-12 h-12 text-qb-green mx-auto mb-4" />
@@ -214,7 +292,7 @@ const Products = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className={`grid gap-8 ${isMobile ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-4'}`}>
             <div className="text-center">
               <div className="w-16 h-16 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <span className="font-bold text-qb-green">ETH</span>
@@ -253,18 +331,38 @@ const Products = () => {
       {/* CTA Section */}
       <section className="hero-gradient py-20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className={`font-bold text-white mb-6 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>
             Ready to Explore Our Products?
           </h2>
-          <p className="text-xl text-gray-200 mb-8">
+          <p className={`text-gray-200 mb-8 ${isMobile ? 'text-lg px-2' : 'text-xl'}`}>
             Start with Community Tokens and be part of our ecosystem as we expand with new features.
           </p>
-          <Link to="/community-tokens">
-            <Button variant="qbPrimary" size="lg" className="text-lg px-12">
-              Get Started Now
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
+          {isMobile ? (
+            <div className="space-y-3">
+              <Button 
+                onClick={() => handleDownloadApp('ios')}
+                variant="qbPrimary" 
+                size="lg" 
+                className="text-lg px-12 w-full"
+              >
+                <Download className="mr-2 w-5 h-5" />
+                Download App
+              </Button>
+              <Link to="/community-tokens" className="block">
+                <Button variant="outline" size="lg" className="text-lg px-12 w-full border-white text-white hover:bg-white hover:text-blue-600">
+                  Learn More
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <Link to="/community-tokens">
+              <Button variant="qbPrimary" size="lg" className="text-lg px-12">
+                Get Started Now
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+          )}
         </div>
       </section>
 

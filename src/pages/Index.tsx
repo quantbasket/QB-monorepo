@@ -3,12 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { TrendingUp, Users, Coins, BarChart3, Shield, ArrowRight } from "lucide-react";
+import { TrendingUp, Users, Coins, BarChart3, Shield, ArrowRight, Download, Smartphone } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import communityTokenizationImg from "@/assets/community-tokenization.jpg";
 import quantStrategiesImg from "@/assets/quant-strategies.jpg";
 import impactMarketplaceImg from "@/assets/impact-marketplace.jpg";
 
 const Index = () => {
+  const isMobile = useIsMobile();
+
+  const handleDownloadApp = (platform: 'ios' | 'android') => {
+    if (platform === 'ios') {
+      window.open('https://apps.apple.com/app/quantbasket', '_blank');
+    } else {
+      window.open('https://play.google.com/store/apps/details?id=com.quantbasket', '_blank');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -16,35 +27,64 @@ const Index = () => {
       {/* Hero Section */}
       <section className="hero-gradient relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-white">
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="text-white text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 lg:mb-6">
                 Engineered Portfolios.
                 <span className="text-qb-green block">Decentralized Access.</span>
               </h1>
-              <p className="text-xl mb-8 text-gray-200">
+              <p className="text-lg sm:text-xl mb-6 lg:mb-8 text-gray-200 px-2 sm:px-0">
                 Launch your community token today! Create community-driven tokens that reward impactful actions.
-                <span className="block text-lg text-qb-green mt-2">Additional features like ETFs and quant strategies coming soon.</span>
+                <span className="block text-base sm:text-lg text-qb-green mt-2">Additional features like ETFs and quant strategies coming soon.</span>
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/signup">
-                  <Button variant="qbSecondary" size="lg" className="text-lg px-8">
-                    Start Your Journey
-                    <ArrowRight className="ml-2 w-5 h-5" />
+              
+              {/* Mobile App Download Buttons */}
+              {isMobile ? (
+                <div className="flex flex-col space-y-3 px-4">
+                  <Button 
+                    variant="qbSecondary" 
+                    size="lg" 
+                    className="text-lg px-8 w-full justify-center"
+                    onClick={() => handleDownloadApp('ios')}
+                  >
+                    <Download className="mr-2 w-5 h-5" />
+                    Download for iOS
                   </Button>
-                </Link>
-                <Link to="/products">
-                  <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white">
-                    Learn More
+                  <Button 
+                    variant="qbGlass" 
+                    size="lg" 
+                    className="text-lg px-8 w-full justify-center text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white"
+                    onClick={() => handleDownloadApp('android')}
+                  >
+                    <Download className="mr-2 w-5 h-5" />
+                    Download for Android
                   </Button>
-                </Link>
-              </div>
+                  <div className="flex items-center justify-center mt-4 text-white/80">
+                    <Smartphone className="w-4 h-4 mr-2" />
+                    <span className="text-sm">Get the full experience on mobile</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/signup">
+                    <Button variant="qbSecondary" size="lg" className="text-lg px-8">
+                      Start Your Journey
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <Link to="/products">
+                    <Button variant="qbGlass" size="lg" className="text-lg px-8 text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white">
+                      Learn More
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
             
             {/* Prominent Basket Logo Display */}
             <div className="flex justify-center lg:justify-end">
-              <div className="glass-card p-12 max-w-md">
+              <div className="glass-card p-6 sm:p-8 lg:p-12 max-w-sm lg:max-w-md">
                 <img 
                   src="/qb_sticker.webp" 
                   alt="Quant Basket Platform" 
@@ -57,40 +97,51 @@ const Index = () => {
       </section>
 
       {/* Community-Based Tokenization Section */}
-      <section className="section-gradient py-20">
+      <section className="section-gradient py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-qb-navy mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy mb-4 lg:mb-6">
                 Community Coins & Tokenization
               </h2>
-              <p className="text-lg text-qb-dark-gray mb-6">
+              <p className="text-base sm:text-lg text-qb-dark-gray mb-6 px-2 sm:px-0">
                 Create and participate in community currencies that reward impactful actions. Earn tokens for contributing 
                 to community goals, participate in governance, and build wealth through collective success.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 lg:mb-8">
                 <Card className="glass-card">
                   <CardContent className="p-4">
-                    <Users className="w-8 h-8 text-qb-green mb-2" />
-                    <h3 className="font-semibold text-qb-navy">Community Governance</h3>
-                    <p className="text-sm text-qb-dark-gray">Democratic decision-making for all token holders</p>
+                    <Users className="w-8 h-8 text-qb-green mb-2 mx-auto sm:mx-0" />
+                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Community Governance</h3>
+                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Democratic decision-making for all token holders</p>
                   </CardContent>
                 </Card>
                 <Card className="glass-card">
                   <CardContent className="p-4">
-                    <Shield className="w-8 h-8 text-qb-blue mb-2" />
-                    <h3 className="font-semibold text-qb-navy">Secure & Transparent</h3>
-                    <p className="text-sm text-qb-dark-gray">Blockchain-powered security and full transparency</p>
+                    <Shield className="w-8 h-8 text-qb-blue mb-2 mx-auto sm:mx-0" />
+                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Secure & Transparent</h3>
+                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Blockchain-powered security and full transparency</p>
                   </CardContent>
                 </Card>
               </div>
-              <div className="mt-8">
-                <Link to="/community-tokens">
-                  <Button variant="qbPrimary" className="text-lg px-8">
-                    Get Started with Community Tokens
-                    <ArrowRight className="ml-2 w-5 h-5" />
+              <div className="text-center lg:text-left">
+                {isMobile ? (
+                  <Button 
+                    variant="qbPrimary" 
+                    className="text-lg px-8 w-full sm:w-auto"
+                    onClick={() => handleDownloadApp('ios')}
+                  >
+                    <Download className="mr-2 w-5 h-5" />
+                    Get the App
                   </Button>
-                </Link>
+                ) : (
+                  <Link to="/community-tokens">
+                    <Button variant="qbPrimary" className="text-lg px-8">
+                      Get Started with Community Tokens
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
             <div className="order-first lg:order-last">
@@ -105,37 +156,37 @@ const Index = () => {
       </section>
 
       {/* Quantitative Strategies Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="order-last lg:order-first">
               <img 
                 src={quantStrategiesImg} 
                 alt="Quantitative Strategies" 
                 className="w-full h-auto rounded-xl shadow-lg opacity-60"
               />
             </div>
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <h2 className="text-4xl font-bold text-qb-navy">
+            <div className="text-center lg:text-left">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-4">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy text-center lg:text-left">
                   Tokenized ETFs & Quant Strategies
                 </h2>
                 <span className="bg-qb-blue/20 text-qb-blue px-3 py-1 rounded-full text-sm font-medium">Planned</span>
               </div>
-              <p className="text-lg text-qb-dark-gray mb-6">
+              <p className="text-base sm:text-lg text-qb-dark-gray mb-6 px-2 sm:px-0">
                 Future feature: Invest in tokenized ETFs backed by real shares and commodities. Our financial engineers will create 
                 sophisticated mathematical models and algorithmic strategies for optimal returns.
               </p>
               <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <BarChart3 className="w-6 h-6 text-qb-green mt-1" />
+                <div className="flex items-start space-x-3 text-center sm:text-left">
+                  <BarChart3 className="w-6 h-6 text-qb-green mt-1 mx-auto sm:mx-0 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-qb-navy">Advanced Analytics</h3>
                     <p className="text-qb-dark-gray">Real-time risk assessment and portfolio optimization</p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <TrendingUp className="w-6 h-6 text-qb-blue mt-1" />
+                <div className="flex items-start space-x-3 text-center sm:text-left">
+                  <TrendingUp className="w-6 h-6 text-qb-blue mt-1 mx-auto sm:mx-0 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-qb-navy">Algorithmic Trading</h3>
                     <p className="text-qb-dark-gray">Automated execution of complex trading strategies</p>
@@ -148,30 +199,30 @@ const Index = () => {
       </section>
 
       {/* Impact Marketplace Section */}
-      <section className="section-gradient py-20">
+      <section className="section-gradient py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <h2 className="text-4xl font-bold text-qb-navy">Impact Marketplace</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-4">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy">Impact Marketplace</h2>
                 <span className="bg-qb-green/20 text-qb-green px-3 py-1 rounded-full text-sm font-medium">Coming Soon</span>
               </div>
-              <p className="text-lg text-qb-dark-gray mb-6">
+              <p className="text-base sm:text-lg text-qb-dark-gray mb-6 px-2 sm:px-0">
                 Future expansion: A marketplace for impact-driven projects and ESG-compliant investments. Start with community tokens now and access the broader ecosystem as we expand.
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Card className="glass-card">
                   <CardContent className="p-4">
-                    <Coins className="w-8 h-8 text-qb-green mb-2" />
-                    <h3 className="font-semibold text-qb-navy">ESG Compliance</h3>
-                    <p className="text-sm text-qb-dark-gray">All projects meet strict environmental and social criteria</p>
+                    <Coins className="w-8 h-8 text-qb-green mb-2 mx-auto sm:mx-0" />
+                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">ESG Compliance</h3>
+                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">All projects meet strict environmental and social criteria</p>
                   </CardContent>
                 </Card>
                 <Card className="glass-card">
                   <CardContent className="p-4">
-                    <TrendingUp className="w-8 h-8 text-qb-blue mb-2" />
-                    <h3 className="font-semibold text-qb-navy">Measurable Impact</h3>
-                    <p className="text-sm text-qb-dark-gray">Track real-world outcomes and financial returns</p>
+                    <TrendingUp className="w-8 h-8 text-qb-blue mb-2 mx-auto sm:mx-0" />
+                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Measurable Impact</h3>
+                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Track real-world outcomes and financial returns</p>
                   </CardContent>
                 </Card>
               </div>
@@ -188,12 +239,12 @@ const Index = () => {
       </section>
 
       {/* Features Overview */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-qb-navy mb-12">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy mb-8 lg:mb-12">
             Everything You Need for Modern Finance
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             <Card className="glass-card hover:shadow-xl transition-all duration-300">
               <CardHeader>
                 <Users className="w-12 h-12 text-qb-green mx-auto mb-4" />
@@ -201,11 +252,23 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray mb-4">Participate in decentralized communities and governance</p>
-                <Link to="/community-tokens">
-                  <Button variant="qbOutline" size="sm" className="w-full">
-                    Learn More
+                {isMobile ? (
+                  <Button 
+                    variant="qbOutline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => handleDownloadApp('ios')}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Get App
                   </Button>
-                </Link>
+                ) : (
+                  <Link to="/community-tokens">
+                    <Button variant="qbOutline" size="sm" className="w-full">
+                      Learn More
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
             
@@ -252,20 +315,47 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="hero-gradient py-20">
+      <section className="hero-gradient py-12 sm:py-20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 lg:mb-6">
             Ready to Revolutionize Your Portfolio?
           </h2>
-          <p className="text-xl text-gray-200 mb-8">
-            Start with Community Tokens today and be part of our growing ecosystem as we launch new features.
+          <p className="text-lg sm:text-xl text-gray-200 mb-6 lg:mb-8 px-2 sm:px-0">
+            {isMobile 
+              ? "Download our mobile app and access all features on the go."
+              : "Start with Community Tokens today and be part of our growing ecosystem as we launch new features."
+            }
           </p>
-          <Link to="/signup">
-            <Button variant="qbPrimary" size="lg" className="text-lg px-12">
-              Get Started Today
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
+          
+          {isMobile ? (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+              <Button 
+                variant="qbPrimary" 
+                size="lg" 
+                className="text-lg px-8 w-full sm:w-auto"
+                onClick={() => handleDownloadApp('ios')}
+              >
+                <Download className="mr-2 w-5 h-5" />
+                iOS App
+              </Button>
+              <Button 
+                variant="qbSecondary" 
+                size="lg" 
+                className="text-lg px-8 w-full sm:w-auto"
+                onClick={() => handleDownloadApp('android')}
+              >
+                <Download className="mr-2 w-5 h-5" />
+                Android App
+              </Button>
+            </div>
+          ) : (
+            <Link to="/signup">
+              <Button variant="qbPrimary" size="lg" className="text-lg px-12">
+                Get Started Today
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+          )}
         </div>
       </section>
 

@@ -27,7 +27,7 @@ const Footer = () => {
               Revolutionary platform for community-based tokenization, quantitative strategies,
               and impact investing powered by advanced financial engineering.
             </p>
-            {/* Social Media Icons Section */}
+            {/* Social Media Icons Section  */}
             <div className="flex space-x-4 mt-6">
               {socialLinks.map((social) => (
                 <a
