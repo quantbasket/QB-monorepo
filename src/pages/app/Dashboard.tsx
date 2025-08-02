@@ -95,11 +95,45 @@ const mockImpactData = {
   conversionRate: "1 EcoToken = $0.15 carbon credit"
 };
 
+// Mock data for quant strategy
+const mockQuantData = {
+  name: "Quant Strategy Alpha",
+  ticker: "QSA",
+  logo: "⚡",
+  strategy: "AI-Driven Portfolio Optimization",
+  status: "Active",
+  aum: 2500000,
+  performance30d: 8.7,
+  sharpeRatio: 1.85,
+  maxDrawdown: -3.2,
+  userInvestment: 50000,
+  unrealizedPnL: 4350,
+  allocatedAssets: 12,
+  riskScore: 6.5
+};
+
+// Mock data for portfolio tokens
+const mockPortfolioData = {
+  name: "Portfolio Token Basket",
+  ticker: "PTB",
+  logo: "📊",
+  composition: "Diversified Asset Bundle",
+  status: "Live",
+  netAssetValue: 1.25,
+  totalAssets: 850000,
+  fee: 0.75,
+  yield30d: 5.2,
+  userHoldings: 400,
+  dividendEarned: 125.50,
+  assets: 25,
+  rebalanceFreq: "Monthly"
+};
+
 export default function Dashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [selectedTab, setSelectedTab] = useState('overview');
-  const [dashboardType, setDashboardType] = useState<'community' | 'impact'>('community');
+  const [dashboardType, setDashboardType] = useState<'community' | 'impact' | 'quant' | 'portfolio'>('community');
 
   const { user, signOut, loading: authLoading } = useAuth();
   const {
@@ -128,11 +162,42 @@ export default function Dashboard() {
     return `${currencyData?.symbol}${convertedPrice.toFixed(2)}`;
   };
 
+  const getDashboardTitle = () => {
+    switch(dashboardType) {
+      case 'impact': return 'Impact Tokens Dashboard';
+      case 'quant': return 'Quant Strategies Dashboard';
+      case 'portfolio': return 'Portfolio Tokens Dashboard';
+      default: return 'Community Tokens Dashboard';
+    }
+  };
+
+  const getBackgroundStyle = () => {
+    const baseStyle = isDarkMode ? 'bg-slate-900/95' : 'bg-gray-50/95';
+    switch(dashboardType) {
+      case 'impact': 
+        return isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-emerald-900/20 to-cyan-900/20' 
+          : 'bg-gradient-to-br from-emerald-50 via-cyan-50 to-teal-50';
+      case 'quant':
+        return isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-purple-900/20 to-indigo-900/20'
+          : 'bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50';
+      case 'portfolio':
+        return isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-orange-900/20 to-amber-900/20'
+          : 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50';
+      default:
+        return isDarkMode 
+          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700' 
+          : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50';
+    }
+  };
+
   if (authLoading || dataLoading) {
     return (
       <LoadingScreen 
-        message={`Loading your ${dashboardType === 'impact' ? 'impact tokens' : 'community tokens'} dashboard...`}
-        subMessage={`Please wait while we prepare your ${dashboardType === 'impact' ? 'impact tracking' : 'community'} experience`}
+        message={`Loading your ${getDashboardTitle().toLowerCase()}...`}
+        subMessage={`Please wait while we prepare your experience`}
         size="md"
       />
     );
@@ -144,11 +209,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen">
-      <div className={`fixed inset-0 ${
-        dashboardType === 'impact' 
-          ? (isDarkMode ? 'bg-gradient-to-br from-slate-900 via-emerald-900/20 to-cyan-900/20' : 'bg-gradient-to-br from-emerald-50 via-cyan-50 to-teal-50')
-          : (isDarkMode ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50')
-      }`} />
+      <div className={`fixed inset-0 ${getBackgroundStyle()}`} />
       
       <div className={`relative z-10 min-h-screen ${isDarkMode 
         ? 'bg-slate-900/95' 
@@ -165,22 +226,22 @@ export default function Dashboard() {
           ? 'border-slate-700/50 bg-slate-800/50' 
           : 'border-slate-200/50 bg-white/50'
         } backdrop-blur-sm`}>
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                  {dashboardType === 'impact' ? 'Impact Tokens Dashboard' : 'Community Tokens Dashboard'}
+          <div className="w-full px-6 py-4">
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center space-x-8">
+                <h1 className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                  Dashboard
                 </h1>
                 
-                {/* Dashboard Type Toggle */}
-                <div className={`flex items-center space-x-1 p-1 rounded-lg ${
+                {/* Dashboard Type Toggle - Fixed position */}
+                <div className={`flex items-center space-x-0 p-1 rounded-lg ${
                   isDarkMode ? 'bg-slate-700/50' : 'bg-slate-100'
-                }`}>
+                } min-w-fit`}>
                   <Button
                     variant={dashboardType === 'community' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setDashboardType('community')}
-                    className={`${dashboardType === 'community' 
+                    className={`px-3 py-2 min-w-[90px] ${dashboardType === 'community' 
                       ? 'bg-blue-500 text-white hover:bg-blue-600' 
                       : isDarkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-200'
                     }`}
@@ -191,12 +252,34 @@ export default function Dashboard() {
                     variant={dashboardType === 'impact' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setDashboardType('impact')}
-                    className={`${dashboardType === 'impact' 
+                    className={`px-3 py-2 min-w-[80px] ${dashboardType === 'impact' 
                       ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-600 hover:to-cyan-600' 
                       : isDarkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-200'
                     }`}
                   >
                     🌱 Impact
+                  </Button>
+                  <Button
+                    variant={dashboardType === 'quant' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setDashboardType('quant')}
+                    className={`px-3 py-2 min-w-[80px] ${dashboardType === 'quant' 
+                      ? 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white hover:from-purple-600 hover:to-indigo-600' 
+                      : isDarkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    ⚡ Quant
+                  </Button>
+                  <Button
+                    variant={dashboardType === 'portfolio' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setDashboardType('portfolio')}
+                    className={`px-3 py-2 min-w-[90px] ${dashboardType === 'portfolio' 
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600' 
+                      : isDarkMode ? 'text-slate-300 hover:bg-slate-600' : 'text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    📊 Portfolio
                   </Button>
                 </div>
               </div>
@@ -232,7 +315,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-6">
+        <main className="w-full px-6 py-6">
           {dashboardType === 'community' ? (
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
@@ -633,7 +716,7 @@ export default function Dashboard() {
                 </Card>
               </TabsContent>
             </Tabs>
-          ) : (
+          ) : dashboardType === 'impact' ? (
             /* IMPACT TOKENS DASHBOARD - FUTURISTIC UI */
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-9 ${isDarkMode 
@@ -1173,6 +1256,254 @@ export default function Dashboard() {
                       </CardContent>
                     </Card>
                   ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+          ) : dashboardType === 'quant' ? (
+            /* QUANT STRATEGIES DASHBOARD */
+            <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
+              <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
+                ? 'bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border border-purple-500/20' 
+                : 'bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200'
+              }`}>
+                <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Overview</TabsTrigger>
+                <TabsTrigger value="performance" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Performance</TabsTrigger>
+                <TabsTrigger value="holdings" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">My Investment</TabsTrigger>
+                <TabsTrigger value="strategies" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Strategies</TabsTrigger>
+                <TabsTrigger value="analytics" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Analytics</TabsTrigger>
+                <TabsTrigger value="risk" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Risk</TabsTrigger>
+                <TabsTrigger value="settings" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Settings</TabsTrigger>
+                <TabsTrigger value="reports" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Reports</TabsTrigger>
+              </TabsList>
+
+              {/* Quant Overview Tab */}
+              <TabsContent value="overview" className="space-y-6">
+                <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/20 border-purple-500/30' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="text-5xl relative">
+                          {mockQuantData.logo}
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <div>
+                          <CardTitle className={`text-3xl font-bold bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent`}>
+                            {mockQuantData.name} ({mockQuantData.ticker})
+                          </CardTitle>
+                          <p className={`text-lg ${isDarkMode ? 'text-purple-300' : 'text-purple-700'} font-medium`}>
+                            {mockQuantData.strategy}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge variant="default" className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-0">
+                        {mockQuantData.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-purple-900/30 border border-purple-500/30' : 'bg-purple-50/80 border border-purple-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400 to-indigo-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <DollarSign className="w-5 h-5 text-purple-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}>AUM</span>
+                        </div>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {formatPrice(mockQuantData.aum, selectedCurrency)}
+                        </p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-indigo-900/30 border border-indigo-500/30' : 'bg-indigo-50/80 border border-indigo-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-400 to-blue-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <TrendingUp className="w-5 h-5 text-indigo-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>30d Performance</span>
+                        </div>
+                        <p className="text-2xl font-bold text-green-500">+{mockQuantData.performance30d}%</p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-blue-900/30 border border-blue-500/30' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Activity className="w-5 h-5 text-blue-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}>Sharpe Ratio</span>
+                        </div>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {mockQuantData.sharpeRatio}
+                        </p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-400 to-pink-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <AlertTriangle className="w-5 h-5 text-red-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-red-300' : 'text-red-700'}`}>Max Drawdown</span>
+                        </div>
+                        <p className="text-2xl font-bold text-red-500">{mockQuantData.maxDrawdown}%</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* Investment Holdings Tab */}
+              <TabsContent value="holdings" className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/20 border-purple-500/30' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
+                    <CardHeader>
+                      <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <Trophy className="w-5 h-5 text-purple-500" />
+                        <span>Your Investment</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Total Investment</span>
+                        <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {formatPrice(mockQuantData.userInvestment, selectedCurrency)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Unrealized P&L</span>
+                        <span className="font-bold text-green-500">
+                          +{formatPrice(mockQuantData.unrealizedPnL, selectedCurrency)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Allocated Assets</span>
+                        <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {mockQuantData.allocatedAssets}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Risk Score</span>
+                        <span className="font-bold text-orange-500">
+                          {mockQuantData.riskScore}/10
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+            </Tabs>
+          ) : (
+            /* PORTFOLIO TOKENS DASHBOARD */
+            <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
+              <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
+                ? 'bg-gradient-to-r from-orange-900/20 to-amber-900/20 border border-orange-500/20' 
+                : 'bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200'
+              }`}>
+                <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Overview</TabsTrigger>
+                <TabsTrigger value="composition" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Composition</TabsTrigger>
+                <TabsTrigger value="holdings" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">My Holdings</TabsTrigger>
+                <TabsTrigger value="performance" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Performance</TabsTrigger>
+                <TabsTrigger value="dividends" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Dividends</TabsTrigger>
+                <TabsTrigger value="rebalancing" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Rebalancing</TabsTrigger>
+                <TabsTrigger value="fees" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Fees</TabsTrigger>
+                <TabsTrigger value="analytics" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Analytics</TabsTrigger>
+              </TabsList>
+
+              {/* Portfolio Overview Tab */}
+              <TabsContent value="overview" className="space-y-6">
+                <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-orange-900/20 border-orange-500/30' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="text-5xl relative">
+                          {mockPortfolioData.logo}
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <div>
+                          <CardTitle className={`text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent`}>
+                            {mockPortfolioData.name} ({mockPortfolioData.ticker})
+                          </CardTitle>
+                          <p className={`text-lg ${isDarkMode ? 'text-orange-300' : 'text-orange-700'} font-medium`}>
+                            {mockPortfolioData.composition}
+                          </p>
+                        </div>
+                      </div>
+                      <Badge variant="default" className="bg-gradient-to-r from-orange-500 to-amber-500 text-white border-0">
+                        {mockPortfolioData.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-orange-900/30 border border-orange-500/30' : 'bg-orange-50/80 border border-orange-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <DollarSign className="w-5 h-5 text-orange-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-orange-300' : 'text-orange-700'}`}>NAV</span>
+                        </div>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {formatPrice(mockPortfolioData.netAssetValue, selectedCurrency)}
+                        </p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-amber-900/30 border border-amber-500/30' : 'bg-amber-50/80 border border-amber-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <TrendingUp className="w-5 h-5 text-amber-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-amber-300' : 'text-amber-700'}`}>30d Yield</span>
+                        </div>
+                        <p className="text-2xl font-bold text-green-500">+{mockPortfolioData.yield30d}%</p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-yellow-900/30 border border-yellow-500/30' : 'bg-yellow-50/80 border border-yellow-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Users className="w-5 h-5 text-yellow-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>Total Assets</span>
+                        </div>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {mockPortfolioData.assets}
+                        </p>
+                      </div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-400 to-pink-400 opacity-20 rounded-bl-full"></div>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <Settings className="w-5 h-5 text-red-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-red-300' : 'text-red-700'}`}>Management Fee</span>
+                        </div>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>{mockPortfolioData.fee}%</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* Portfolio Holdings Tab */}
+              <TabsContent value="holdings" className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-orange-900/20 border-orange-500/30' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
+                    <CardHeader>
+                      <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <Trophy className="w-5 h-5 text-orange-500" />
+                        <span>Your Portfolio</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Holdings</span>
+                        <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {mockPortfolioData.userHoldings} {mockPortfolioData.ticker}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Dividend Earned</span>
+                        <span className="font-bold text-green-500">
+                          {formatPrice(mockPortfolioData.dividendEarned, selectedCurrency)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Total Assets</span>
+                        <span className={`font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                          {mockPortfolioData.assets}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Rebalance Frequency</span>
+                        <span className="font-bold text-orange-500">
+                          {mockPortfolioData.rebalanceFreq}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </TabsContent>
             </Tabs>
