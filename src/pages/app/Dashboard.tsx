@@ -172,23 +172,22 @@ export default function Dashboard() {
   };
 
   const getBackgroundStyle = () => {
-    const baseStyle = isDarkMode ? 'bg-slate-900/95' : 'bg-gray-50/95';
     switch(dashboardType) {
       case 'impact': 
         return isDarkMode 
-          ? 'bg-gradient-to-br from-slate-900 via-emerald-900/20 to-cyan-900/20' 
+          ? 'bg-slate-900' 
           : 'bg-gradient-to-br from-emerald-50 via-cyan-50 to-teal-50';
       case 'quant':
         return isDarkMode 
-          ? 'bg-gradient-to-br from-slate-900 via-purple-900/20 to-indigo-900/20'
+          ? 'bg-slate-900'
           : 'bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50';
       case 'portfolio':
         return isDarkMode 
-          ? 'bg-gradient-to-br from-slate-900 via-orange-900/20 to-amber-900/20'
+          ? 'bg-slate-900'
           : 'bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50';
       default:
         return isDarkMode 
-          ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700' 
+          ? 'bg-slate-900' 
           : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50';
     }
   };
@@ -212,8 +211,8 @@ export default function Dashboard() {
       <div className={`fixed inset-0 ${getBackgroundStyle()}`} />
       
       <div className={`relative z-10 min-h-screen ${isDarkMode 
-        ? 'bg-slate-900/95' 
-        : 'bg-white/95'
+        ? 'bg-slate-900' 
+        : 'bg-white/98'
       }`}>
         <DashboardNavigation 
           userProfile={userProfile} 
@@ -223,7 +222,7 @@ export default function Dashboard() {
         />
         
         <header className={`border-b ${isDarkMode 
-          ? 'border-slate-700/50 bg-slate-800/50' 
+          ? 'border-slate-700 bg-slate-800' 
           : 'border-slate-200/50 bg-white/50'
         } backdrop-blur-sm`}>
           <div className="w-full px-4 py-3">
@@ -319,91 +318,82 @@ export default function Dashboard() {
           {dashboardType === 'community' ? (
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
-                ? 'bg-slate-800/50' 
-                : 'bg-white/50'
+                ? 'bg-slate-800 border border-slate-700' 
+                : 'bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200'
               }`}>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="performance">Performance</TabsTrigger>
-                <TabsTrigger value="holdings">My Holdings</TabsTrigger>
-                <TabsTrigger value="activity">Activity</TabsTrigger>
-                <TabsTrigger value="governance">Governance</TabsTrigger>
-                <TabsTrigger value="engage">Engage</TabsTrigger>
-                <TabsTrigger value="tokenomics">Tokenomics</TabsTrigger>
-                <TabsTrigger value="contract">Contract</TabsTrigger>
+                <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Overview</TabsTrigger>
+                <TabsTrigger value="performance" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Performance</TabsTrigger>
+                <TabsTrigger value="holdings" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">My Holdings</TabsTrigger>
+                <TabsTrigger value="activity" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Activity</TabsTrigger>
+                <TabsTrigger value="governance" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Governance</TabsTrigger>
+                <TabsTrigger value="engage" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Engage</TabsTrigger>
+                <TabsTrigger value="tokenomics" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Tokenomics</TabsTrigger>
+                <TabsTrigger value="contract" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Contract</TabsTrigger>
               </TabsList>
 
               {/* Community Token Overview Tab */}
               <TabsContent value="overview" className="space-y-6">
-                <Card className={`backdrop-blur-xl ${isDarkMode 
-                  ? 'bg-slate-800/30 border-slate-700/50 shadow-2xl shadow-blue-500/10' 
-                  : 'bg-white/70 border-slate-200/50 shadow-2xl shadow-blue-500/5'
-                } border-2`}>
-                  <CardHeader className="relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-cyan-500/10" />
-                    <div className="relative flex items-center justify-between">
-                      <div className="flex items-center space-x-6">
-                        <div className="text-6xl animate-pulse">{mockTokenData.logo}</div>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-blue-50/80 border-blue-200'} backdrop-blur-sm`}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="text-5xl relative">
+                          {mockTokenData.logo}
+                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                        </div>
                         <div>
-                          <CardTitle className={`text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent`}>
+                          <CardTitle className={`text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent`}>
                             {mockTokenData.name} ({mockTokenData.ticker})
                           </CardTitle>
-                          <p className={`text-lg mt-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                          <p className={`text-lg ${isDarkMode ? 'text-blue-300' : 'text-blue-700'} font-medium`}>
                             {mockTokenData.description}
                           </p>
                         </div>
                       </div>
-                      <Badge variant="default" className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-400 border-green-500/30 px-4 py-2 text-lg font-semibold">
+                      <Badge variant="default" className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-0">
                         {mockTokenData.status}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
-                        ? 'bg-gradient-to-br from-blue-900/30 to-slate-800/30 border border-blue-500/30' 
-                        : 'bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-200/50'
-                      } hover:scale-105 transition-all duration-300`}>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-blue-400 to-cyan-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
-                          <Calendar className="w-5 h-5 text-blue-400" />
-                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Launch Date</span>
+                          <Calendar className="w-5 h-5 text-blue-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}>Launch Date</span>
                         </div>
-                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockTokenData.launchDate}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
-                        ? 'bg-gradient-to-br from-green-900/30 to-slate-800/30 border border-green-500/30' 
-                        : 'bg-gradient-to-br from-green-50 to-slate-50 border border-green-200/50'
-                      } hover:scale-105 transition-all duration-300`}>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-cyan-50/80 border border-cyan-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-cyan-400 to-blue-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
-                          <Users className="w-5 h-5 text-green-400" />
-                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Community Size</span>
+                          <Users className="w-5 h-5 text-cyan-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}>Community Size</span>
                         </div>
-                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
-                          {mockTokenData.communitySize.toLocaleString()} holders
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {mockTokenData.communitySize.toLocaleString()}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
-                        ? 'bg-gradient-to-br from-purple-900/30 to-slate-800/30 border border-purple-500/30' 
-                        : 'bg-gradient-to-br from-purple-50 to-slate-50 border border-purple-200/50'
-                      } hover:scale-105 transition-all duration-300`}>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-purple-50/80 border border-purple-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-purple-400 to-indigo-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
-                          <Vote className="w-5 h-5 text-purple-400" />
-                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Governance Power</span>
+                          <Vote className="w-5 h-5 text-purple-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}>Governance Power</span>
                         </div>
-                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockTokenData.governancePower}%
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl backdrop-blur-sm ${isDarkMode 
-                        ? 'bg-gradient-to-br from-orange-900/30 to-slate-800/30 border border-orange-500/30' 
-                        : 'bg-gradient-to-br from-orange-50 to-slate-50 border border-orange-200/50'
-                      } hover:scale-105 transition-all duration-300`}>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-green-50/80 border border-green-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-green-400 to-emerald-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
-                          <TrendingUp className="w-5 h-5 text-orange-400" />
-                          <span className={`text-sm font-semibold ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>Current Price</span>
+                          <TrendingUp className="w-5 h-5 text-green-500" />
+                          <span className={`text-sm font-medium ${isDarkMode ? 'text-green-300' : 'text-green-700'}`}>Current Price</span>
                         </div>
-                        <p className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {formatPrice(mockTokenData.currentPrice, selectedCurrency)}
                         </p>
                       </div>
@@ -415,7 +405,7 @@ export default function Dashboard() {
               {/* Performance Tab */}
               <TabsContent value="performance" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Market Cap
@@ -427,7 +417,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         24h Volume
@@ -439,7 +429,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         7d Growth
@@ -451,7 +441,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Community Momentum
@@ -467,7 +457,7 @@ export default function Dashboard() {
               {/* My Holdings Tab */}
               <TabsContent value="holdings" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Your Balance</CardTitle>
                     </CardHeader>
@@ -493,7 +483,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Governance Activity</CardTitle>
                     </CardHeader>
@@ -514,7 +504,7 @@ export default function Dashboard() {
 
               {/* Activity Feed Tab */}
               <TabsContent value="activity" className="space-y-6">
-                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                   <CardHeader>
                     <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       <Activity className="w-5 h-5" />
@@ -528,7 +518,7 @@ export default function Dashboard() {
                       { type: 'reward', title: 'Weekly rewards distributed', time: '3 days ago' },
                       { type: 'collab', title: 'Partnership announcement with Local Business', time: '1 week ago' }
                     ].map((activity, index) => (
-                      <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700/30' : 'border-slate-200 bg-slate-50'}`}>
+                      <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700' : 'border-slate-200 bg-slate-50'}`}>
                         <div className="flex items-center justify-between">
                           <h4 className={`font-medium ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             {activity.title}
@@ -546,7 +536,7 @@ export default function Dashboard() {
               {/* Governance Tab */}
               <TabsContent value="governance" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Vote className="w-5 h-5" />
@@ -576,7 +566,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Create Proposal</CardTitle>
                     </CardHeader>
@@ -593,7 +583,7 @@ export default function Dashboard() {
               {/* Engage Tab */}
               <TabsContent value="engage" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <MessageCircle className="w-8 h-8 mx-auto mb-2" />
@@ -605,7 +595,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Target className="w-8 h-8 mx-auto mb-2" />
@@ -617,7 +607,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Award className="w-8 h-8 mx-auto mb-2" />
@@ -629,7 +619,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                  <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                     <CardHeader>
                       <CardTitle className={`text-center ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Zap className="w-8 h-8 mx-auto mb-2" />
@@ -645,7 +635,7 @@ export default function Dashboard() {
 
               {/* Tokenomics Tab */}
               <TabsContent value="tokenomics" className="space-y-6">
-                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                   <CardHeader>
                     <CardTitle className={isDarkMode ? 'text-white' : 'text-slate-900'}>Tokenomics Overview</CardTitle>
                   </CardHeader>
@@ -682,7 +672,7 @@ export default function Dashboard() {
 
               {/* Smart Contract Tab */}
               <TabsContent value="contract" className="space-y-6">
-                <Card className={isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'}>
+                <Card className={isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}>
                   <CardHeader>
                     <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       <Settings className="w-5 h-5" />
@@ -736,7 +726,7 @@ export default function Dashboard() {
             /* IMPACT TOKENS DASHBOARD - FUTURISTIC UI */
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-9 ${isDarkMode 
-                ? 'bg-gradient-to-r from-emerald-900/20 to-cyan-900/20 border border-emerald-500/20' 
+                ? 'bg-slate-800 border border-slate-700' 
                 : 'bg-gradient-to-r from-emerald-50 to-cyan-50 border border-emerald-200'
               }`}>
                 <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Overview</TabsTrigger>
@@ -752,7 +742,7 @@ export default function Dashboard() {
 
               {/* Impact Overview Tab */}
               <TabsContent value="overview" className="space-y-6">
-                <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-emerald-900/20 border-emerald-500/30' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm`}>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm`}>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -785,8 +775,8 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-emerald-900/30 border border-emerald-500/30' : 'bg-emerald-50/80 border border-emerald-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-emerald-400 to-cyan-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-emerald-50/80 border border-emerald-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-emerald-400 to-cyan-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <Globe className="w-5 h-5 text-emerald-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-emerald-300' : 'text-emerald-700'}`}>Total Impact</span>
@@ -795,8 +785,8 @@ export default function Dashboard() {
                           {mockImpactData.totalImpact}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-cyan-900/30 border border-cyan-500/30' : 'bg-cyan-50/80 border border-cyan-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-cyan-50/80 border border-cyan-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-cyan-400 to-blue-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <CheckCircle className="w-5 h-5 text-cyan-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-cyan-300' : 'text-cyan-700'}`}>Verified Actions</span>
@@ -805,8 +795,8 @@ export default function Dashboard() {
                           {mockImpactData.verifiedActions}%
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-blue-900/30 border border-blue-500/30' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-blue-400 to-indigo-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <Shield className="w-5 h-5 text-blue-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}>Partners</span>
@@ -827,7 +817,7 @@ export default function Dashboard() {
               {/* Impact Metrics Tab */}
               <TabsContent value="impact-metrics" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-green-900/20 border-green-500/30' : 'bg-gradient-to-br from-white/80 to-green-50/80 border-green-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-green-50/80 border-green-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium flex items-center space-x-2 ${isDarkMode ? 'text-green-300' : 'text-green-700'}`}>
                         <Leaf className="w-4 h-4" />
@@ -843,7 +833,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-blue-900/20 border-blue-500/30' : 'bg-gradient-to-br from-white/80 to-blue-50/80 border-blue-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-blue-50/80 border-blue-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium flex items-center space-x-2 ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}>
                         <Heart className="w-4 h-4" />
@@ -859,7 +849,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/20 border-purple-500/30' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium flex items-center space-x-2 ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}>
                         <BookOpen className="w-4 h-4" />
@@ -880,7 +870,7 @@ export default function Dashboard() {
               {/* Token Stats Tab */}
               <TabsContent value="token-stats" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Current Value
@@ -892,7 +882,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Total Supply
@@ -904,7 +894,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Circulating Supply
@@ -916,7 +906,7 @@ export default function Dashboard() {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader className="pb-2">
                       <CardTitle className={`text-sm font-medium ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
                         Burn Rate
@@ -932,7 +922,7 @@ export default function Dashboard() {
               {/* My Participation Tab */}
               <TabsContent value="participation" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-emerald-900/20 border-emerald-500/30' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Trophy className="w-5 h-5 text-emerald-500" />
@@ -967,7 +957,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Calendar className="w-5 h-5 text-blue-500" />
@@ -981,7 +971,7 @@ export default function Dashboard() {
                           { action: 'Uploaded recycling proof', tokens: '3 ECO', time: '1 day ago' },
                           { action: 'Learned about sustainability', tokens: '2 ECO', time: '3 days ago' }
                         ].map((activity, index) => (
-                          <div key={index} className={`p-3 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700/30' : 'border-slate-200 bg-slate-50'}`}>
+                          <div key={index} className={`p-3 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700' : 'border-slate-200 bg-slate-50'}`}>
                             <div className="flex justify-between items-center">
                               <span className={`text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                                 {activity.action}
@@ -1003,7 +993,7 @@ export default function Dashboard() {
 
               {/* Live Impact Feed Tab */}
               <TabsContent value="live-feed" className="space-y-6">
-                <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                   <CardHeader>
                     <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                       <Activity className="w-5 h-5 text-emerald-500" />
@@ -1018,7 +1008,7 @@ export default function Dashboard() {
                       { user: 'Sarah', action: 'completed learning module', reward: '15 EcoCoins', icon: BookOpen, time: '10 min ago' },
                       { user: 'Team Green', action: 'planted 150 trees', reward: '1500 EcoCoins', icon: Globe, time: '30 min ago' }
                     ].map((feed, index) => (
-                      <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-gradient-to-r from-slate-700/30 to-emerald-900/10' : 'border-slate-200 bg-gradient-to-r from-slate-50 to-emerald-50/50'} relative overflow-hidden`}>
+                      <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700' : 'border-slate-200 bg-gradient-to-r from-slate-50 to-emerald-50/50'} relative overflow-hidden`}>
                         <div className="absolute top-0 right-0 w-8 h-8 bg-emerald-500/10 rounded-bl-full"></div>
                         <div className="flex items-center space-x-3">
                           <feed.icon className="w-5 h-5 text-emerald-500" />
@@ -1074,7 +1064,7 @@ export default function Dashboard() {
                       type: 'environment'
                     }
                   ].map((mission, index) => (
-                    <Card key={index} className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-emerald-900/20 border-emerald-500/30' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-200`}>
+                    <Card key={index} className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-emerald-50/80 border-emerald-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-200`}>
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
                           <div className="flex items-center space-x-2">
@@ -1126,7 +1116,7 @@ export default function Dashboard() {
               {/* Impact Governance Tab */}
               <TabsContent value="impact-governance" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                         <Vote className="w-5 h-5 text-emerald-500" />
@@ -1138,7 +1128,7 @@ export default function Dashboard() {
                         { title: 'Fund Solar Panel Installation', votes: 245, timeLeft: '3 days', type: 'environment' },
                         { title: 'Community Fitness Program', votes: 189, timeLeft: '1 week', type: 'health' }
                       ].map((proposal, index) => (
-                        <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-gradient-to-r from-slate-700/30 to-emerald-900/10' : 'border-slate-200 bg-gradient-to-r from-slate-50 to-emerald-50/50'}`}>
+                        <div key={index} className={`p-4 rounded-lg border ${isDarkMode ? 'border-slate-700 bg-slate-700' : 'border-slate-200 bg-gradient-to-r from-slate-50 to-emerald-50/50'}`}>
                           <h4 className={`font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                             {proposal.title}
                           </h4>
@@ -1158,7 +1148,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Create Impact Proposal</CardTitle>
                     </CardHeader>
@@ -1192,7 +1182,7 @@ export default function Dashboard() {
 
               {/* Impact Tokenomics Tab */}
               <TabsContent value="impact-tokenomics" className="space-y-6">
-                <Card className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm`}>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm`}>
                   <CardHeader>
                     <CardTitle className={`${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Impact Tokenomics</CardTitle>
                   </CardHeader>
@@ -1241,7 +1231,7 @@ export default function Dashboard() {
                     { name: 'GPS Verification', type: 'Location Proof', status: 'Connected', icon: MapPin },
                     { name: 'Photo Verification', type: 'Visual Proof', status: 'Connected', icon: Camera }
                   ].map((integration, index) => (
-                    <Card key={index} className={`${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-slate-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-200`}>
+                    <Card key={index} className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'} backdrop-blur-sm hover:scale-105 transition-transform duration-200`}>
                       <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
                           <integration.icon className="w-6 h-6 text-emerald-500" />
@@ -1279,7 +1269,7 @@ export default function Dashboard() {
             /* QUANT STRATEGIES DASHBOARD */
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
-                ? 'bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border border-purple-500/20' 
+                ? 'bg-slate-800 border border-slate-700' 
                 : 'bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200'
               }`}>
                 <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white">Overview</TabsTrigger>
@@ -1294,7 +1284,7 @@ export default function Dashboard() {
 
               {/* Quant Overview Tab */}
               <TabsContent value="overview" className="space-y-6">
-                <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/20 border-purple-500/30' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -1318,36 +1308,36 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-purple-900/30 border border-purple-500/30' : 'bg-purple-50/80 border border-purple-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400 to-indigo-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-purple-50/80 border border-purple-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-purple-400 to-indigo-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <DollarSign className="w-5 h-5 text-purple-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-purple-300' : 'text-purple-700'}`}>AUM</span>
                         </div>
-                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {formatPrice(mockQuantData.aum, selectedCurrency)}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-indigo-900/30 border border-indigo-500/30' : 'bg-indigo-50/80 border border-indigo-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-400 to-blue-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-indigo-50/80 border border-indigo-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-indigo-400 to-blue-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <TrendingUp className="w-5 h-5 text-indigo-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>30d Performance</span>
                         </div>
                         <p className="text-2xl font-bold text-green-500">+{mockQuantData.performance30d}%</p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-blue-900/30 border border-blue-500/30' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-blue-50/80 border border-blue-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-blue-400 to-cyan-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <Activity className="w-5 h-5 text-blue-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}>Sharpe Ratio</span>
                         </div>
-                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockQuantData.sharpeRatio}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-400 to-pink-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-red-400 to-pink-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <AlertTriangle className="w-5 h-5 text-red-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-red-300' : 'text-red-700'}`}>Max Drawdown</span>
@@ -1362,7 +1352,7 @@ export default function Dashboard() {
               {/* Investment Holdings Tab */}
               <TabsContent value="holdings" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-purple-900/20 border-purple-500/30' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-purple-50/80 border-purple-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
                         <Trophy className="w-5 h-5 text-purple-500" />
@@ -1403,7 +1393,7 @@ export default function Dashboard() {
             /* PORTFOLIO TOKENS DASHBOARD */
             <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
               <TabsList className={`grid w-full grid-cols-8 ${isDarkMode 
-                ? 'bg-gradient-to-r from-orange-900/20 to-amber-900/20 border border-orange-500/20' 
+                ? 'bg-slate-800 border-slate-700' 
                 : 'bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200'
               }`}>
                 <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-500 data-[state=active]:text-white">Overview</TabsTrigger>
@@ -1418,7 +1408,7 @@ export default function Dashboard() {
 
               {/* Portfolio Overview Tab */}
               <TabsContent value="overview" className="space-y-6">
-                <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-orange-900/20 border-orange-500/30' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
+                <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -1442,41 +1432,41 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-orange-900/30 border border-orange-500/30' : 'bg-orange-50/80 border border-orange-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-orange-50/80 border border-orange-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-orange-400 to-amber-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <DollarSign className="w-5 h-5 text-orange-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-orange-300' : 'text-orange-700'}`}>NAV</span>
                         </div>
-                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {formatPrice(mockPortfolioData.netAssetValue, selectedCurrency)}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-amber-900/30 border border-amber-500/30' : 'bg-amber-50/80 border border-amber-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-amber-400 to-yellow-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-amber-50/80 border border-amber-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-amber-400 to-yellow-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <TrendingUp className="w-5 h-5 text-amber-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-amber-300' : 'text-amber-700'}`}>30d Yield</span>
                         </div>
                         <p className="text-2xl font-bold text-green-500">+{mockPortfolioData.yield30d}%</p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-yellow-900/30 border border-yellow-500/30' : 'bg-yellow-50/80 border border-yellow-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-yellow-50/80 border border-yellow-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-yellow-400 to-orange-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <Users className="w-5 h-5 text-yellow-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-yellow-300' : 'text-yellow-700'}`}>Total Assets</span>
                         </div>
-                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                           {mockPortfolioData.assets}
                         </p>
                       </div>
-                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-red-900/30 border border-red-500/30' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-red-400 to-pink-400 opacity-20 rounded-bl-full"></div>
+                      <div className={`p-6 rounded-xl ${isDarkMode ? 'bg-slate-700 border border-slate-600' : 'bg-red-50/80 border border-red-200'} relative overflow-hidden`}>
+                        <div className={`absolute top-0 right-0 w-16 h-16 ${isDarkMode ? 'bg-slate-600/50' : 'bg-gradient-to-br from-red-400 to-pink-400 opacity-20'} rounded-bl-full`}></div>
                         <div className="flex items-center space-x-3 mb-3">
                           <Settings className="w-5 h-5 text-red-500" />
                           <span className={`text-sm font-medium ${isDarkMode ? 'text-red-300' : 'text-red-700'}`}>Management Fee</span>
                         </div>
-                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>{mockPortfolioData.fee}%</p>
+                        <p className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{mockPortfolioData.fee}%</p>
                       </div>
                     </div>
                   </CardContent>
@@ -1486,7 +1476,7 @@ export default function Dashboard() {
               {/* Portfolio Holdings Tab */}
               <TabsContent value="holdings" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className={`${isDarkMode ? 'bg-gradient-to-br from-slate-800/50 to-orange-900/20 border-orange-500/30' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
+                  <Card className={`${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-gradient-to-br from-white/80 to-orange-50/80 border-orange-200'} backdrop-blur-sm`}>
                     <CardHeader>
                       <CardTitle className={`flex items-center space-x-2 ${isDarkMode ? 'text-slate-300' : 'text-slate-900'}`}>
                         <Trophy className="w-5 h-5 text-orange-500" />

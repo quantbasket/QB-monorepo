@@ -21,39 +21,39 @@ const Learn = () => {
   const courses = [
     {
       id: 1,
-      title: "Tokenization Fundamentals",
-      description: "Learn the basics of tokenization and how it's revolutionizing finance",
-      duration: "45 mins",
+      title: "What is Tokenization? Explained in Simple Terms",
+      description: "A comprehensive introduction to tokenization and how it's transforming traditional finance",
+      duration: "12 mins",
       level: "Beginner",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      topics: ["Token Economics", "Blockchain Basics", "Smart Contracts"]
+      videoUrl: "https://www.youtube.com/embed/aLh8jlYYvZA",
+      topics: ["Tokenization Basics", "Real World Assets", "Blockchain Technology"]
     },
     {
       id: 2,
-      title: "Community Token Strategies",
-      description: "Deep dive into building and managing community-driven tokens",
-      duration: "1.2 hours",
+      title: "Tokenization Deep Dive",
+      description: "Advanced concepts in tokenization including smart contracts and decentralized finance",
+      duration: "12 mins",
       level: "Intermediate",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      topics: ["Governance", "Community Building", "Token Distribution"]
+      videoUrl: "https://www.youtube.com/embed/aLh8jlYYvZA",
+      topics: ["Smart Contracts", "DeFi Integration", "Asset Tokenization"]
     },
     {
       id: 3,
-      title: "Quantitative Trading Basics",
-      description: "Introduction to algorithmic trading and quant strategies",
-      duration: "2 hours",
+      title: "Quantitative Trading Strategies",
+      description: "Learn algorithmic trading, quantitative analysis, and systematic investment approaches",
+      duration: "63 mins",
       level: "Advanced",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      topics: ["Algorithm Design", "Risk Management", "Backtesting"]
+      videoUrl: "https://www.youtube.com/embed/hPbay_ejH0s",
+      topics: ["Algorithmic Trading", "Risk Management", "Portfolio Optimization"]
     },
     {
       id: 4,
-      title: "Impact Investing with Tokens",
-      description: "How tokenization is changing sustainable finance",
-      duration: "35 mins",
-      level: "Beginner",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      topics: ["ESG Metrics", "Impact Measurement", "Sustainable Finance"]
+      title: "Introduction to Quantitative Finance",
+      description: "Mathematical models and statistical methods used in modern quantitative finance",
+      duration: "45 mins",
+      level: "Intermediate",
+      videoUrl: "https://www.youtube.com/embed/lG_OBZocF3E",
+      topics: ["Financial Models", "Statistical Analysis", "Quantitative Methods"]
     }
   ];
 
@@ -103,8 +103,8 @@ const Learn = () => {
               </span>
             </h1>
             <p className="text-xl text-qb-dark-gray mb-8 leading-relaxed">
-              Master the fundamentals of tokenization, quantitative strategies, and impact investing 
-              with our comprehensive learning resources and expert-led content.
+              Master the fundamentals of tokenization and quantitative finance with our expert-led video courses. 
+              Learn from industry professionals about asset tokenization, algorithmic trading, and modern financial modeling.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" className="bg-qb-navy hover:bg-qb-navy/90">
@@ -128,7 +128,7 @@ const Learn = () => {
               Learning Paths
             </h2>
             <p className="text-lg text-qb-dark-gray max-w-2xl mx-auto">
-              Structured learning paths designed to take you from beginner to expert in tokenization
+              Structured learning paths designed to take you from beginner to expert in tokenization and quantitative finance
             </p>
           </div>
 
@@ -136,37 +136,18 @@ const Learn = () => {
             <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-blue/30">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-white" />
+                  <BookOpen className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-qb-navy">Community Builder</CardTitle>
+                <CardTitle className="text-xl text-qb-navy">Tokenization Expert</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray mb-4">
-                  Learn to create and manage community-driven tokens with governance and engagement strategies.
+                  Master the fundamentals of tokenization and understand how real-world assets can be digitized.
                 </p>
                 <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• Token Economics</li>
-                  <li>• Community Governance</li>
-                  <li>• Engagement Metrics</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-green/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-8 h-8 text-white" />
-                </div>
-                <CardTitle className="text-xl text-qb-navy">Impact Investor</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-qb-dark-gray mb-4">
-                  Master impact investing through tokenization and create measurable social change.
-                </p>
-                <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• ESG Integration</li>
-                  <li>• Impact Measurement</li>
-                  <li>• Sustainable Finance</li>
+                  <li>• Asset Tokenization</li>
+                  <li>• Blockchain Technology</li>
+                  <li>• Smart Contracts</li>
                 </ul>
               </CardContent>
             </Card>
@@ -176,16 +157,35 @@ const Learn = () => {
                 <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-qb-navy">Quant Strategist</CardTitle>
+                <CardTitle className="text-xl text-qb-navy">Quantitative Analyst</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-qb-dark-gray mb-4">
-                  Develop advanced quantitative strategies and algorithmic trading systems.
+                  Develop advanced quantitative strategies and learn mathematical models for modern finance.
                 </p>
                 <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• Algorithm Design</li>
-                  <li>• Risk Management</li>
-                  <li>• Performance Analytics</li>
+                  <li>• Algorithmic Trading</li>
+                  <li>• Financial Modeling</li>
+                  <li>• Risk Analytics</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-green/30">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-8 h-8 text-white" />
+                </div>
+                <CardTitle className="text-xl text-qb-navy">Digital Finance Pioneer</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-qb-dark-gray mb-4">
+                  Combine tokenization with quantitative methods to create innovative financial solutions.
+                </p>
+                <ul className="text-sm text-qb-dark-gray space-y-2">
+                  <li>• DeFi Integration</li>
+                  <li>• Portfolio Optimization</li>
+                  <li>• Advanced Analytics</li>
                 </ul>
               </CardContent>
             </Card>
@@ -201,7 +201,7 @@ const Learn = () => {
               Video Courses
             </h2>
             <p className="text-lg text-qb-dark-gray max-w-2xl mx-auto">
-              Learn from industry experts with our comprehensive video library
+              Learn from industry experts with our curated video courses covering tokenization and quantitative finance
             </p>
           </div>
 

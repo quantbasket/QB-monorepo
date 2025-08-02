@@ -32,10 +32,10 @@ const DashboardNavigation: React.FC<DashboardNavigationProps> = ({
 
   return (
     <nav className={`backdrop-blur-sm border-b ${isDarkMode 
-      ? 'bg-slate-900/90 border-slate-700/50' 
+      ? 'bg-slate-900 border-slate-700' 
       : 'bg-white/90 border-slate-200/50'
     }`}>
-      <div className="container mx-auto px-4 py-3">
+      <div className="w-full px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
