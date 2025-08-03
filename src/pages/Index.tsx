@@ -124,7 +124,7 @@ const Index = () => {
               <div className="text-center lg:text-left">
                 <Link to="/community-tokens">
                   <Button variant="qbPrimary" className="text-lg px-8 w-full sm:w-auto">
-                    Get Started with Community Tokens
+                    {isMobile ? "Get Started" : "Get Started with Community Tokens"}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>

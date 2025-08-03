@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { HelpCircle, Book, MessageCircle, Mail } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Support = () => {
+  const isMobile = useIsMobile();
   const categories = [
     {
       title: "Quantitative Financial Engineering",
@@ -202,7 +204,7 @@ const Support = () => {
             Our support team is here to assist you with any questions not covered in our FAQ
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className={`gap-6 ${isMobile ? 'grid grid-cols-2' : 'grid grid-cols-1 md:grid-cols-3'}`}>
             <Card className="glass-card text-center">
               <CardHeader>
                 <Mail className="w-12 h-12 text-qb-green mx-auto mb-4" />

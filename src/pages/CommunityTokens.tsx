@@ -367,7 +367,7 @@ const CommunityTokens = () => {
             <p className="text-xl text-gray-200">Measurable impact across diverse community organizations</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className={`grid gap-8 ${isMobile ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-4'}`}>
             <div className="text-center">
               <div className="text-4xl font-bold text-qb-green mb-2">85%</div>
               <div className="text-white font-medium mb-1">Engagement Increase</div>

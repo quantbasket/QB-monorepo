@@ -147,7 +147,7 @@ const Learn = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className={`gap-8 mb-12 ${isMobile ? 'grid grid-cols-2' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
             <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-blue/30">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -298,7 +298,7 @@ const Learn = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className={`gap-8 ${isMobile ? 'grid grid-cols-2' : 'grid grid-cols-1 md:grid-cols-3'}`}>
             {resources.map((resource, index) => (
               <Card key={index} className="text-center hover:shadow-xl transition-all duration-300">
                 <CardHeader>

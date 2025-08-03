@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaXTwitter, FaYoutube, FaLinkedinIn, FaGithub } from "react-icons/fa6"; // Import icons
 
 const Footer = () => {
+  const handleFooterLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const socialLinks = [
     { name: "Instagram", href: "https://www.instagram.com/quantbasket", icon: <FaInstagram /> },
     { name: "Facebook", href: "https://www.facebook.com/quantbasket", icon: <FaFacebookF /> },
@@ -52,22 +56,22 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/about" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/products" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/products" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Products
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/pricing" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/learn" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/learn" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Learn
                 </Link>
               </li>
@@ -78,22 +82,22 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Products</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/community-tokens" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/community-tokens" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Community Tokens
                 </Link>
               </li>
               <li>
-                <Link to="/impact-coins" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/impact-coins" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Impact Coins
                 </Link>
               </li>
               <li>
-                <Link to="/quant-strategies" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/quant-strategies" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Quant Strategies
                 </Link>
               </li>
               <li>
-                <Link to="/tokenized-portfolios" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/tokenized-portfolios" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Tokenised Portfolios
                 </Link>
               </li>
@@ -104,22 +108,22 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Information</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/privacy-policy" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/privacy-policy" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/terms-of-service" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/resources" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/resources" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Resources
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-gray-300 hover:text-qb-green transition-colors">
+                <Link to="/support" onClick={handleFooterLinkClick} className="text-gray-300 hover:text-qb-green transition-colors">
                   Support
                 </Link>
               </li>

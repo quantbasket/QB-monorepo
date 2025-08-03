@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, Zap, Crown } from "lucide-react";
 import { Link } from "react-router-dom"; // Import Link
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Pricing = () => {
+  const isMobile = useIsMobile();
   const plans = [
     {
       name: "Free",
@@ -199,7 +201,7 @@ const Pricing = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className={`grid gap-6 ${isMobile ? 'grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'}`}>
             <div className="text-center">
               <div className="w-12 h-12 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
                 <Check className="w-6 h-6 text-qb-green" />
