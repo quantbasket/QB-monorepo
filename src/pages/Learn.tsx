@@ -30,12 +30,12 @@ const Learn = () => {
     },
     {
       id: 2,
-      title: "Tokenization Deep Dive",
-      description: "Advanced concepts in tokenization including smart contracts and decentralized finance",
-      duration: "12 mins",
+      title: "The Future of Digital Assets",
+      description: "Exploring how digital assets and tokenization are reshaping global finance",
+      duration: "8 mins",
       level: "Intermediate",
-      videoUrl: "https://www.youtube.com/embed/aLh8jlYYvZA",
-      topics: ["Smart Contracts", "DeFi Integration", "Asset Tokenization"]
+      videoUrl: "https://www.youtube.com/embed/Aqi4qxmFVJU",
+      topics: ["Digital Assets", "Future Finance", "Tokenization Impact"]
     },
     {
       id: 3,
@@ -107,14 +107,22 @@ const Learn = () => {
               Learn from industry professionals about asset tokenization, algorithmic trading, and modern financial modeling.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-qb-navy hover:bg-qb-navy/90">
-                <PlayCircle className="w-5 h-5 mr-2" />
-                Start Learning
-              </Button>
-              <Button variant="outline" size="lg">
-                <BookOpen className="w-5 h-5 mr-2" />
-                Browse Resources
-              </Button>
+              <a 
+                href="https://www.youtube.com/@quantbasket" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button size="lg" className="bg-qb-navy hover:bg-qb-navy/90">
+                  <PlayCircle className="w-5 h-5 mr-2" />
+                  Start Learning
+                </Button>
+              </a>
+              <Link to="/resources">
+                <Button variant="outline" size="lg">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  Browse Resources
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -290,10 +298,12 @@ const Learn = () => {
                   <Badge variant="outline" className="mb-4">
                     {resource.type}
                   </Badge>
-                  <Button variant="outline" className="w-full">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Download
-                  </Button>
+                  <Link to="/resources">
+                    <Button variant="outline" className="w-full">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Download
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
@@ -317,7 +327,7 @@ const Learn = () => {
               </Button>
             </Link>
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy transition-colors">
                 Explore Products
               </Button>
             </Link>

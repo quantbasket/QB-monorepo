@@ -12,6 +12,7 @@ import CommunityTokens from "./pages/CommunityTokens";
 import Pricing from "./pages/Pricing";
 import Support from "./pages/Support";
 import Learn from "./pages/Learn";
+import Resources from "./pages/Resources";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/app/Dashboard";
@@ -80,7 +81,8 @@ const AppContent = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/community-tokens" element={<CommunityTokens />} />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/learn" element={<Learn />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/resources" element={<Resources />} />
         <Route path="/support" element={<Support />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
