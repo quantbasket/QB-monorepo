@@ -18,6 +18,9 @@ const Logo: React.FC<LogoProps> = ({
   isAuthenticated = false,
   isDarkMode = false
 }) => {
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const sizeClasses = {
     sm: 'w-6 h-6',
     md: 'w-8 h-8',
@@ -49,16 +52,21 @@ const Logo: React.FC<LogoProps> = ({
         className={`${sizeClasses[size]} object-contain ${isDarkMode ? 'dark-mode-logo-fix' : ''}`}
       />
       {showText && (
-        <span className={`font-bold ${textSizes[size]} ${getTextColor()}`}>
-          Quant Basket
-        </span>
+        <div className="flex flex-col leading-tight">
+          <span className={`font-bold ${textSizes[size]} ${getTextColor()}`}>
+            Quant
+          </span>
+          <span className={`font-bold ${textSizes[size]} ${getTextColor()} -mt-1`}>
+            Basket
+          </span>
+        </div>
       )}
     </div>
   );
 
   if (linkTo) {
     return (
-      <Link to={linkTo} className="hover:opacity-80 transition-opacity">
+      <Link to={linkTo} onClick={handleLogoClick} className="hover:opacity-80 transition-opacity">
         {logoElement}
       </Link>
     );

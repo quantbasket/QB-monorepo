@@ -6,11 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Users, Coins, Trophy, Gift, Calendar, Zap, CheckCircle, ArrowRight, Star, Shield,
-  Settings, BarChart3, Lock, Smartphone, Globe, Code2, Layers, TrendingUp
+  Settings, BarChart3, Lock, Smartphone, Globe, Code2, Layers, TrendingUp, Download
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const CommunityTokens = () => {
+  const isMobile = useIsMobile();
+  
+  const handleDownloadApp = () => {
+    window.location.href = '/coming-soon';
+  };
   const features = [
     {
       icon: Settings,
@@ -119,24 +125,47 @@ const CommunityTokens = () => {
                 Professional-grade tokenization platform designed for community organizations to create,
                 manage, and scale their internal value exchange systems.
               </p>
-              <div className="flex gap-4">
-                <Link to="/signup">
-                  <Button variant="qbPrimary" size="lg">
-                    Start Implementation
-                    <ArrowRight className="ml-2 w-5 h-5" />
+              {isMobile ? (
+                <div className="flex flex-col space-y-3">
+                  <Button 
+                    variant="qbPrimary" 
+                    size="lg" 
+                    className="w-full"
+                    onClick={handleDownloadApp}
+                  >
+                    <Download className="mr-2 w-5 h-5" />
+                    Download App
                   </Button>
-                </Link>
-                {/* MODIFIED: Schedule Demo button linked to Calendly */}
-                <a
-                  href="https://calendly.com/quantbasket"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="qbGlass" size="lg" className="text-white border-white hover:bg-white/20">
-                    Schedule Demo
-                  </Button>
-                </a>
-              </div>
+                  <a
+                    href="https://calendly.com/quantbasket"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    <Button variant="qbGlass" size="lg" className="text-white border-white hover:bg-white/20 w-full">
+                      Schedule Demo
+                    </Button>
+                  </a>
+                </div>
+              ) : (
+                <div className="flex gap-4">
+                  <Link to="/signup">
+                    <Button variant="qbPrimary" size="lg">
+                      Start Implementation
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <a
+                    href="https://calendly.com/quantbasket"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="qbGlass" size="lg" className="text-white border-white hover:bg-white/20">
+                      Schedule Demo
+                    </Button>
+                  </a>
+                </div>
+              )}
             </div>
 
             <div className="lg:col-span-1">
@@ -169,11 +198,11 @@ const CommunityTokens = () => {
       <section className="py-12 bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Tabs defaultValue="features" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 max-w-2xl mx-auto">
-              <TabsTrigger value="features">Features</TabsTrigger>
-              <TabsTrigger value="use-cases">Use Cases</TabsTrigger>
-              <TabsTrigger value="specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="implementation">Implementation</TabsTrigger>
+            <TabsList className={`grid w-full ${isMobile ? 'grid-cols-2 gap-2 h-auto p-2' : 'grid-cols-4'} max-w-2xl mx-auto`}>
+              <TabsTrigger value="features" className={isMobile ? 'text-xs py-2' : ''}>Features</TabsTrigger>
+              <TabsTrigger value="use-cases" className={isMobile ? 'text-xs py-2' : ''}>Use Cases</TabsTrigger>
+              <TabsTrigger value="specifications" className={isMobile ? 'text-xs py-2' : ''}>Specifications</TabsTrigger>
+              <TabsTrigger value="implementation" className={isMobile ? 'text-xs py-2' : ''}>Implementation</TabsTrigger>
             </TabsList>
 
             {/* Features Tab */}
@@ -372,19 +401,38 @@ const CommunityTokens = () => {
           <p className="text-lg text-qb-dark-gray mb-8">
             Join organizations worldwide using Community Tokens to drive engagement and create value.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/signup">
-              <Button variant="qbPrimary" size="lg" className="px-8">
-                Start Your Implementation
-                <ArrowRight className="ml-2 w-5 h-5" />
+          {isMobile ? (
+            <div className="flex flex-col gap-4">
+              <Button 
+                variant="qbPrimary" 
+                size="lg" 
+                className="px-8 w-full"
+                onClick={handleDownloadApp}
+              >
+                <Download className="mr-2 w-5 h-5" />
+                Download App
               </Button>
-            </Link>
-            <Link to="/pricing">
-              <Button variant="qbOutline" size="lg" className="px-8">
-                View Pricing Plans
-              </Button>
-            </Link>
-          </div>
+              <Link to="/pricing">
+                <Button variant="qbOutline" size="lg" className="px-8 w-full">
+                  View Pricing Plans
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/signup">
+                <Button variant="qbPrimary" size="lg" className="px-8">
+                  Start Your Implementation
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link to="/pricing">
+                <Button variant="qbOutline" size="lg" className="px-8">
+                  View Pricing Plans
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

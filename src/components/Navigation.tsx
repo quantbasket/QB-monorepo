@@ -18,11 +18,15 @@ const Navigation = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleDownloadApp = (platform: 'ios' | 'android') => {
-    if (platform === 'ios') {
-      window.open('https://apps.apple.com/app/quantbasket', '_blank');
-    } else {
-      window.open('https://play.google.com/store/apps/details?id=com.quantbasket', '_blank');
+  const handleDownloadApp = () => {
+    window.location.href = '/coming-soon';
+  };
+
+  const handleNavClick = () => {
+    // Scroll to top when navigation link is clicked
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isMobile) {
+      setIsMenuOpen(false);
     }
   };
 
@@ -50,6 +54,7 @@ const Navigation = () => {
                 <Link
                   key={link.path}
                   to={link.path}
+                  onClick={handleNavClick}
                   className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
                     isActive(link.path)
                       ? "text-qb-green bg-qb-navy/50"
@@ -82,7 +87,7 @@ const Navigation = () => {
               variant="qbPrimary" 
               size="sm" 
               className="text-sm px-3 py-2"
-              onClick={() => handleDownloadApp('ios')}
+              onClick={handleDownloadApp}
             >
               <Download className="w-4 h-4 mr-1" />
               Download App
@@ -104,7 +109,7 @@ const Navigation = () => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={handleNavClick}
                   className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
                     isActive(link.path)
                       ? "text-qb-green bg-qb-navy/50"
@@ -127,7 +132,7 @@ const Navigation = () => {
                       variant="qbPrimary" 
                       size="sm" 
                       className="w-full justify-center"
-                      onClick={() => handleDownloadApp('ios')}
+                      onClick={handleDownloadApp}
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download for iOS
@@ -136,7 +141,7 @@ const Navigation = () => {
                       variant="qbSecondary" 
                       size="sm" 
                       className="w-full justify-center"
-                      onClick={() => handleDownloadApp('android')}
+                      onClick={handleDownloadApp}
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download for Android

@@ -331,7 +331,7 @@ const Products = () => {
                 </Button>
               </Link>
               <Link to="/learn" className="block">
-                <Button variant="outline" size="lg" className="text-lg px-12 w-full border-white text-white hover:bg-white hover:text-blue-600">
+                <Button variant="outline" size="lg" className="text-lg px-12 w-full border-2 border-white text-white hover:bg-white hover:text-blue-600 bg-transparent transition-all duration-200">
                   Learn More
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
