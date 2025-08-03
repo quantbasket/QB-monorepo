@@ -30,12 +30,12 @@ const Learn = () => {
     },
     {
       id: 2,
-      title: "The Future of Digital Assets",
-      description: "Exploring how digital assets and tokenization are reshaping global finance",
+      title: "What is tokenization in banking?",
+      description: "Understanding how tokenization is revolutionizing banking and financial services",
       duration: "8 mins",
       level: "Intermediate",
       videoUrl: "https://www.youtube.com/embed/Aqi4qxmFVJU",
-      topics: ["Digital Assets", "Future Finance", "Tokenization Impact"]
+      topics: ["Banking Technology", "Financial Innovation", "Digital Transformation"]
     },
     {
       id: 3,
@@ -327,7 +327,7 @@ const Learn = () => {
               </Button>
             </Link>
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy transition-colors">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy">
                 Explore Products
               </Button>
             </Link>
