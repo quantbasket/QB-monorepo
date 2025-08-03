@@ -20,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import ComingSoon from "./pages/ComingSoon";
+import AppComingSoon from "./pages/AppComingSoon";
 import { useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -88,6 +89,9 @@ const AppContent = () => {
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        
+        {/* App Coming Soon page for mobile app downloads */}
+        <Route path="/coming-soon" element={<AppComingSoon />} />
 
         {/* Updated Routes for Coming Soon pages with new subtitles */}
         <Route
@@ -95,7 +99,7 @@ const AppContent = () => {
           element={
             <ComingSoon
               title="Impact Coins: Coming Soon!"
-              subtitle="Impact isn’t just a word. It’s a token. Launching soon." // Updated subtitle
+              subtitle="Impact isn't just a word. It's a token. Launching soon."
             />
           }
         />
@@ -104,7 +108,7 @@ const AppContent = () => {
           element={
             <ComingSoon
               title="Quant Strategies: Coming Soon!"
-              subtitle="Code. Data. Alpha. Quant tokens drop soon." // Updated subtitle
+              subtitle="Code. Data. Alpha. Quant tokens drop soon."
             />
           }
         />
@@ -113,12 +117,10 @@ const AppContent = () => {
           element={
             <ComingSoon
               title="Tokenized Portfolios: Coming Soon!"
-              subtitle="Coming soon: Diversified alpha, tokenized and tradable." // Updated subtitle
+              subtitle="Coming soon: Diversified alpha, tokenized and tradable."
             />
           }
-        />
-
-        {/* Protected Routes */}
+        />        {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardProvider>

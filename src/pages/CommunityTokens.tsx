@@ -379,14 +379,14 @@ const CommunityTokens = () => {
               <div className="text-sm text-gray-300">Token-gated events</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-qb-green mb-2">60%</div>
-              <div className="text-white font-medium mb-1">Volunteer Growth</div>
-              <div className="text-sm text-gray-300">Community contributions</div>
-            </div>
-            <div className="text-center">
               <div className="text-4xl font-bold text-qb-green mb-2">95%</div>
               <div className="text-white font-medium mb-1">Member Satisfaction</div>
               <div className="text-sm text-gray-300">User feedback scores</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-qb-green mb-2">60%</div>
+              <div className="text-white font-medium mb-1">Volunteer Growth</div>
+              <div className="text-sm text-gray-300">Community contributions</div>
             </div>
           </div>
         </div>

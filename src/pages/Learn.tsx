@@ -147,62 +147,125 @@ const Learn = () => {
             </p>
           </div>
 
-          <div className={`gap-8 mb-12 ${isMobile ? 'grid grid-cols-2' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+          <div className={`gap-8 mb-12 ${isMobile ? 'flex flex-col space-y-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
             <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-blue/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-white" />
+              {isMobile ? (
+                <div className="flex items-center p-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <BookOpen className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-qb-navy mb-2">Tokenization Expert</h3>
+                    <p className="text-qb-dark-gray mb-3 text-sm">
+                      Master the fundamentals of tokenization and understand how real-world assets can be digitized.
+                    </p>
+                    <ul className="text-xs text-qb-dark-gray space-y-1">
+                      <li>• Asset Tokenization</li>
+                      <li>• Blockchain Technology</li>
+                      <li>• Smart Contracts</li>
+                    </ul>
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-qb-navy">Tokenization Expert</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-qb-dark-gray mb-4">
-                  Master the fundamentals of tokenization and understand how real-world assets can be digitized.
-                </p>
-                <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• Asset Tokenization</li>
-                  <li>• Blockchain Technology</li>
-                  <li>• Smart Contracts</li>
-                </ul>
-              </CardContent>
+              ) : (
+                <>
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <BookOpen className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-xl text-qb-navy">Tokenization Expert</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-qb-dark-gray mb-4">
+                      Master the fundamentals of tokenization and understand how real-world assets can be digitized.
+                    </p>
+                    <ul className="text-sm text-qb-dark-gray space-y-2">
+                      <li>• Asset Tokenization</li>
+                      <li>• Blockchain Technology</li>
+                      <li>• Smart Contracts</li>
+                    </ul>
+                  </CardContent>
+                </>
+              )}
             </Card>
 
             <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-purple-500/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="w-8 h-8 text-white" />
+              {isMobile ? (
+                <div className="flex items-center p-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <TrendingUp className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-qb-navy mb-2">Quantitative Analyst</h3>
+                    <p className="text-qb-dark-gray mb-3 text-sm">
+                      Develop advanced quantitative strategies and learn mathematical models for modern finance.
+                    </p>
+                    <ul className="text-xs text-qb-dark-gray space-y-1">
+                      <li>• Algorithmic Trading</li>
+                      <li>• Financial Modeling</li>
+                      <li>• Risk Analytics</li>
+                    </ul>
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-qb-navy">Quantitative Analyst</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-qb-dark-gray mb-4">
-                  Develop advanced quantitative strategies and learn mathematical models for modern finance.
-                </p>
-                <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• Algorithmic Trading</li>
-                  <li>• Financial Modeling</li>
-                  <li>• Risk Analytics</li>
-                </ul>
-              </CardContent>
+              ) : (
+                <>
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <TrendingUp className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-xl text-qb-navy">Quantitative Analyst</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-qb-dark-gray mb-4">
+                      Develop advanced quantitative strategies and learn mathematical models for modern finance.
+                    </p>
+                    <ul className="text-sm text-qb-dark-gray space-y-2">
+                      <li>• Algorithmic Trading</li>
+                      <li>• Financial Modeling</li>
+                      <li>• Risk Analytics</li>
+                    </ul>
+                  </CardContent>
+                </>
+              )}
             </Card>
 
             <Card className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-qb-green/30">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Target className="w-8 h-8 text-white" />
+              {isMobile ? (
+                <div className="flex items-center p-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <Target className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-qb-navy mb-2">Digital Finance Pioneer</h3>
+                    <p className="text-qb-dark-gray mb-3 text-sm">
+                      Combine tokenization with quantitative methods to create innovative financial solutions.
+                    </p>
+                    <ul className="text-xs text-qb-dark-gray space-y-1">
+                      <li>• DeFi Integration</li>
+                      <li>• Portfolio Optimization</li>
+                      <li>• Advanced Analytics</li>
+                    </ul>
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-qb-navy">Digital Finance Pioneer</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-qb-dark-gray mb-4">
-                  Combine tokenization with quantitative methods to create innovative financial solutions.
-                </p>
-                <ul className="text-sm text-qb-dark-gray space-y-2">
-                  <li>• DeFi Integration</li>
-                  <li>• Portfolio Optimization</li>
-                  <li>• Advanced Analytics</li>
-                </ul>
-              </CardContent>
+              ) : (
+                <>
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Target className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-xl text-qb-navy">Digital Finance Pioneer</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-qb-dark-gray mb-4">
+                      Combine tokenization with quantitative methods to create innovative financial solutions.
+                    </p>
+                    <ul className="text-sm text-qb-dark-gray space-y-2">
+                      <li>• DeFi Integration</li>
+                      <li>• Portfolio Optimization</li>
+                      <li>• Advanced Analytics</li>
+                    </ul>
+                  </CardContent>
+                </>
+              )}
             </Card>
           </div>
         </div>
@@ -298,27 +361,52 @@ const Learn = () => {
             </p>
           </div>
 
-          <div className={`gap-8 ${isMobile ? 'grid grid-cols-2' : 'grid grid-cols-1 md:grid-cols-3'}`}>
+          <div className={`gap-8 ${isMobile ? 'flex flex-col space-y-6' : 'grid grid-cols-1 md:grid-cols-3'}`}>
             {resources.map((resource, index) => (
-              <Card key={index} className="text-center hover:shadow-xl transition-all duration-300">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-qb-navy rounded-full flex items-center justify-center mx-auto mb-4">
-                    <BookOpen className="w-8 h-8 text-white" />
+              <Card key={index} className="hover:shadow-xl transition-all duration-300">
+                {isMobile ? (
+                  <div className="flex items-center p-6">
+                    <div className="w-16 h-16 bg-qb-navy rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                      <BookOpen className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-qb-navy mb-2">{resource.title}</h3>
+                      <p className="text-qb-dark-gray mb-3 text-sm">{resource.description}</p>
+                      <div className="flex items-center space-x-3">
+                        <Badge variant="outline" className="text-xs">
+                          {resource.type}
+                        </Badge>
+                        <Link to="/resources">
+                          <Button variant="outline" size="sm">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            Download
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                  <CardTitle className="text-xl text-qb-navy">{resource.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-qb-dark-gray mb-4">{resource.description}</p>
-                  <Badge variant="outline" className="mb-4">
-                    {resource.type}
-                  </Badge>
-                  <Link to="/resources">
-                    <Button variant="outline" className="w-full">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Download
-                    </Button>
-                  </Link>
-                </CardContent>
+                ) : (
+                  <>
+                    <CardHeader className="text-center">
+                      <div className="w-16 h-16 bg-qb-navy rounded-full flex items-center justify-center mx-auto mb-4">
+                        <BookOpen className="w-8 h-8 text-white" />
+                      </div>
+                      <CardTitle className="text-xl text-qb-navy">{resource.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="text-center">
+                      <p className="text-qb-dark-gray mb-4">{resource.description}</p>
+                      <Badge variant="outline" className="mb-4">
+                        {resource.type}
+                      </Badge>
+                      <Link to="/resources">
+                        <Button variant="outline" className="w-full">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Download
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </>
+                )}
               </Card>
             ))}
           </div>
