@@ -28,7 +28,7 @@ const Footer = () => {
               />
               <span className="text-white font-bold text-xl">Quant Basket</span>
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-muted-foreground mb-4">
               Revolutionary platform for community-based tokenization, quantitative strategies,
               and impact investing powered by advanced financial engineering.
             </p>
@@ -40,14 +40,14 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-qb-green transition-colors"
+                  className="text-muted-foreground hover:text-qb-green transition-colors"
                   aria-label={social.name}
                 >
                   {social.icon}
                 </a>
               ))}
             </div>
-            <div className="text-sm text-gray-400 mt-4">
+            <div className="text-sm text-muted-foreground/80 mt-4">
               <p>© 2024 Quant Basket. All rights reserved.</p>
             </div>
           </div>

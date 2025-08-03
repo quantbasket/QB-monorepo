@@ -87,10 +87,10 @@ const Learn = () => {
 
   const getLevelColor = (level: string) => {
     switch (level) {
-      case 'Beginner': return 'bg-green-500/20 text-green-600 border-green-500/30';
-      case 'Intermediate': return 'bg-yellow-500/20 text-yellow-600 border-yellow-500/30';
-      case 'Advanced': return 'bg-red-500/20 text-red-600 border-red-500/30';
-      default: return 'bg-slate-500/20 text-slate-600 border-slate-500/30';
+      case 'Beginner': return 'bg-accent/20 text-accent-foreground border-accent/30';
+      case 'Intermediate': return 'bg-secondary/20 text-secondary-foreground border-secondary/30';
+      case 'Advanced': return 'bg-destructive/20 text-destructive-foreground border-destructive/30';
+      default: return 'bg-muted/20 text-muted-foreground border-muted/30';
     }
   };
 
