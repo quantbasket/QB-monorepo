@@ -246,7 +246,7 @@ const Support = () => {
               </CardContent>
             </Card>
             
-            <Card className="glass-card text-center">
+            <Card className={`glass-card text-center ${isMobile ? 'col-span-2' : ''}`}>
               <CardHeader>
                 <Book className="w-12 h-12 text-qb-green mx-auto mb-4" />
                 <CardTitle className="text-qb-navy">Documentation</CardTitle>
