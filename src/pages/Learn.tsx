@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   PlayCircle, 
   BookOpen, 
@@ -14,10 +15,16 @@ import {
   Shield,
   ExternalLink,
   Clock,
-  Star
+  Star,
+  Download
 } from 'lucide-react';
 
 const Learn = () => {
+  const isMobile = useIsMobile();
+
+  const handleDownloadApp = () => {
+    window.location.href = '/coming-soon';
+  };
   const courses = [
     {
       id: 1,
@@ -328,13 +335,24 @@ const Learn = () => {
             Join thousands of learners who are mastering the future of finance through tokenization
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/signup">
-              <Button size="lg" variant="secondary">
-                Sign Up Free
+            {isMobile ? (
+              <Button 
+                size="lg" 
+                variant="secondary"
+                onClick={handleDownloadApp}
+              >
+                <Download className="w-5 h-5 mr-2" />
+                Download App
               </Button>
-            </Link>
+            ) : (
+              <Link to="/signup">
+                <Button size="lg" variant="secondary">
+                  Sign Up Free
+                </Button>
+              </Link>
+            )}
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy bg-transparent">
+              <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-qb-navy bg-transparent transition-all duration-200">
                 Explore Products
               </Button>
             </Link>

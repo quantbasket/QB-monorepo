@@ -12,12 +12,9 @@ import impactMarketplaceImg from "@/assets/impact-marketplace.jpg";
 const Index = () => {
   const isMobile = useIsMobile();
 
-  const handleDownloadApp = (platform: 'ios' | 'android') => {
-    if (platform === 'ios') {
-      window.open('https://apps.apple.com/app/quantbasket', '_blank');
-    } else {
-      window.open('https://play.google.com/store/apps/details?id=com.quantbasket', '_blank');
-    }
+  const handleDownloadApp = () => {
+    // Link to coming soon page instead of app stores
+    window.location.href = '/coming-soon';
   };
 
   return (
@@ -46,7 +43,7 @@ const Index = () => {
                     variant="qbSecondary" 
                     size="lg" 
                     className="text-lg px-8 w-full justify-center"
-                    onClick={() => handleDownloadApp('ios')}
+                    onClick={handleDownloadApp}
                   >
                     <Download className="mr-2 w-5 h-5" />
                     Download for iOS
@@ -55,7 +52,7 @@ const Index = () => {
                     variant="qbGlass" 
                     size="lg" 
                     className="text-lg px-8 w-full justify-center text-white border-white hover:!bg-white/60 hover:!text-qb-navy hover:!border-white"
-                    onClick={() => handleDownloadApp('android')}
+                    onClick={handleDownloadApp}
                   >
                     <Download className="mr-2 w-5 h-5" />
                     Download for Android
@@ -125,23 +122,12 @@ const Index = () => {
                 </Card>
               </div>
               <div className="text-center lg:text-left">
-                {isMobile ? (
-                  <Button 
-                    variant="qbPrimary" 
-                    className="text-lg px-8 w-full sm:w-auto"
-                    onClick={() => handleDownloadApp('ios')}
-                  >
-                    <Download className="mr-2 w-5 h-5" />
-                    Get the App
+                <Link to="/community-tokens">
+                  <Button variant="qbPrimary" className="text-lg px-8 w-full sm:w-auto">
+                    Get Started with Community Tokens
+                    <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
-                ) : (
-                  <Link to="/community-tokens">
-                    <Button variant="qbPrimary" className="text-lg px-8">
-                      Get Started with Community Tokens
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </Link>
-                )}
+                </Link>
               </div>
             </div>
             <div className="order-first lg:order-last">
@@ -159,14 +145,14 @@ const Index = () => {
       <section className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="order-last lg:order-first">
+            <div className={`${isMobile ? 'order-first' : 'order-last lg:order-first'}`}>
               <img 
                 src={quantStrategiesImg} 
                 alt="Quantitative Strategies" 
                 className="w-full h-auto rounded-xl shadow-lg opacity-60"
               />
             </div>
-            <div className="text-center lg:text-left">
+            <div className={`text-center lg:text-left ${isMobile ? 'order-last' : ''}`}>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-4">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy text-center lg:text-left">
                   Tokenized ETFs & Quant Strategies
@@ -238,12 +224,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Overview */}
-      <section className="py-12 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy mb-8 lg:mb-12">
-            Everything You Need for Modern Finance
-          </h2>
+      {/* Features Overview - Hidden on Mobile */}
+      {!isMobile && (
+        <section className="py-12 sm:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-qb-navy mb-8 lg:mb-12">
+              Everything You Need for Modern Finance
+            </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             <Card className="glass-card hover:shadow-xl transition-all duration-300">
               <CardHeader>
@@ -257,7 +244,7 @@ const Index = () => {
                     variant="qbOutline" 
                     size="sm" 
                     className="w-full"
-                    onClick={() => handleDownloadApp('ios')}
+                    onClick={handleDownloadApp}
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Get App
@@ -313,6 +300,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* CTA Section */}
       <section className="hero-gradient py-12 sm:py-20">
@@ -333,7 +321,7 @@ const Index = () => {
                 variant="qbPrimary" 
                 size="lg" 
                 className="text-lg px-8 w-full sm:w-auto"
-                onClick={() => handleDownloadApp('ios')}
+                onClick={handleDownloadApp}
               >
                 <Download className="mr-2 w-5 h-5" />
                 iOS App
@@ -342,7 +330,7 @@ const Index = () => {
                 variant="qbSecondary" 
                 size="lg" 
                 className="text-lg px-8 w-full sm:w-auto"
-                onClick={() => handleDownloadApp('android')}
+                onClick={handleDownloadApp}
               >
                 <Download className="mr-2 w-5 h-5" />
                 Android App
