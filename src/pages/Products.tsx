@@ -10,12 +10,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Products = () => {
   const isMobile = useIsMobile();
 
-  const handleDownloadApp = (platform: 'ios' | 'android') => {
-    if (platform === 'ios') {
-      window.open('https://apps.apple.com/app/quantbasket', '_blank');
-    } else {
-      window.open('https://play.google.com/store/apps/details?id=com.quantbasket', '_blank');
-    }
+  const handleDownloadApp = () => {
+    // Link to coming soon page instead of app stores
+    window.location.href = '/coming-soon';
   };
   const products = [
     {
@@ -89,7 +86,6 @@ const Products = () => {
       <section className="pt-24 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-4">Our Products</Badge>
             <h1 className={`font-bold text-gray-900 mb-6 ${isMobile ? 'text-3xl' : 'text-5xl'}`}>
               Revolutionary Trading Solutions
             </h1>
@@ -97,29 +93,20 @@ const Products = () => {
               Experience the future of algorithmic trading with our cutting-edge products designed for traders of all levels
             </p>
             {isMobile ? (
-              <div className="flex flex-col space-y-3">
+              <div className="flex justify-center">
                 <Button 
-                  onClick={() => handleDownloadApp('ios')}
+                  onClick={handleDownloadApp}
                   size="lg" 
-                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  className="w-full max-w-xs bg-blue-600 hover:bg-blue-700"
                 >
                   <Download className="mr-2 h-5 w-5" />
-                  Download for iOS
-                </Button>
-                <Button 
-                  onClick={() => handleDownloadApp('android')}
-                  size="lg" 
-                  variant="outline"
-                  className="w-full"
-                >
-                  <Smartphone className="mr-2 h-5 w-5" />
-                  Download for Android
+                  Download App
                 </Button>
               </div>
             ) : (
               <div className="flex gap-4 justify-center">
                 <Button 
-                  onClick={() => handleDownloadApp('ios')}
+                  onClick={handleDownloadApp}
                   size="lg" 
                   className="bg-blue-600 hover:bg-blue-700"
                 >
@@ -127,7 +114,7 @@ const Products = () => {
                   Download for iOS
                 </Button>
                 <Button 
-                  onClick={() => handleDownloadApp('android')}
+                  onClick={handleDownloadApp}
                   size="lg" 
                   variant="outline"
                 >
@@ -182,16 +169,12 @@ const Products = () => {
                   <div className="pt-4">
                     {isMobile ? (
                       product.available ? (
-                        <div className="space-y-2">
-                          <Button 
-                            onClick={() => handleDownloadApp('ios')}
-                            variant="qbPrimary" 
-                            className="w-full"
-                          >
-                            <Download className="mr-2 w-4 h-4" />
-                            Download App
+                        <Link to="/community-tokens" className="w-full">
+                          <Button variant="qbPrimary" className="w-full">
+                            Learn More
+                            <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
-                        </div>
+                        </Link>
                       ) : (
                         <Button 
                           variant="qbSecondary" 
@@ -282,51 +265,53 @@ const Products = () => {
         </div>
       </section>
 
-      {/* Technology Stack */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-qb-navy mb-6">Built on Cutting-Edge Technology</h2>
-            <p className="text-lg text-qb-dark-gray">
-              Our platform leverages the latest advances in blockchain, AI, and quantitative finance
-            </p>
+      {/* Technology Stack - Hidden on Mobile */}
+      {!isMobile && (
+        <section className="py-20">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-qb-navy mb-6">Built on Cutting-Edge Technology</h2>
+              <p className="text-lg text-qb-dark-gray">
+                Our platform leverages the latest advances in blockchain, AI, and quantitative finance
+              </p>
+            </div>
+            
+            <div className="grid gap-8 grid-cols-2 md:grid-cols-4">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <span className="font-bold text-qb-green">ETH</span>
+                </div>
+                <h3 className="font-semibold text-qb-navy">Ethereum</h3>
+                <p className="text-sm text-qb-dark-gray">Smart contracts</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <span className="font-bold text-qb-blue">AI</span>
+                </div>
+                <h3 className="font-semibold text-qb-navy">Machine Learning</h3>
+                <p className="text-sm text-qb-dark-gray">Predictive models</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <span className="font-bold text-qb-green">Q</span>
+                </div>
+                <h3 className="font-semibold text-qb-navy">Quantitative</h3>
+                <p className="text-sm text-qb-dark-gray">Financial models</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-16 h-16 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <span className="font-bold text-qb-blue">API</span>
+                </div>
+                <h3 className="font-semibold text-qb-navy">Integration</h3>
+                <p className="text-sm text-qb-dark-gray">Third-party tools</p>
+              </div>
+            </div>
           </div>
-          
-          <div className={`grid gap-8 ${isMobile ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-4'}`}>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="font-bold text-qb-green">ETH</span>
-              </div>
-              <h3 className="font-semibold text-qb-navy">Ethereum</h3>
-              <p className="text-sm text-qb-dark-gray">Smart contracts</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="font-bold text-qb-blue">AI</span>
-              </div>
-              <h3 className="font-semibold text-qb-navy">Machine Learning</h3>
-              <p className="text-sm text-qb-dark-gray">Predictive models</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-qb-green/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="font-bold text-qb-green">Q</span>
-              </div>
-              <h3 className="font-semibold text-qb-navy">Quantitative</h3>
-              <p className="text-sm text-qb-dark-gray">Financial models</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-qb-blue/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <span className="font-bold text-qb-blue">API</span>
-              </div>
-              <h3 className="font-semibold text-qb-navy">Integration</h3>
-              <p className="text-sm text-qb-dark-gray">Third-party tools</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="hero-gradient py-20">
@@ -339,16 +324,13 @@ const Products = () => {
           </p>
           {isMobile ? (
             <div className="space-y-3">
-              <Button 
-                onClick={() => handleDownloadApp('ios')}
-                variant="qbPrimary" 
-                size="lg" 
-                className="text-lg px-12 w-full"
-              >
-                <Download className="mr-2 w-5 h-5" />
-                Download App
-              </Button>
               <Link to="/community-tokens" className="block">
+                <Button variant="qbPrimary" size="lg" className="text-lg px-12 w-full">
+                  Get Started
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link to="/learn" className="block">
                 <Button variant="outline" size="lg" className="text-lg px-12 w-full border-white text-white hover:bg-white hover:text-blue-600">
                   Learn More
                   <ArrowRight className="ml-2 w-5 h-5" />

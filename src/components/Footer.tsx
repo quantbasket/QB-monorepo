@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaInstagram, FaFacebookF, FaXTwitter, FaYoutube, FaLinkedinIn } from "react-icons/fa6"; // Import icons
+import { FaInstagram, FaFacebookF, FaXTwitter, FaYoutube, FaLinkedinIn, FaGithub } from "react-icons/fa6"; // Import icons
 
 const Footer = () => {
   const socialLinks = [
@@ -8,6 +8,7 @@ const Footer = () => {
     { name: "X", href: "https://x.com/quantbasket", icon: <FaXTwitter /> },
     { name: "YouTube", href: "https://www.youtube.com/@quantbasket", icon: <FaYoutube /> }, // Adjusted YouTube link for typical channel URL
     { name: "LinkedIn", href: "https://www.linkedin.com/company/quantbasket", icon: <FaLinkedinIn /> },
+    { name: "GitHub", href: "https://github.com/quantbasket", icon: <FaGithub /> },
   ];
 
   return (
@@ -70,11 +71,6 @@ const Footer = () => {
                   Learn
                 </Link>
               </li>
-              <li>
-                <Link to="/support" className="text-gray-300 hover:text-qb-green transition-colors">
-                  Support
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -105,7 +101,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-4">Information</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/privacy-policy" className="text-gray-300 hover:text-qb-green transition-colors">
@@ -120,6 +116,11 @@ const Footer = () => {
               <li>
                 <Link to="/resources" className="text-gray-300 hover:text-qb-green transition-colors">
                   Resources
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" className="text-gray-300 hover:text-qb-green transition-colors">
+                  Support
                 </Link>
               </li>
             </ul>

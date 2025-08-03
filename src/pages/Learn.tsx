@@ -23,7 +23,7 @@ const Learn = () => {
       id: 1,
       title: "What is Tokenization? Explained in Simple Terms",
       description: "A comprehensive introduction to tokenization and how it's transforming traditional finance",
-      duration: "12 mins",
+      duration: "3 mins",
       level: "Beginner",
       videoUrl: "https://www.youtube.com/embed/aLh8jlYYvZA",
       topics: ["Tokenization Basics", "Real World Assets", "Blockchain Technology"]
@@ -50,7 +50,7 @@ const Learn = () => {
       id: 4,
       title: "Introduction to Quantitative Finance",
       description: "Mathematical models and statistical methods used in modern quantitative finance",
-      duration: "45 mins",
+      duration: "3 mins",
       level: "Intermediate",
       videoUrl: "https://www.youtube.com/embed/lG_OBZocF3E",
       topics: ["Financial Models", "Statistical Analysis", "Quantitative Methods"]
@@ -261,10 +261,17 @@ const Learn = () => {
                     </div>
                   </div>
                   
-                  <Button className="w-full" variant="outline">
-                    <PlayCircle className="w-4 h-4 mr-2" />
-                    Watch Course
-                  </Button>
+                  <a 
+                    href={course.videoUrl.replace('/embed/', '/watch?v=')} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    <Button className="w-full" variant="outline">
+                      <PlayCircle className="w-4 h-4 mr-2" />
+                      Watch Course
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             ))}
@@ -327,7 +334,7 @@ const Learn = () => {
               </Button>
             </Link>
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-qb-navy bg-transparent">
                 Explore Products
               </Button>
             </Link>
