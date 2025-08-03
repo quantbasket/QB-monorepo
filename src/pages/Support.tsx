@@ -3,11 +3,16 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { HelpCircle, Book, MessageCircle, Mail } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Support = () => {
   const isMobile = useIsMobile();
+  
+  const handleEmailSupport = () => {
+    window.location.href = 'mailto:support@quantbasket.com';
+  };
   const categories = [
     {
       title: "Quantitative Financial Engineering",
@@ -214,9 +219,15 @@ const Support = () => {
                 <p className="text-qb-dark-gray mb-4">
                   Get detailed help via email support
                 </p>
-                <Badge variant="secondary" className="bg-qb-green/20 text-qb-green">
-                  support@quantbasket.com
-                </Badge>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleEmailSupport}
+                  className="bg-qb-green/20 text-qb-green border-qb-green hover:bg-qb-green hover:text-white"
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Support
+                </Button>
               </CardContent>
             </Card>
             

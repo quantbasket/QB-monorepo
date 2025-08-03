@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -18,6 +19,8 @@ const Logo: React.FC<LogoProps> = ({
   isAuthenticated = false,
   isDarkMode = false
 }) => {
+  const isMobile = useIsMobile();
+  
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -52,8 +55,15 @@ const Logo: React.FC<LogoProps> = ({
         className={`${sizeClasses[size]} object-contain ${isDarkMode ? 'dark-mode-logo-fix' : ''}`}
       />
       {showText && (
-        <span className={`font-bold ${textSizes[size]} ${getTextColor()} whitespace-nowrap`}>
-          Quant Basket
+        <span className={`font-bold ${textSizes[size]} ${getTextColor()} ${isMobile ? 'leading-tight' : 'whitespace-nowrap'}`}>
+          {isMobile ? (
+            <>
+              Quant<br />
+              Basket
+            </>
+          ) : (
+            'Quant Basket'
+          )}
         </span>
       )}
     </div>

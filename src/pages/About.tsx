@@ -50,7 +50,7 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Story</h2>
             <p className="text-lg text-qb-dark-gray leading-relaxed">
-              Founded in 2024, Quant Basket emerged from a vision to democratize quantitative finance through 
+              Founded in 2025, Quant Basket emerged from a vision to democratize quantitative finance through 
               community-driven tokenization. We enable communities to create their own currencies backed by 
               advanced mathematical models, while providing access to tokenized ETFs representing 
               real commodities and shares. Our platform bridges traditional finance with blockchain innovation.

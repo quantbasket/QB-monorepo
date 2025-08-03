@@ -18,6 +18,10 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
 }) => {
   const isMobile = useIsMobile();
 
+  const handleEmailSupport = () => {
+    window.location.href = 'mailto:support@quantbasket.com';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <Navigation />
@@ -60,7 +64,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
                 </Button>
               </Link>
               <Link to="/support">
-                <Button variant="outline" size="lg">
+                <Button variant="outline" size="lg" onClick={handleEmailSupport}>
                   Contact Support
                 </Button>
               </Link>
@@ -138,7 +142,7 @@ const ComingSoon: React.FC<ComingSoonProps> = ({
           </p>
           
           <Link to="/support">
-            <Button size="lg" variant="secondary">
+            <Button size="lg" variant="secondary" onClick={handleEmailSupport}>
               Contact Support
             </Button>
           </Link>

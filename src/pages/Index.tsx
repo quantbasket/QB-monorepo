@@ -107,17 +107,21 @@ const Index = () => {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 lg:mb-8">
                 <Card className="glass-card">
-                  <CardContent className="p-4">
-                    <Users className="w-8 h-8 text-qb-green mb-2 mx-auto sm:mx-0" />
-                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Community Governance</h3>
-                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Democratic decision-making for all token holders</p>
+                  <CardContent className={`p-4 ${isMobile ? 'flex items-center space-x-3' : ''}`}>
+                    <Users className={`w-8 h-8 text-qb-green mb-2 ${isMobile ? 'mb-0 flex-shrink-0' : 'mx-auto sm:mx-0'}`} />
+                    <div className={isMobile ? 'flex-1' : ''}>
+                      <h3 className={`font-semibold text-qb-navy ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Community Governance</h3>
+                      <p className={`text-sm text-qb-dark-gray ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Democratic decision-making for all token holders</p>
+                    </div>
                   </CardContent>
                 </Card>
                 <Card className="glass-card">
-                  <CardContent className="p-4">
-                    <Shield className="w-8 h-8 text-qb-blue mb-2 mx-auto sm:mx-0" />
-                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Secure & Transparent</h3>
-                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Blockchain-powered security and full transparency</p>
+                  <CardContent className={`p-4 ${isMobile ? 'flex items-center space-x-3' : ''}`}>
+                    <Shield className={`w-8 h-8 text-qb-blue mb-2 ${isMobile ? 'mb-0 flex-shrink-0' : 'mx-auto sm:mx-0'}`} />
+                    <div className={isMobile ? 'flex-1' : ''}>
+                      <h3 className={`font-semibold text-qb-navy ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Secure & Transparent</h3>
+                      <p className={`text-sm text-qb-dark-gray ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Blockchain-powered security and full transparency</p>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -198,17 +202,21 @@ const Index = () => {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Card className="glass-card">
-                  <CardContent className="p-4">
-                    <Coins className="w-8 h-8 text-qb-green mb-2 mx-auto sm:mx-0" />
-                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">ESG Compliance</h3>
-                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">All projects meet strict environmental and social criteria</p>
+                  <CardContent className={`p-4 ${isMobile ? 'flex items-center space-x-3' : ''}`}>
+                    <Coins className={`w-8 h-8 text-qb-green mb-2 ${isMobile ? 'mb-0 flex-shrink-0' : 'mx-auto sm:mx-0'}`} />
+                    <div className={isMobile ? 'flex-1' : ''}>
+                      <h3 className={`font-semibold text-qb-navy ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>ESG Compliance</h3>
+                      <p className={`text-sm text-qb-dark-gray ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>All projects meet strict environmental and social criteria</p>
+                    </div>
                   </CardContent>
                 </Card>
                 <Card className="glass-card">
-                  <CardContent className="p-4">
-                    <TrendingUp className="w-8 h-8 text-qb-blue mb-2 mx-auto sm:mx-0" />
-                    <h3 className="font-semibold text-qb-navy text-center sm:text-left">Measurable Impact</h3>
-                    <p className="text-sm text-qb-dark-gray text-center sm:text-left">Track real-world outcomes and financial returns</p>
+                  <CardContent className={`p-4 ${isMobile ? 'flex items-center space-x-3' : ''}`}>
+                    <TrendingUp className={`w-8 h-8 text-qb-blue mb-2 ${isMobile ? 'mb-0 flex-shrink-0' : 'mx-auto sm:mx-0'}`} />
+                    <div className={isMobile ? 'flex-1' : ''}>
+                      <h3 className={`font-semibold text-qb-navy ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Measurable Impact</h3>
+                      <p className={`text-sm text-qb-dark-gray ${isMobile ? 'text-left' : 'text-center sm:text-left'}`}>Track real-world outcomes and financial returns</p>
+                    </div>
                   </CardContent>
                 </Card>
               </div>

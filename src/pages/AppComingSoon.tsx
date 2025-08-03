@@ -10,6 +10,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const AppComingSoon = () => {
   const isMobile = useIsMobile();
 
+  const handleEmailSupport = () => {
+    window.location.href = 'mailto:support@quantbasket.com';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <Navigation />
@@ -127,7 +131,7 @@ const AppComingSoon = () => {
           </p>
           
           <Link to="/support">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={handleEmailSupport}>
               Contact Support
             </Button>
           </Link>
