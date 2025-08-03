@@ -14,7 +14,7 @@ import Learn from "./pages/Learn";
 import Resources from "./pages/Resources";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import DashboardComingSoon from "./pages/DashboardComingSoon ";
+import DashboardWaiting from "./pages/DashboardWaiting";
 import NotFound from "./pages/NotFound";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -122,7 +122,7 @@ const AppContent = () => {
         />        {/* Protected Routes */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
-            <DashboardComingSoon />
+            <DashboardWaiting />
           </ProtectedRoute>
         } />
 

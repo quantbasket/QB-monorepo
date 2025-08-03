@@ -152,7 +152,7 @@ const Resources = () => {
       title: "Smart Contract Templates",
       description: "Audited smart contract templates for various tokenization use cases",
       type: "Code",
-      downloadUrl: "https://github.com/quantbasket/smart-contracts",
+      downloadUrl: "/Downloads/smart_contract_template.txt",
       icon: <Github className="w-5 h-5" />
     },
     {
@@ -188,10 +188,12 @@ const Resources = () => {
                 <Download className="w-5 h-5 mr-2" />
                 Download All Resources
               </Button>
-              <Button variant="outline" size="lg">
-                <Github className="w-5 h-5 mr-2" />
-                View on GitHub
-              </Button>
+              <a href="https://github.com/quantbasket/resources" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="lg">
+                  <Github className="w-5 h-5 mr-2" />
+                  View on GitHub
+                </Button>
+              </a>
             </div>
           </div>
         </div>

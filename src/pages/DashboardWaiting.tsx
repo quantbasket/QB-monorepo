@@ -4,11 +4,14 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle, Mail, TrendingUp, Bot, PieChart } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
-const DashboardComingSoon = () => {
-  // TODO: Replace these placeholders with actual user data from your authentication context/state.
-  const userName = '[User Name]';
-  const userEmail = '[user@example.com]';
+const DashboardWaiting = () => {
+  const { user } = useAuth();
+  
+  // Extract user data from Supabase user object
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const userEmail = user?.email || 'user@example.com';
 
   const handleEmailSupport = () => {
     window.location.href = 'mailto:support@quantbasket.com';
@@ -129,4 +132,4 @@ const DashboardComingSoon = () => {
   );
 };
 
-export default DashboardComingSoon;
+export default DashboardWaiting;

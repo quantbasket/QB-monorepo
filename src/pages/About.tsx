@@ -2,7 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Award, TrendingUp, ExternalLink } from "lucide-react";
+import { Users, Award, TrendingUp, ExternalLink, Eye, Lightbulb, Heart } from "lucide-react";
 
 const About = () => {
   const teamMembers = [
@@ -105,7 +105,7 @@ const About = () => {
 
 
       {/* Legacy & Mission */}
-      <section className="py-20 bg-white">
+      <section className="py-8 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-qb-navy mb-6">Our Mission & Vision</h2>
@@ -137,7 +137,7 @@ const About = () => {
       <div className="h-px bg-gradient-to-r from-transparent via-qb-dark-gray/20 to-transparent"></div>
 
       {/* Values Section */}
-      <section className="section-gradient py-20">
+      <section className="section-gradient py-8">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <Card className="glass-card p-8">
             <h2 className="text-3xl font-bold text-qb-navy mb-6">Our Values</h2>
@@ -148,14 +148,17 @@ const About = () => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               <div className="text-center">
+                <Eye className="w-8 h-8 text-qb-blue mx-auto mb-3" />
                 <h3 className="font-semibold text-qb-navy mb-2">Transparency</h3>
                 <p className="text-sm text-qb-dark-gray">Open-source principles and blockchain transparency</p>
               </div>
               <div className="text-center">
+                <Lightbulb className="w-8 h-8 text-qb-green mx-auto mb-3" />
                 <h3 className="font-semibold text-qb-navy mb-2">Innovation</h3>
                 <p className="text-sm text-qb-dark-gray">Cutting-edge quantitative finance meets DeFi</p>
               </div>
               <div className="text-center">
+                <Heart className="w-8 h-8 text-qb-blue mx-auto mb-3" />
                 <h3 className="font-semibold text-qb-navy mb-2">Community</h3>
                 <p className="text-sm text-qb-dark-gray">Empowering communities through tokenization</p>
               </div>

@@ -69,19 +69,19 @@ const Learn = () => {
       title: "Tokenization Whitepaper",
       description: "Comprehensive guide to the future of tokenized assets",
       type: "PDF",
-      downloadUrl: "#"
+      downloadUrl: "/Downloads/Ethereum-Whitepaper.pdf"
     },
     {
       title: "API Documentation",
       description: "Complete technical documentation for developers",
-      type: "Docs",
-      downloadUrl: "#"
+      type: "PDF",
+      downloadUrl: "/Downloads/Quantbasket-API.pdf"
     },
     {
       title: "Case Studies",
       description: "Real-world examples of successful token implementations",
       type: "Report",
-      downloadUrl: "#"
+      downloadUrl: "/Downloads/Case-Study.pdf"
     }
   ];
 
@@ -376,12 +376,17 @@ const Learn = () => {
                         <Badge variant="outline" className="text-xs">
                           {resource.type}
                         </Badge>
-                        <Link to="/resources">
+                        <a 
+                          href={resource.downloadUrl} 
+                          download
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                        >
                           <Button variant="outline" size="sm">
                             <ExternalLink className="w-3 h-3 mr-1" />
                             Download
                           </Button>
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -398,12 +403,17 @@ const Learn = () => {
                       <Badge variant="outline" className="mb-4">
                         {resource.type}
                       </Badge>
-                      <Link to="/resources">
+                      <a 
+                        href={resource.downloadUrl} 
+                        download
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
                         <Button variant="outline" className="w-full">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           Download
                         </Button>
-                      </Link>
+                      </a>
                     </CardContent>
                   </>
                 )}

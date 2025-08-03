@@ -6,10 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { HelpCircle, Book, MessageCircle, Mail } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useNavigate } from "react-router-dom";
 
 const Support = () => {
   const isMobile = useIsMobile();
   
+  const navigate = useNavigate();
+
+const handleResourcesClick = () => {
+  navigate('/resources');
+};
+
   const handleEmailSupport = () => {
     window.location.href = 'mailto:support@quantbasket.com';
   };
@@ -223,10 +230,10 @@ const Support = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={handleEmailSupport}
-                  className="bg-qb-green/20 text-qb-green border-qb-green hover:bg-qb-green hover:text-white"
+                  className="bg-qb-green/20 text-qb-green border-qb-green hover:bg-qb-green hover:text-white w-32 h-8" // Add custom width and height
                 >
                   <Mail className="w-4 h-4 mr-2" />
-                  Support
+                  Send mail
                 </Button>
               </CardContent>
             </Card>
@@ -241,7 +248,7 @@ const Support = () => {
                   Instant help during business hours
                 </p>
                 <Badge variant="secondary" className="bg-qb-blue/20 text-qb-blue">
-                  Available 9AM-6PM EST
+                  Available 9AM-6PM IST
                 </Badge>
               </CardContent>
             </Card>
@@ -255,9 +262,15 @@ const Support = () => {
                 <p className="text-qb-dark-gray mb-4">
                   Comprehensive guides and tutorials
                 </p>
-                <Badge variant="secondary" className="bg-qb-green/20 text-qb-green">
-                  Coming Soon
-                </Badge>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleResourcesClick}
+                className="bg-qb-green/20 text-qb-blue border-qb-blue hover:bg-qb-blue hover:text-white w-32 h-8"
+              >
+                <Book className="w-4 h-4 mr-2" />
+                Resources
+              </Button>
               </CardContent>
             </Card>
           </div>
