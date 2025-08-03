@@ -76,17 +76,17 @@ const TermsOfService = () => {
 
               <h2 className="text-3xl font-semibold mb-4 text-qb-navy">7. Termination</h2>
               <p className="mb-6 text-qb-dark-gray">
-                We may terminate or suspend your access to the Service at our sole discretion, without prior notice or liability.
+                We may terminate or suspend your access to the Service at our sole discretion, However will provide prior notice through registered email, If you violate these Terms.
               </p>
 
               <h2 className="text-3xl font-semibold mb-4 text-qb-navy">8. Governing Law</h2>
               <p className="mb-6 text-qb-dark-gray">
-                These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, USA, without regard to its conflict of law principles.
+                These Terms shall be governed by and construed in accordance with the laws of the State of Karnatak, India, without regard to its conflict of law principles.
               </p>
 
               <h2 className="text-3xl font-semibold mb-4 text-qb-navy">9. Changes to These Terms</h2>
               <p className="mb-6 text-qb-dark-gray">
-                We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page.
+                We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page and also by email to signed-up users.
               </p>
 
               <h2 className="text-3xl font-semibold mb-4 text-qb-navy">10. Contact Us</h2>
