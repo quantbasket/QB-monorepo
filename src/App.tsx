@@ -70,6 +70,29 @@ const AppContent = () => {
     }
   }, [user, loading, navigate, location.pathname]);
 
+  // --- GOOGLE ANALYTICS SCRIPT ---
+  useEffect(() => {
+    const GA_MEASUREMENT_ID = 'G-10RC2R4BER';
+
+    // Vite exposes `import.meta.env.PROD` which is true for production builds.
+    // This ensures the script only runs on your live, deployed site.
+    if (import.meta.env.PROD && GA_MEASUREMENT_ID) {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+      document.head.appendChild(script);
+
+      const inlineScript = document.createElement('script');
+      inlineScript.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${GA_MEASUREMENT_ID}');
+      `;
+      document.head.appendChild(inlineScript);
+    }
+  }, []); // The empty dependency array `[]` ensures this effect runs only once.
+
 
   return (
     <>
