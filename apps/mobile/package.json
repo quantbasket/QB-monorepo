@@ -8,7 +8,7 @@
     "dev": "npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
-    "web": "npx expo start --web", 
+    "web": "npx expo start --web",
     "build": "echo 'Mobile build - use Capacitor instead'",
     "build:android": "npx cap build android",
     "build:ios": "npx cap build ios",
@@ -19,7 +19,8 @@
     "@expo/cli": "^0.24.20",
     "@quantbasket/supabase-client": "*",
     "react": "18.2.0",
-    "react-native": "0.73.0"
+    "react-native": "^0.73.11",
+    "vite": "7.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
