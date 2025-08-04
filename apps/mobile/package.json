@@ -1,0 +1,27 @@
+{
+  "name": "mobile",
+  "version": "0.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "npx expo start",
+    "dev": "npx expo start",
+    "android": "npx expo start --android",
+    "ios": "npx expo start --ios",
+    "web": "npx expo start --web",
+    "build": "echo 'Mobile build placeholder'",
+    "lint": "echo 'Mobile lint placeholder'",
+    "type-check": "echo 'Mobile type-check placeholder'"
+  },
+  "dependencies": {
+    "@expo/cli": "^0.24.20",
+    "@quantbasket/supabase-client": "*",
+    "react": "18.3.1",
+    "react-native": "0.73.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.45",
+    "typescript": "^5.1.3"
+  }
+}

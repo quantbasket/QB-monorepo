@@ -1,0 +1,67 @@
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-qb-blue",
+        link: "text-primary underline-offset-4 hover:underline",
+        // QB-specific variants
+        qbPrimary: "bg-qb-green text-white hover:bg-qb-green/90 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95",
+        qbSecondary: "bg-qb-navy text-white hover:bg-qb-navy/90 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95",
+        qbGlass: "glass-button text-qb-navy hover:text-qb-green hover:shadow-lg transition-all duration-300 hover:scale-105 active:scale-95",
+        qbOutline: "border-2 border-qb-green text-qb-green hover:bg-qb-green hover:text-white transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95",
+        qbSecondaryOutline: "border-2 border-qb-blue text-qb-blue hover:bg-qb-blue hover:text-white transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-95",
+        // Dashboard variants
+        dashboardCommunity: "bg-dashboard-community text-white hover:bg-dashboard-community/90",
+        dashboardImpact: "bg-gradient-to-r from-dashboard-impact to-dashboard-community text-white hover:from-dashboard-impact/90 hover:to-dashboard-community/90",
+        dashboardQuant: "bg-gradient-to-r from-dashboard-quant to-dashboard-community text-white hover:from-dashboard-quant/90 hover:to-dashboard-community/90",
+        dashboardPortfolio: "bg-gradient-to-r from-dashboard-portfolio to-dashboard-quant text-white hover:from-dashboard-portfolio/90 hover:to-dashboard-quant/90",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }

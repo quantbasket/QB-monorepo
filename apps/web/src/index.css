@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Quant Basket Design System - Modern Glassmorphism Theme
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 228 45% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 228 45% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 228 45% 18%;
+
+    /* Dark Navy for headers and primary elements */
+    --primary: 228 65% 11%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Accent Green for CTA buttons */
+    --secondary: 168 100% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Soft Gray for backgrounds */
+    --muted: 225 14% 97%;
+    --muted-foreground: 228 16% 42%;
+
+    /* Highlight Blue for accents */
+    --accent: 215 91% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 14% 91%;
+    --input: 225 14% 91%;
+    --ring: 228 65% 11%;
+
+    --radius: 0.75rem;
+
+    /* Custom Quant Basket Colors */
+    --qb-navy: 228 65% 11%;
+    --qb-green: 168 100% 35%;
+    --qb-soft-gray: 225 14% 97%;
+    --qb-dark-gray: 228 16% 42%;
+    --qb-blue: 215 91% 62%;
+    --qb-white: 0 0% 100%;
+
+    /* Dashboard variants */
+    --dashboard-community: 215 91% 62%;
+    --dashboard-impact: 168 100% 35%;
+    --dashboard-quant: 266 85% 58%;
+    --dashboard-portfolio: 31 100% 50%;
+
+    /* Glassmorphism gradients */
+    --glass-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(10, 13, 45, 0.1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 215 20.2% 75.1%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 215 20.2% 75.1%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 215 20.2% 75.1%;
+
+    --primary: 215 20.2% 75.1%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 215 20.2% 75.1%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 75.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 215 20.2% 75.1%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 215 20.2% 75.1%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 85.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 85.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-[0_8px_32px_0_rgba(10,13,45,0.1)] rounded-xl;
+  }
+  
+  .glass-button {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300;
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--qb-navy)) 0%, hsl(var(--qb-blue)) 50%, hsl(var(--qb-green)) 100%);
+  }
+  
+  .section-gradient {
+    background: linear-gradient(180deg, hsl(var(--qb-white)) 0%, hsl(var(--qb-soft-gray)) 100%);
+  }
+
+  /* --- FIX FOR LOGO BORDER IN DARK MODE --- */
+  /* This class will be applied to the <img> tag of the logo in Logo.tsx when isDarkMode is true */
+  .dark-mode-logo-fix {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important; /* Crucial for transparent areas of the image */
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* -------------------------------------- */
+
+  /* Background textures - Light Mode */
+  .community-texture {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+  }
+  
+  .impact-texture {
+    background-image: 
+      linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  }
+  
+  .quant-texture {
+    background-image: 
+      linear-gradient(45deg, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  }
+  
+  .portfolio-texture {
+    background-image: 
+      linear-gradient(225deg, rgba(251, 146, 60, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 0% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+  }
+
+  /* Background textures - Dark Mode */
+  .dark .community-texture {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  }
+  
+  .dark .impact-texture {
+    background-image: 
+      linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.15) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(6, 78, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  }
+  
+  .dark .quant-texture {
+    background-image: 
+      linear-gradient(45deg, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.15) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(55, 48, 163, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  }
+  
+  .dark .portfolio-texture {
+    background-image: 
+      linear-gradient(225deg, rgba(251, 146, 60, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 0% 50%, rgba(245, 158, 11, 0.15) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(180, 83, 9, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  }
+}

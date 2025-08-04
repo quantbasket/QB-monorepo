@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/**
+ * @title CommunityToken
+ * @dev Simple ERC20-based contract for community, impact, or strategy tokens on QuantBasket
+ */
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract CommunityToken is ERC20, Ownable {
+    uint256 public cap;
+    string public purpose;
+
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 initialSupply,
+        uint256 _cap,
+        string memory _purpose
+    ) ERC20(name, symbol) {
+        require(initialSupply <= _cap, "Initial supply exceeds cap");
+        _mint(msg.sender, initialSupply);
+        cap = _cap;
+        purpose = _purpose;
+    }
+
+    /**
+     * @dev Mint new tokens (only owner)
+     * @param to The address to mint tokens to
+     * @param amount The number of tokens to mint
+     */
+    function mint(address to, uint256 amount) external onlyOwner {
+        require(totalSupply() + amount <= cap, "Cap exceeded");
+        _mint(to, amount);
+    }
+
+    /**
+     * @dev Burn tokens from caller's balance
+     * @param amount The number of tokens to burn
+     */
+    function burn(uint256 amount) external {
+        _burn(msg.sender, amount);
+    }
+
+    /**
+     * @dev Update token purpose or description
+     * @param newPurpose New use case or category label
+     */
+    function updatePurpose(string calldata newPurpose) external onlyOwner {
+        purpose = newPurpose;
+    }
+}
