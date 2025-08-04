@@ -2,6 +2,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { visualizer } from "rollup-plugin-visualizer"; // <-- 1. Import the visualizer
 // import { componentTagger } from "lovable-tagger"; // Commented out as not available
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 
@@ -17,6 +18,13 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      
+      // <-- 2. Add the visualizer plugin
+      visualizer({
+        open: true, // Automatically opens the report in your browser after build
+        filename: 'bundle-report.html', // Name of the report file
+      }),
+
       // mode === 'development' &&
       // componentTagger(), // Commented out as not available
 

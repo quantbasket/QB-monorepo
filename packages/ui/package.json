@@ -12,6 +12,7 @@
     },
     "./styles": "./dist/styles.css"
   },
+  "sideEffects": false,
   "scripts": {
     "build": "tsc && cp src/styles.css dist/",
     "dev": "tsc --watch",
