@@ -1,76 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Primary Meta Tags -->
-    <title>QuantBasket - Tokens, Community Coins, Impact Coins & Quant Strategy Platform</title>
-    <meta name="title" content="QuantBasket - Tokens, Community Coins, Impact Coins & Quant Strategy Platform" />
-    <meta name="description" content="QuantBasket: Launch community tokens, impact coins, and portfolio tokens. Advanced quant strategy platform for tokenized assets and decentralized finance. Create community-driven tokens that reward impactful actions." />
-    <meta name="keywords" content="QuantBasket, Quant Basket, tokens, community coins, impact coins, portfolio tokens, quant strategy, quantitative finance, tokenization, cryptocurrency, DeFi, community tokens, blockchain, smart contracts, tokenized assets" />
-    <meta name="author" content="QuantBasket" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://quantbasket.com" />
+  <script id="messenger-widget-b" src="https://cdn.botpenguin.com/website-bot.js" defer>688b6633831c3303762e6c07,688b6584e043a9aed316179b</script>
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://quantbasket.com" />
-    <meta property="og:title" content="QuantBasket - Tokens, Community Coins, Impact Coins & Quant Strategy Platform" />
-    <meta property="og:description" content="QuantBasket: Launch community tokens, impact coins, and portfolio tokens. Advanced quant strategy platform for tokenized assets and decentralized finance." />
-    <meta property="og:image" content="https://quantbasket.com/qb_logo.webp" />
-    <meta property="og:site_name" content="QuantBasket" />
+  <script>
+    // The CSS selector for the entire bot container.
+    const BOT_SELECTOR = '#botpenguin-root, .botpenguin-widget, #messenger-widget-b, [id*="botpenguin"], [class*="botpenguin"]';
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://quantbasket.com" />
-    <meta property="twitter:title" content="QuantBasket - Tokens, Community Coins, Impact Coins & Quant Strategy Platform" />
-    <meta property="twitter:description" content="QuantBasket: Launch community tokens, impact coins, and portfolio tokens. Advanced quant strategy platform for tokenized assets and decentralized finance." />
-    <meta property="twitter:image" content="https://quantbasket.com/qb_logo.webp" />
-    <meta property="twitter:site" content="@quantbasket" />
-    <meta property="twitter:creator" content="@quantbasket" />
+    // This function adds a style tag to hide the bot on specific pages.
+    function updateBotVisibility() {
+      // --- IMPORTANT ---
+      // Add the specific paths for dashboard and authenticated pages here.
+      const blockedPaths = [
+        '/dashboard', 
+        '/app', 
+        '/account',
+        '/login',
+        '/signup',
+        '/settings',
+        '/profile'
+      ];
 
-    <!-- Additional SEO Meta Tags -->
-    <meta name="application-name" content="QuantBasket" />
-    <meta name="theme-color" content="#1e40af" />
-    <meta name="msapplication-TileColor" content="#1e40af" />
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/qb_logo.webp" />
-    
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "QuantBasket",
-      "alternateName": "Quant Basket",
-      "url": "https://quantbasket.com",
-      "logo": "https://quantbasket.com/qb_logo.webp",
-      "description": "Launch community tokens, impact coins, and portfolio tokens. Advanced quant strategy platform for tokenized assets and decentralized finance.",
-      "foundingDate": "2024",
-      "sameAs": [
-        "https://twitter.com/quantbasket",
-        "https://github.com/quantbasket"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "support@quantbasket.com",
-        "contactType": "customer service"
-      },
-      "offers": {
-        "@type": "Service",
-        "name": "Community Tokenization Platform",
-        "description": "Create community coins, impact coins, and tokenized portfolios with advanced quantitative strategies"
+      let currentPath = window.location.pathname;
+      // This handles cases like '/dashboard/' matching '/dashboard'
+      if (currentPath.length > 1 && currentPath.endsWith('/')) {
+        currentPath = currentPath.slice(0, -1);
+      }
+
+      let styleTag = document.getElementById('botpenguin-visibility-style');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'botpenguin-visibility-style';
+        document.head.appendChild(styleTag);
+      }
+
+      // Check if current path starts with any blocked path (for nested routes)
+      const shouldHideBot = blockedPaths.some(path => 
+        currentPath === path || currentPath.startsWith(path + '/')
+      );
+
+      // If the current page is on our blocklist or starts with blocked path, hide the bot.
+      // Otherwise, make sure it's visible.
+      if (shouldHideBot) {
+        styleTag.innerHTML = `${BOT_SELECTOR} { display: none !important; }`; // HIDE
+        console.log('🤖 BotPenguin hidden on protected page:', currentPath);
+      } else {
+        styleTag.innerHTML = ''; // SHOW (remove hiding styles)
+        console.log('🤖 BotPenguin visible on public page:', currentPath);
       }
     }
-    </script>
-  </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script id="messenger-widget-b" src="https://cdn.botpenguin.com/website-bot.js" defer>688b6633831c3303762e6c07,688b6584e043a9aed316179b</script>
-  </body>
-</html>
+    // Wait for bot to load before setting up visibility controls
+    function initializeBotVisibility() {
+      // This part listens for URL changes in your SPA.
+      (function() {
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        
+        history.pushState = function(...args) {
+          originalPushState.apply(this, args);
+          setTimeout(updateBotVisibility, 300);
+        };
+        
+        history.replaceState = function(...args) {
+          originalReplaceState.apply(this, args);
+          setTimeout(updateBotVisibility, 300);
+        };
+        
+        window.addEventListener('popstate', updateBotVisibility);
+        window.addEventListener('hashchange', updateBotVisibility);
+      })();
+      
+      // Run initial check
+      setTimeout(updateBotVisibility, 100);
+      
+      // Periodic check to ensure bot visibility is correct
+      setInterval(updateBotVisibility, 2000);
+    }
+
+    // Initialize after DOM is ready and bot has time to load
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initializeBotVisibility, 1500); // Wait for bot to load
+    });
+    
+    window.addEventListener('load', function() {
+      setTimeout(initializeBotVisibility, 1000); // Additional check after full load
+    });
+  </script>
+</body>
