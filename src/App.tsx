@@ -1,3 +1,4 @@
+// src/App.tsx
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,50 +22,39 @@ import TermsOfService from "./pages/TermsOfService";
 import ComingSoon from "./pages/ComingSoon";
 import AppComingSoon from "./pages/AppComingSoon";
 import { useEffect } from "react";
-// 1. Import the PostHogProvider you created
-import { PostHogProvider } from "./components/PostHogProvider";
+// 1. Import BOTH the provider and the new page view tracker
+import { PostHogProvider, PostHogPageviewTracker } from "./components/PostHogProvider";
 
 const queryClient = new QueryClient();
 
-// A wrapper component for routes that require authentication
+// Your ProtectedRoute component remains the same...
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Only act once authentication state is determined and if user is not present
     if (!loading && !user) {
-      // If not authenticated, redirect to login page
       navigate('/login', { state: { from: location.pathname }, replace: true });
     }
   }, [user, loading, navigate, location.pathname]);
 
-  // While loading, show a placeholder. This prevents rendering protected content before auth check.
   if (loading) {
     return <div>Loading authentication...</div>;
   }
-
-  // Render children only if user is authenticated.
-  // If `user` is null after loading, `null` is returned, letting the useEffect redirect.
   return user ? <>{children}</> : null;
 };
 
-
+// Your AppContent component remains the same...
 const AppContent = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Ensure authentication state is determined and stable
     if (!loading) {
       const currentPath = location.pathname;
-
-      // Scenario 2: User is NOT authenticated
       if (!user) {
-        // If an unauthenticated user tries to access the dashboard (or other protected route),
-        // redirect them to the login page.
         if (currentPath === '/dashboard') {
           navigate('/login', { replace: true });
         }
@@ -72,12 +62,8 @@ const AppContent = () => {
     }
   }, [user, loading, navigate, location.pathname]);
 
-  // --- GOOGLE ANALYTICS SCRIPT ---
   useEffect(() => {
     const GA_MEASUREMENT_ID = 'G-10RC2R4BER';
-
-    // Vite exposes `import.meta.env.PROD` which is true for production builds.
-    // This ensures the script only runs on your live, deployed site.
     if (import.meta.env.PROD && GA_MEASUREMENT_ID) {
       const script = document.createElement('script');
       script.async = true;
@@ -93,7 +79,7 @@ const AppContent = () => {
       `;
       document.head.appendChild(inlineScript);
     }
-  }, []); // The empty dependency array `[]` ensures this effect runs only once.
+  }, []);
 
 
   return (
@@ -114,10 +100,8 @@ const AppContent = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         
-        {/* App Coming Soon page for mobile app downloads */}
         <Route path="/coming-soon" element={<AppComingSoon />} />
 
-        {/* Updated Routes for Coming Soon pages with new subtitles */}
         <Route
           path="/impact-coins"
           element={
@@ -144,14 +128,13 @@ const AppContent = () => {
               subtitle="Coming soon: Diversified alpha, tokenized and tradable."
             />
           }
-        />        {/* Protected Routes */}
+        />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardWaiting />
           </ProtectedRoute>
         } />
-
-        {/* This catch-all route should ideally be the very last route */}
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
@@ -159,14 +142,15 @@ const AppContent = () => {
 };
 
 
-// The main App component structure, wrapping everything with necessary providers
+// The main App component structure
 const App = () => (
-  // 2. Wrap the entire application with the PostHogProvider
   <PostHogProvider>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
           <BrowserRouter>
+            {/* 2. Place the tracker INSIDE the router */}
+            <PostHogPageviewTracker />
             <AppContent />
           </BrowserRouter>
         </TooltipProvider>
