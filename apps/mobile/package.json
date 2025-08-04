@@ -8,8 +8,10 @@
     "dev": "npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
-    "web": "npx expo start --web",
-    "build": "echo 'Mobile build placeholder'",
+    "web": "npx expo start --web", 
+    "build": "echo 'Mobile build - use Capacitor instead'",
+    "build:android": "npx cap build android",
+    "build:ios": "npx cap build ios",
     "lint": "echo 'Mobile lint placeholder'",
     "type-check": "echo 'Mobile type-check placeholder'"
   },

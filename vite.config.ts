@@ -2,7 +2,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
+// import { componentTagger } from "lovable-tagger"; // Commented out as not available
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 
 export default defineConfig(({ mode }) => {
@@ -17,8 +17,8 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      mode === 'development' &&
-      componentTagger(), // Preserved your existing plugin
+      // mode === 'development' &&
+      // componentTagger(), // Commented out as not available
 
       // Add the Sentry plugin only for production builds
       process.env.NODE_ENV === 'production' && sentryVitePlugin({

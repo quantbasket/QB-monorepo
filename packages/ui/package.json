@@ -13,8 +13,8 @@
     "./styles": "./dist/styles.css"
   },
   "scripts": {
-    "build": "echo 'UI package build placeholder'",
-    "dev": "echo 'UI package dev placeholder'",
+    "build": "tsc && cp src/styles.css dist/",
+    "dev": "tsc --watch",
     "lint": "eslint . --max-warnings 0",
     "type-check": "tsc --noEmit"
   },
