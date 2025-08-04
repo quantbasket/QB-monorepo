@@ -21,6 +21,8 @@ import TermsOfService from "./pages/TermsOfService";
 import ComingSoon from "./pages/ComingSoon";
 import AppComingSoon from "./pages/AppComingSoon";
 import { useEffect } from "react";
+// 1. Import the PostHogProvider you created
+import { PostHogProvider } from "./components/PostHogProvider";
 
 const queryClient = new QueryClient();
 
@@ -159,15 +161,18 @@ const AppContent = () => {
 
 // The main App component structure, wrapping everything with necessary providers
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
+  // 2. Wrap the entire application with the PostHogProvider
+  <PostHogProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <BrowserRouter>
+            <AppContent />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </PostHogProvider>
 );
 
 export default App;
