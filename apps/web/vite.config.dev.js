@@ -28,8 +28,6 @@ export default defineConfig({
     react({
       // Enable Fast Refresh for development
       fastRefresh: true,
-      // Use SWC for faster transpilation
-      jsxImportSource: "@emotion/react",
     }),
   ],
 
