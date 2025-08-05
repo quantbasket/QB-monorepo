@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
   const VERCEL_ENV = process.env.VERCEL_ENV || mode; // Fallback to Vite's mode if VERCEL_ENV isn't set
 
   return {
+    root: "./apps/web",
     server: {
       host: "::",
       port: 8080,
@@ -37,12 +38,15 @@ export default defineConfig(({ mode }) => {
     ].filter(Boolean),
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(__dirname, "./apps/web/src"),
+        "@quantbasket/ui": path.resolve(__dirname, "./packages/ui/src"),
+        "@quantbasket/supabase-client": path.resolve(__dirname, "./packages/supabase-client/src"),
       },
     },
     // Sentry requires sourcemaps to be enabled for processing errors
     build: {
       sourcemap: true,
+      outDir: "../../dist",
     },
     define: {
       // This block is preserved from your original config
